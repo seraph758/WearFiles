@@ -31,6 +31,19 @@
             app:cornerRadius="@dimen/corner_radius"
             app:icon="@drawable/menu"
             app:iconTint="?attr/colorOnPrimaryContainer" />
+
+        <Button
+            android:id="@+id/settings_button"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="?attr/colorSurfaceContainer"
+            android:visibility="gone"
+            app:cornerRadius="@dimen/corner_radius"
+            app:icon="@drawable/settings"
+            app:iconTint="?attr/colorOnSurface" />
+
     </LinearLayout>
 
 </FrameLayout>

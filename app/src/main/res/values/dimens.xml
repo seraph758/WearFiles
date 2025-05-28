@@ -2,6 +2,6 @@
 <resources>
     <dimen name="top_padding">24dp</dimen>
     <dimen name="splash_screen_icon_size">48dp</dimen>
-    <dimen name="corner_radius">12dp</dimen>
+    <dimen name="corner_radius">10dp</dimen>
     <dimen name="spacing">4dp</dimen>
 </resources>

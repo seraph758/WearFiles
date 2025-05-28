@@ -5,6 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:scrollbars="vertical"
     tools:context=".ui.MainActivity">
 
     <ScrollView
@@ -28,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/error_icon"
-                android:tint="?attr/colorOnSurface" />
+                app:tint="?attr/colorOnSurface" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -58,11 +60,15 @@
     </ScrollView>
 
     <androidx.wear.widget.WearableRecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingTop="@dimen/top_padding"
-        android:paddingBottom="@dimen/spacing"
+        android:fitsSystemWindows="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingHorizontal="@dimen/spacing"
+        android:paddingVertical="@dimen/top_padding"
+        android:scrollbars="vertical"
         android:visibility="visible" />
 </FrameLayout>

@@ -21,7 +21,7 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/RoyalTheme">
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
@@ -50,6 +50,21 @@
             android:exported="true"
             android:manageSpaceActivity="true"
             android:taskAffinity=".ui.FileActivity"/>
+
+        <activity android:name=".ui.ThemeActivity"
+            android:exported="true"
+            android:manageSpaceActivity="true"
+            android:taskAffinity=".ui.ThemeActivity"/>
+
+        <activity android:name=".ui.SettingsActivity"
+            android:exported="true"
+            android:manageSpaceActivity="true"
+            android:taskAffinity=".ui.SettingsActivity"/>
+
+        <activity android:name="androidx.wear.activity.ConfirmationActivity"
+            android:exported="true"
+            android:manageSpaceActivity="true"
+            android:taskAffinity="androidx.wear.activity.ConfirmationActivity"/>
 
         <activity android:name=".ui.actions.ActionRenameActivity"
             android:exported="true"

@@ -4,24 +4,17 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
-import android.widget.ScrollView
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.core.os.bundleOf
-import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.wear.widget.WearableLinearLayoutManager
 import com.dertefter.wearfiles.PermissionManager
 import com.dertefter.wearfiles.R
 import com.dertefter.wearfiles.common.CustomScrollingLayoutCallback
-import com.dertefter.wearfiles.common.SpacingItemDecoration
+import com.dertefter.wearfiles.common.ThemeEngine
+import com.dertefter.wearfiles.databinding.ActivityFilesBinding
 import com.dertefter.wearfiles.ui.adapter.FileAdapter
 import com.dertefter.wearfiles.viewmodels.FileViewModel
 import java.io.File
@@ -29,63 +22,85 @@ import java.io.File
 class FileActivity : AppCompatActivity() {
     private lateinit var viewModel: FileViewModel
     private lateinit var adapter: FileAdapter
+    private lateinit var binding: ActivityFilesBinding
+
+    var themeWasSelected: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_files)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val permissionAlert = findViewById<ScrollView>(R.id.permission_alert)
-        recyclerView.layoutManager = WearableLinearLayoutManager(this, CustomScrollingLayoutCallback())
-        recyclerView.addItemDecoration(SpacingItemDecoration(R.dimen.spacing, this))
+        ThemeEngine.setup(this)
+        val selectedTheme = ThemeEngine.getSelectedTheme()
+        if (selectedTheme == 0) {
+            themeWasSelected = R.style.RoyalTheme
+            ThemeEngine.setSelectedTheme(R.style.RoyalTheme)
+            setTheme(R.style.RoyalTheme)
+        } else {
+            themeWasSelected = selectedTheme
+            setTheme(selectedTheme)
+        }
+
+
+        binding = ActivityFilesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.recyclerView.layoutManager = WearableLinearLayoutManager(this, CustomScrollingLayoutCallback())
 
         val permissionManager = PermissionManager()
-
         val isGranted = permissionManager.checkFilesPermissions(this)
 
-        if (!isGranted){
-            recyclerView.visibility = View.GONE
-            permissionAlert.visibility = View.VISIBLE
-            val button = permissionAlert.findViewById<View>(R.id.try_get_permissions)
-            button.setOnClickListener {
+        if (!isGranted) {
+            binding.recyclerView.visibility = View.GONE
+            binding.permissionAlert.visibility = View.VISIBLE
+            binding.permissionAlert.requestFocus()
+            binding.tryGetPermissions.setOnClickListener {
                 permissionManager.requestFilesPermissions(this)
             }
         } else {
-            recyclerView.visibility = View.VISIBLE
-            permissionAlert.visibility = View.GONE
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.recyclerView.requestFocus()
+            binding.permissionAlert.visibility = View.GONE
         }
 
         viewModel = ViewModelProvider(this).get(FileViewModel::class.java)
 
         adapter = FileAdapter(
-            currentPath = viewModel.currentPath.value?: "",
-            onFileClick = { file ->
-                onFileClicked(file)
-            },
-            onFooterClick = { path ->
-                onMoreClicked(path)
-            },
-            onBackClick = {finish()},
+            currentPath = viewModel.currentPath.value ?: "",
+            onFileClick = { file -> onFileClicked(file) },
+            onFooterClick = { path -> onMoreClicked(path) },
+            onBackClick = { finish() },
+            onSettingsClick = { onSettingsClicked() },
             isBackEnabled = viewModel.currentPath.value != Environment.getExternalStorageDirectory().path
         )
-        recyclerView.adapter = adapter
 
+        binding.recyclerView.adapter = adapter
         adapter.setLoading()
 
         viewModel.files.observe(this) { files ->
             adapter.updateFiles(files)
         }
-
     }
 
     override fun onResume() {
         super.onResume()
-        if (!viewModel.isExists(viewModel.currentPath.value!!)){
+
+        val selectedTheme = ThemeEngine.getSelectedTheme()
+        if (selectedTheme != themeWasSelected){
+            recreate()
+        }
+
+        val currentPath = viewModel.currentPath.value ?: Environment.getExternalStorageDirectory().path
+        if (!viewModel.isExists(currentPath)) {
             finish()
         }
-        viewModel.loadFiles(viewModel.currentPath.value ?: Environment.getExternalStorageDirectory().path)
-
+        viewModel.loadFiles(currentPath)
     }
+
+    private fun onSettingsClicked(){
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+    }
+
 
     private fun onFileClicked(file: File) {
         if (file.isDirectory) {
@@ -103,7 +118,8 @@ class FileActivity : AppCompatActivity() {
             try {
                 startActivity(intent)
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(this, getString(R.string.no_program_to_open), Toast.LENGTH_SHORT).show()            }
+                Toast.makeText(this, getString(R.string.no_program_to_open), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

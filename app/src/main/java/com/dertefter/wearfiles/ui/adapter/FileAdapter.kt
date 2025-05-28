@@ -18,6 +18,7 @@ class FileAdapter(
     private val onFileClick: (File) -> Unit,
     private val onFooterClick: (String) -> Unit,
     private val onBackClick: () -> Unit,
+    private val onSettingsClick: () -> Unit,
     private val isBackEnabled: Boolean = false,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -80,7 +81,7 @@ class FileAdapter(
                 holder.bind(file, onFileClick, onFooterClick)
             }
             is FooterViewHolder -> {
-                holder.bind(onFooterClick, onBackClick, isBackEnabled, currentPath)
+                holder.bind(onFooterClick, onBackClick, onSettingsClick, isBackEnabled, currentPath)
             }
             is HeaderViewHolder -> {
                 holder.bind(currentPath)
@@ -129,20 +130,25 @@ class FileAdapter(
     class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val button_more: Button = itemView.findViewById(R.id.more_button)
         private val button_back: Button = itemView.findViewById(R.id.back_button)
+        private val button_settings: Button = itemView.findViewById(R.id.settings_button)
 
         fun bind(
             onFooterClick: (path: String) -> Unit,
             onBackClick: () -> Unit,
+            onSettingsClick: () -> Unit,
             isBackEnabled: Boolean,
             currentPath: String
         ) {
             if (isBackEnabled){
                 button_back.visibility = View.VISIBLE
+                button_settings.visibility = View.GONE
             } else {
                 button_back.visibility = View.GONE
+                button_settings.visibility = View.VISIBLE
             }
             button_more.setOnClickListener { onFooterClick(currentPath) }
             button_back.setOnClickListener { onBackClick() }
+            button_settings.setOnClickListener { onSettingsClick() }
         }
     }
 

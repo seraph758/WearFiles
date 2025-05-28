@@ -21,4 +21,6 @@
     <string name="open">Открыть</string>
     <string name="are_you_sure">Вы уверены?</string>
     <string name="try_get_permissions">Попробовать предоставить разрешение без ПК</string>
+    <string name="theme_settings">Theme</string>
+    <string name="app_settings">System settings</string>
 </resources>

@@ -1,26 +1,50 @@
 package com.dertefter.wearfiles.common
 
 import android.view.View
+import android.view.animation.PathInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.wear.widget.WearableLinearLayoutManager
-import kotlin.math.absoluteValue
+import kotlin.math.abs
 
 class CustomScrollingLayoutCallback : WearableLinearLayoutManager.LayoutCallback() {
 
-    override fun onLayoutFinished(child: View, parent: RecyclerView) {
-        child.apply {
-            val positionOnScreen = (child.y - parent.height / 2.5f).absoluteValue
-            val targetBorder = 140
-            if (positionOnScreen >= targetBorder){
-                child.alpha = 1 - ((positionOnScreen - targetBorder)/200)
-                child.scaleX = 1 - ((positionOnScreen - targetBorder)/400)
-                child.scaleY = 1 - ((positionOnScreen - targetBorder)/400)
-            }else{
-                child.alpha = 1f
-                child.scaleX = 1f
-                child.scaleY = 1f
-            }
+    private val scaleInterpolator = PathInterpolator(0.25f, 0f, 0.75f, 1f)
 
+    override fun onLayoutFinished(child: View, parent: RecyclerView) {
+        val centerY = parent.height / 2f
+        val childCenterY = child.y + child.height / 2f
+        val distanceFromCenter = abs(centerY - childCenterY)
+
+        // Широкая зона максимального значения
+        val maxDistance = centerY * 1.5f
+        val normalized = (distanceFromCenter / maxDistance).coerceIn(0f, 1f)
+
+        // Плавный спад (от 1 до 0), затем интерполяция в диапазон 0.4..1f
+        val rawProgress = 1f - normalized * normalized
+        val adjustedProgress = 0.4f + rawProgress * 0.6f  // 0.4 + (0..1) * 0.6 = 0.4..1
+
+        val interpolated = scaleInterpolator.getInterpolation(adjustedProgress)
+
+        child.scaleX = interpolated
+        child.scaleY = interpolated
+        child.alpha = interpolated
+
+        // Логика pivotY
+        when {
+            childCenterY < centerY -> {
+                child.pivotY = child.height.toFloat()
+            }
+            childCenterY > centerY -> {
+                child.pivotY = 0f
+            }
+            else -> {
+                child.pivotY = child.height / 2f
+            }
         }
+
+        child.pivotX = child.width / 2f
     }
+
+
+
 }

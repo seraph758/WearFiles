@@ -9,6 +9,8 @@ import androidx.wear.widget.WearableLinearLayoutManager
 import com.dertefter.wearfiles.R
 import com.dertefter.wearfiles.common.CustomScrollingLayoutCallback
 import com.dertefter.wearfiles.common.SpacingItemDecoration
+import com.dertefter.wearfiles.common.ThemeEngine
+import com.dertefter.wearfiles.databinding.ActivityFilesBinding
 import com.dertefter.wearfiles.model.ActionType
 import com.dertefter.wearfiles.ui.actions.ActionDeleteActivity
 import com.dertefter.wearfiles.ui.actions.ActionNewFolderActivity
@@ -20,14 +22,26 @@ import java.io.File
 class MenuActivity : AppCompatActivity() {
     private lateinit var viewModel: FileViewModel
     private lateinit var adapter: MenuAdapter
+    private lateinit var binding: ActivityFilesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_files)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        recyclerView.layoutManager = WearableLinearLayoutManager(this, CustomScrollingLayoutCallback())
-        recyclerView.addItemDecoration(SpacingItemDecoration(R.dimen.spacing, this))
+        ThemeEngine.setup(this)
+        val selectedTheme = ThemeEngine.getSelectedTheme()
+        if (selectedTheme == 0) {
+            setTheme(R.style.RoyalTheme)
+        } else {
+            setTheme(selectedTheme)
+        }
+
+
+        binding = ActivityFilesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.recyclerView.layoutManager = WearableLinearLayoutManager(this, CustomScrollingLayoutCallback())
+       // binding.recyclerView.addItemDecoration(SpacingItemDecoration(R.dimen.spacing, this))
+        binding.recyclerView.requestFocus()
 
         val path = intent.getStringExtra("path")
         if (path.isNullOrEmpty()){finish()}
@@ -71,14 +85,12 @@ class MenuActivity : AppCompatActivity() {
             }
         )
 
-        recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter
 
 
         viewModel = ViewModelProvider(this).get(FileViewModel::class.java)
-        val actions = path?.let { viewModel.getAvailableActions(it) }
-        if (actions != null) {
-            adapter.updateActions(actions, file)
-        }
+        val actions = path.let { viewModel.getAvailableActions(it) }
+        adapter.updateActions(actions, file)
 
     }
 

@@ -16,7 +16,7 @@ class CustomScrollingLayoutCallback : WearableLinearLayoutManager.LayoutCallback
         val distanceFromCenter = abs(centerY - childCenterY)
 
         // Широкая зона максимального значения
-        val maxDistance = centerY * 1.5f
+        val maxDistance = centerY * 2f
         val normalized = (distanceFromCenter / maxDistance).coerceIn(0f, 1f)
 
         // Плавный спад (от 1 до 0), затем интерполяция в диапазон 0.4..1f

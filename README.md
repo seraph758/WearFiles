@@ -1,6 +1,6 @@
 # WearFiles
 
-![Google Play Rating](https://playbadges.pavi2410.me/badge/ratings?id=com.dertefter.wearfiles)
+![Google Play Rating](https://playbadges.pavi2410.me/badge/ratings?id=com.dertefter.wearfiles&pretty)
 
 ![WearFiles Banner](screenshots/banner.jpg)
 

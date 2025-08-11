@@ -1,6 +1,6 @@
 # WearFiles
 
-[![Static Badge](https://img.shields.io/badge/Google_Play-available-green?style=for-the-badge&logo=google-play)](https://play.google.com/store/apps/details?id=com.dertefter.wearfiles)
+![Google Play Rating](https://playbadges.pavi2410.me/badge/ratings?id=com.dertefter.wearfiles)
 
 ![WearFiles Banner](screenshots/banner.jpg)
 

@@ -59,16 +59,17 @@
         </LinearLayout>
     </ScrollView>
 
-    <androidx.wear.widget.WearableRecyclerView
-        android:id="@+id/recycler_view"
+    <com.dertefter.wearfiles.common.CustomWearableRecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:fitsSystemWindows="false"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:paddingHorizontal="@dimen/spacing"
+        android:paddingHorizontal="@dimen/spacing_horizontal"
         android:paddingVertical="@dimen/top_padding"
+        android:scrollbarStyle="outsideInset"
         android:scrollbars="vertical"
         android:visibility="visible" />
 </FrameLayout>

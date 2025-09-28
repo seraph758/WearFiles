@@ -5,44 +5,33 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical">
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Material3.CardView.Filled"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:cardBackgroundColor="?attr/colorPrimaryContainer"
-        app:cardCornerRadius="@dimen/corner_radius"
-        app:cardUseCompatPadding="false"
-        app:contentPadding="@dimen/spacing">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="?attr/colorPrimaryContainer"
+            android:padding="8dp"
+            android:tint="?attr/colorOnPrimaryContainer"
+            app:srcCompat="@drawable/apk_document" />
+
+        <TextView
+            android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingVertical="@dimen/spacing"
+            android:text="Alarms"
+            android:textColorLink="?attr/colorOnSurface"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="24dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/rounded_background"
-                android:backgroundTint="?attr/colorSecondary"
-                android:padding="2dp"
-                android:tint="?attr/colorOnSecondary"
-                app:srcCompat="@drawable/apk_document" />
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="top"
-                android:paddingStart="4dp"
-                android:text="jdvjvdsjkvdkjvdkjvdkjvdkjvdsjkvdkjvdkjvdkjvdkjvdskjvdkjvdkjdvkjdvkjvd"
-                android:textColorLink="?attr/colorOnPrimaryContainer"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

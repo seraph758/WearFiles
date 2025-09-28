@@ -4,10 +4,12 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.wear.widget.WearableLinearLayoutManager
 import com.dertefter.wearfiles.PermissionManager
@@ -17,6 +19,7 @@ import com.dertefter.wearfiles.common.ThemeEngine
 import com.dertefter.wearfiles.databinding.ActivityFilesBinding
 import com.dertefter.wearfiles.ui.adapter.FileAdapter
 import com.dertefter.wearfiles.viewmodels.FileViewModel
+import de.datlag.mimemagic.MimeData
 import java.io.File
 
 class FileActivity : AppCompatActivity() {
@@ -44,25 +47,26 @@ class FileActivity : AppCompatActivity() {
         binding = ActivityFilesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.layoutManager = WearableLinearLayoutManager(this, CustomScrollingLayoutCallback())
+
 
         val permissionManager = PermissionManager()
         val isGranted = permissionManager.checkFilesPermissions(this)
 
         if (!isGranted) {
-            binding.recyclerView.visibility = View.GONE
+            binding.rv.visibility = View.GONE
             binding.permissionAlert.visibility = View.VISIBLE
             binding.permissionAlert.requestFocus()
             binding.tryGetPermissions.setOnClickListener {
                 permissionManager.requestFilesPermissions(this)
             }
         } else {
-            binding.recyclerView.visibility = View.VISIBLE
-            binding.recyclerView.requestFocus()
+            binding.rv.visibility = View.VISIBLE
+            binding.rv.requestFocus()
             binding.permissionAlert.visibility = View.GONE
         }
 
         viewModel = ViewModelProvider(this).get(FileViewModel::class.java)
+
 
         adapter = FileAdapter(
             currentPath = viewModel.currentPath.value ?: "",
@@ -73,7 +77,8 @@ class FileActivity : AppCompatActivity() {
             isBackEnabled = viewModel.currentPath.value != Environment.getExternalStorageDirectory().path
         )
 
-        binding.recyclerView.adapter = adapter
+        binding.rv.adapter = adapter
+
         adapter.setLoading()
 
         viewModel.files.observe(this) { files ->
@@ -110,7 +115,7 @@ class FileActivity : AppCompatActivity() {
         } else {
             val intent = Intent(Intent.ACTION_VIEW)
             val uri = FileProvider.getUriForFile(this, "${packageName}.provider", file)
-            val mimeType = contentResolver.getType(uri) ?: "*/*"
+            val mimeType = MimeData.fromFile(file).mimeType
 
             intent.setDataAndType(uri, mimeType)
             intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION

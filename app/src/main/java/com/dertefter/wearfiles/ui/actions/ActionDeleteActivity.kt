@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.wearfiles.R
+import com.dertefter.wearfiles.common.ThemeEngine
 import com.dertefter.wearfiles.common.Utils
 import com.dertefter.wearfiles.databinding.ActivityActionDeleteBinding
 import com.dertefter.wearfiles.model.Action
@@ -31,6 +32,16 @@ class ActionDeleteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        ThemeEngine.setup(this)
+        val selectedTheme = ThemeEngine.getSelectedTheme()
+        if (selectedTheme == 0) {
+            setTheme(R.style.RoyalTheme)
+        } else {
+            setTheme(selectedTheme)
+        }
+
         binding = ActivityActionDeleteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

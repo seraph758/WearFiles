@@ -65,8 +65,8 @@
         </LinearLayout>
     </ScrollView>
 
-    <androidx.wear.widget.WearableRecyclerView
-        android:id="@+id/recycler_view"
+    <com.dertefter.wearfiles.common.CustomWearableRecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"

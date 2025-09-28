@@ -129,13 +129,7 @@ class MenuAdapter(
         private val icon: ImageView = itemView.findViewById(R.id.icon)
 
         fun bind(currentFile: File) {
-            if (currentFile.isDirectory){
-                name.text = currentFile.path
-            }else{
-                name.text = currentFile.name
-            }
-
-
+            name.text = currentFile.name
             icon.setImageResource(Utils.getFileIconResId(currentFile))
 
         }

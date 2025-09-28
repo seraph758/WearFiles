@@ -39,9 +39,7 @@ class MenuActivity : AppCompatActivity() {
         binding = ActivityFilesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.layoutManager = WearableLinearLayoutManager(this, CustomScrollingLayoutCallback())
-       // binding.recyclerView.addItemDecoration(SpacingItemDecoration(R.dimen.spacing, this))
-        binding.recyclerView.requestFocus()
+        binding.rv.requestFocus()
 
         val path = intent.getStringExtra("path")
         if (path.isNullOrEmpty()){finish()}
@@ -85,7 +83,7 @@ class MenuActivity : AppCompatActivity() {
             }
         )
 
-        binding.recyclerView.adapter = adapter
+        binding.rv.adapter = adapter
 
 
         viewModel = ViewModelProvider(this).get(FileViewModel::class.java)

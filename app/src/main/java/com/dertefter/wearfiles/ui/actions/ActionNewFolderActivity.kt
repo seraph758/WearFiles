@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.wearfiles.R
+import com.dertefter.wearfiles.common.ThemeEngine
 import com.dertefter.wearfiles.databinding.ActivityActionDeleteBinding
 import com.dertefter.wearfiles.databinding.ActivityActionNewFolderBinding
 import com.dertefter.wearfiles.model.Action
@@ -32,6 +33,16 @@ class ActionNewFolderActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        ThemeEngine.setup(this)
+        val selectedTheme = ThemeEngine.getSelectedTheme()
+        if (selectedTheme == 0) {
+            setTheme(R.style.RoyalTheme)
+        } else {
+            setTheme(selectedTheme)
+        }
+
         binding = ActivityActionNewFolderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

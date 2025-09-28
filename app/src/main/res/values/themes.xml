@@ -397,13 +397,6 @@
 
     <style name="DynamicTheme"  parent="Theme.Material3.DynamicColors.Dark.NoActionBar">
         <item name="android:windowBackground">#000000</item>
-
-
-
-        <item name="android:windowSplashScreenBackground" tools:targetApi="31">?attr/colorSurfaceContainer</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@drawable/splash_screen</item>
-        <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="31">6000</item>
-
     </style>
 
 </resources>

@@ -59,10 +59,8 @@ class SettingsActivity : AppCompatActivity() {
 
 
 
-        binding.recyclerView.adapter = adapter
-
-        binding.recyclerView.layoutManager = WearableLinearLayoutManager(this, CustomScrollingLayoutCallback())
-        binding.recyclerView.requestFocus()
+        binding.rv.adapter = adapter
+        binding.rv.requestFocus()
 
 
 

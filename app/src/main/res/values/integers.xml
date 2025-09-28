@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="animation_duration">200</integer>
+    <integer name="max_distance_value">180</integer>
+
+    <integer name="top_padding_multiplyer">0</integer>
 </resources>

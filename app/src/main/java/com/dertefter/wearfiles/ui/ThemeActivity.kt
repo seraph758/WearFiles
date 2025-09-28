@@ -35,10 +35,9 @@ class ThemeActivity : AppCompatActivity() {
         adapter.updateSelectedTheme(selectedTheme)
 
 
-        binding.recyclerView.adapter = adapter
+        binding.rv.adapter = adapter
 
-        binding.recyclerView.layoutManager = WearableLinearLayoutManager(this, CustomScrollingLayoutCallback())
-        binding.recyclerView.requestFocus()
+        binding.rv.requestFocus()
 
 
         val themesList = listOf(

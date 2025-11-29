@@ -24,7 +24,7 @@
         android:theme="@style/DynamicTheme">
 
         <activity
-            android:name=".ui.FileActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:manageSpaceActivity="true"
             android:taskAffinity=".ui.FileActivity">
@@ -33,42 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.MenuActivity"
-            android:noHistory="true"
-            android:exported="true"
-            android:manageSpaceActivity="true"
-            android:taskAffinity=".ui.FileActivity"/>
-
-        <activity android:name=".ui.actions.ActionDeleteActivity"
-            android:exported="true"
-            android:manageSpaceActivity="true"
-            android:taskAffinity=".ui.FileActivity"/>
-
-        <activity android:name=".ui.ThemeActivity"
-            android:exported="true"
-            android:manageSpaceActivity="true"
-            android:taskAffinity=".ui.ThemeActivity"/>
-
-        <activity android:name=".ui.SettingsActivity"
-            android:exported="true"
-            android:manageSpaceActivity="true"
-            android:taskAffinity=".ui.SettingsActivity"/>
-
-        <activity android:name="androidx.wear.activity.ConfirmationActivity"
-            android:exported="true"
-            android:manageSpaceActivity="true"
-            android:taskAffinity="androidx.wear.activity.ConfirmationActivity"/>
-
-        <activity android:name=".ui.actions.ActionRenameActivity"
-            android:exported="true"
-            android:manageSpaceActivity="true"
-            android:taskAffinity=".ui.FileActivity"/>
-
-        <activity android:name=".ui.actions.ActionNewFolderActivity"
-            android:exported="true"
-            android:manageSpaceActivity="true"
-            android:taskAffinity=".ui.FileActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

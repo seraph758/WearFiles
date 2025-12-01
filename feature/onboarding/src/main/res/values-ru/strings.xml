@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_alert">В связи с ограничениями платформы Wear OS приложение не может выдать разрешение для доступа к файлам. Вам необходимо сделать это вручную:</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_alert">Due to limitations of the Wear OS platform, the app cannot grant permission to access files. You need to do this manually:</string>
+    <string name="pt1" translatable="false">Connect your watch to a computer via ADB</string>
+    <string name="pt2" translatable="false">Run the following command:</string>
+    <string name="pt2_command" translatable="false">adb shell appops set --uid com.dertefter.wearfiles MANAGE_EXTERNAL_STORAGE allow</string>
+    <string name="pt3" translatable="false">Restart the app</string>
+    <string name="info">View instructions on phone</string>
+</resources>

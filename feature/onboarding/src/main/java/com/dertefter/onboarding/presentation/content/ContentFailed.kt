@@ -1,18 +1,13 @@
-package com.dertefter.onboarding
+package com.dertefter.onboarding.presentation.content
 
-import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhoneAndroid
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.concurrent.futures.await
-import androidx.core.net.toUri
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.FilledTonalButton
@@ -22,38 +17,16 @@ import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import androidx.wear.remote.interactions.RemoteActivityHelper
 import com.dertefter.design.components.items.BadgedTextItem
 import com.dertefter.design.components.items.CodeItem
 import com.dertefter.design.components.items.TextItem
+import com.dertefter.onboarding.R
+import com.dertefter.onboarding.presentation.Event
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 @Composable
-fun OnBoardingScreen(
-    viewModel: OnBoardingViewModel = hiltViewModel()
-) {
-    val context = LocalContext.current
-
-
-
-    LaunchedEffect(viewModel) {
-        viewModel.sideEffects.collect { effect ->
-            when (effect) {
-                is OnBoardingSideEffect.OpenUrl -> {
-                    val intent = Intent(Intent.ACTION_VIEW, effect.url.toUri())
-
-                    val helper = RemoteActivityHelper(context)
-
-                    try {
-                        helper.startRemoteActivity(intent).await()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-        }
-    }
+fun ContentFailed(onEvent: (Event) -> Unit){
 
     val columnState = rememberTransformingLazyColumnState()
     val contentPadding = rememberResponsiveColumnPadding(
@@ -65,7 +38,8 @@ fun OnBoardingScreen(
 
     ScreenScaffold(
         scrollState = columnState, contentPadding = contentPadding
-    ) { contentPadding ->
+    )
+    { contentPadding ->
 
         TransformingLazyColumn(
             state = columnState, contentPadding = contentPadding, modifier = Modifier.padding(4.dp)
@@ -104,7 +78,7 @@ fun OnBoardingScreen(
 
             item {
                 FilledTonalButton(
-                    onClick = viewModel::onInfoClick,
+                    onClick = { onEvent(Event.OnOpenLinkOnPhone) },
                     modifier = Modifier.transformedHeight(this, transformationSpec),
                     transformation = SurfaceTransformation(transformationSpec),
                     icon = {
@@ -124,5 +98,10 @@ fun OnBoardingScreen(
 
     }
 
+}
 
+@Composable
+@Preview
+fun ContentFailedPreview(){
+    ContentFailed({})
 }

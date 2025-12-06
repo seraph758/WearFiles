@@ -8,4 +8,8 @@ sealed class Event {
 
     object OnNavigateToFileList : Event()
 
+    object CloseDialog : Event()
+
+    data class ShowDialog (val isSuccessful: Boolean)  : Event()
+
 }

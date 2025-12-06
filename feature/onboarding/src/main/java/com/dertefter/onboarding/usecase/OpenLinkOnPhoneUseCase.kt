@@ -1,12 +1,12 @@
 package com.dertefter.onboarding.usecase
 
-import com.dertefter.data.repository.RemoteInteractionRepository
+import com.dertefter.data.repository.RemoteInteractionHandler
 import javax.inject.Inject
 
 class OpenLinkOnPhoneUseCase @Inject constructor(
-    private val remoteInteractionRepository: RemoteInteractionRepository
+    private val remoteInteractionHandler: RemoteInteractionHandler
 ) {
-    suspend operator fun invoke(url: String) {
-        remoteInteractionRepository.openRemoteLink(url)
+    suspend operator fun invoke(url: String): Result<Unit> {
+        return remoteInteractionHandler.openRemoteLink(url)
     }
 }

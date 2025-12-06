@@ -1,5 +1,6 @@
 package com.dertefter.onboarding.presentation.content
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhoneAndroid
@@ -30,7 +31,7 @@ fun ContentFailed(onEvent: (Event) -> Unit){
 
     val columnState = rememberTransformingLazyColumnState()
     val contentPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
+        first = ColumnItemType.BodyText,
         last = ColumnItemType.Button,
     )
 
@@ -42,7 +43,14 @@ fun ContentFailed(onEvent: (Event) -> Unit){
     { contentPadding ->
 
         TransformingLazyColumn(
-            state = columnState, contentPadding = contentPadding, modifier = Modifier.padding(4.dp)
+            state = columnState,
+            contentPadding = contentPadding,
+            modifier = Modifier
+                .padding(vertical = 16.dp, horizontal = 8.dp),
+
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+
+
         ) {
 
 
@@ -101,7 +109,7 @@ fun ContentFailed(onEvent: (Event) -> Unit){
 }
 
 @Composable
-@Preview
+@Preview()
 fun ContentFailedPreview(){
     ContentFailed({})
 }

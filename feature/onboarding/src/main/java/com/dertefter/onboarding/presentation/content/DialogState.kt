@@ -1,7 +1,7 @@
 package com.dertefter.onboarding.presentation.content
 
-enum class OnBoardingState {
-    LOADING,
+enum class DialogState {
+    CLOSED,
     SUCCESS,
     FAILED
 }

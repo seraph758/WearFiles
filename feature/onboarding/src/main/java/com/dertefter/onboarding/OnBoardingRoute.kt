@@ -18,9 +18,11 @@ fun OnBoardingRoute(
         viewModel.onEvent(Event.OnCheckPermissions)
     }
 
+
     OnBoardingScreen(
         uiState = uiState,
         onEvent = viewModel::onEvent,
+        dialogState = viewModel.dialogState
     )
 
 }

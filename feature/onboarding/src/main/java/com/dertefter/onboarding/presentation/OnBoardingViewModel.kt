@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.onboarding.presentation.content.OnBoardingState
+import com.dertefter.onboarding.presentation.content.DialogState
+import com.dertefter.onboarding.presentation.content.UiState
 import com.dertefter.onboarding.usecase.CheckFileAccessUseCase
 import com.dertefter.onboarding.usecase.NavigateToFileListUseCase
 import com.dertefter.onboarding.usecase.OpenLinkOnPhoneUseCase
@@ -21,8 +22,12 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    var state by mutableStateOf(OnBoardingState.LOADING)
+    var state by mutableStateOf(UiState.LOADING)
         private set
+
+    var dialogState by mutableStateOf(DialogState.CLOSED)
+        private set
+
 
     fun onEvent(event: Event) {
         when (event) {
@@ -37,6 +42,18 @@ class OnBoardingViewModel @Inject constructor(
             is Event.OnNavigateToFileList -> {
                 navigateToFileList()
             }
+
+            is Event.CloseDialog -> {
+                dialogState = DialogState.CLOSED
+            }
+
+            is Event.ShowDialog -> {
+                dialogState = if (event.isSuccessful){
+                    DialogState.SUCCESS
+                } else {
+                    DialogState.FAILED
+                }
+            }
         }
     }
 
@@ -44,6 +61,13 @@ class OnBoardingViewModel @Inject constructor(
     private fun openLinkOnPhone(){
         viewModelScope.launch {
             openLinkOnPhoneUseCase("https://google.com")
+                .onSuccess {
+                    onEvent(Event.ShowDialog(isSuccessful = true))
+                }
+                .onFailure {
+                    onEvent(Event.ShowDialog(isSuccessful = false))
+                }
+
         }
 
     }
@@ -53,7 +77,7 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     private fun checkPermissions(){
-        state = OnBoardingState.LOADING
+        state = UiState.LOADING
 
         val hasFileAccess = checkFileAccessUseCase()
 
@@ -61,9 +85,9 @@ class OnBoardingViewModel @Inject constructor(
             viewModelScope.launch {
                 onEvent(Event.OnNavigateToFileList)
             }
-            OnBoardingState.SUCCESS
+            UiState.SUCCESS
         } else {
-            OnBoardingState.FAILED
+            UiState.FAILED
         }
 
     }

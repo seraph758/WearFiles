@@ -12,17 +12,7 @@ import androidx.wear.compose.material.Icon
 
 @Composable
 fun ContentSuccess(){
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ){
-        Icon(
-            imageVector = Icons.Default.Check,
-            contentDescription = "Success",
-            modifier = Modifier
-                .align(Alignment.Center)
-        )
-    }
+
 }
 
 @Composable

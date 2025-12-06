@@ -52,6 +52,7 @@ dependencies {
 
     implementation(project(":feature:onboarding"))
     implementation(project(":feature:file_list"))
+    implementation(project(":feature:text_viewer"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)

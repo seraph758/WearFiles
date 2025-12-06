@@ -1,5 +1,6 @@
 package com.dertefter.wearfiles.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
@@ -13,6 +14,9 @@ fun NavigationHandler(
 ) {
     LaunchedEffect(navigator) {
         navigator.navigationActions.collect { action ->
+
+            Log.e("action", action.toString())
+
             when (action) {
                 is NavigationAction.Navigate -> {
                     navController.navigate(action.route)

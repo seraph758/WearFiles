@@ -1,9 +1,11 @@
 package com.dertefter.wearfiles.di
 
+import com.dertefter.data.repository.FileContentRepository
 import com.dertefter.data.repository.FileManagerRepository
-import com.dertefter.wearfiles.FileManagerRepositoryImpl
-import com.dertefter.data.repository.RemoteInteractionRepository
-import com.dertefter.wearfiles.RemoteInteractionRepositoryImpl
+import com.dertefter.wearfiles.data.FileManagerRepositoryImpl
+import com.dertefter.data.repository.RemoteInteractionHandler
+import com.dertefter.wearfiles.data.FileContentRepositoryImpl
+import com.dertefter.wearfiles.data.RemoteInteractionHandlerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -21,7 +23,13 @@ interface RepositoryModule {
     ): FileManagerRepository
 
     @Binds
+    @Singleton
+    fun bindFileContentRepository(
+        impl: FileContentRepositoryImpl
+    ): FileContentRepository
+
+    @Binds
     fun bindRemoteRepository(
-        impl: RemoteInteractionRepositoryImpl
-    ): RemoteInteractionRepository
+        impl: RemoteInteractionHandlerImpl
+    ): RemoteInteractionHandler
 }

@@ -1,15 +1,20 @@
 package com.dertefter.design.components.items
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -38,12 +43,21 @@ fun TransformingLazyColumnItemScope.BadgedTextItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .heightIn(min = 1.dp)
+            .clickable(
+                enabled = false,
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ){}
             .transformedHeight(this, transformationSpec),
         transformation = SurfaceTransformation(transformationSpec),
         onClick = {},
+        enabled = false,
+        shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
-        )
+        ),
+        contentPadding = PaddingValues(0.dp)
     )
     {
 

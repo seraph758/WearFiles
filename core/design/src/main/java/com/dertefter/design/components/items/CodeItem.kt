@@ -1,11 +1,15 @@
 package com.dertefter.design.components.items
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
@@ -34,20 +38,27 @@ fun TransformingLazyColumnItemScope.CodeItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .heightIn(min = 1.dp)
+            .clickable(
+                enabled = false,
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ){}
             .transformedHeight(this, transformationSpec),
         transformation = SurfaceTransformation(transformationSpec),
-        onClick = onClick,
+        onClick = {},
+        enabled = false,
+        shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+            containerColor = Color.Transparent
         ),
-        contentPadding = PaddingValues(8.dp),
-        shape = RoundedCornerShape(12.dp)
+        contentPadding = PaddingValues(0.dp)
     ) {
 
         SelectionContainer{
             Text(
                 text = text,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                color = MaterialTheme.colorScheme.tertiary,
                 fontSize = 12.sp,
                 style = LocalTextStyle.current.copy(
                     fontFamily = FontFamily.Monospace

@@ -1,6 +1,8 @@
 package com.dertefter.navigation
 
+import android.net.Uri
 import kotlinx.serialization.Serializable
+import java.io.File
 
 sealed interface Routes {
     @Serializable
@@ -10,4 +12,7 @@ sealed interface Routes {
     data class FilesList(
         val path: String? = null
     ) : Routes
+
+    @Serializable
+    data class TextViewer(val uriString: String) : Routes
 }

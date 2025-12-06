@@ -6,15 +6,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.text_viewer.presentation.content.UiState
+import com.dertefter.text_viewer.usecase.GetFileNameUseCase
 import com.dertefter.text_viewer.usecase.GetFileTextContentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class TextViewerViewModel @Inject constructor(
     private val getFileTextContentUseCase: GetFileTextContentUseCase,
+    private val getFileNameUseCase: GetFileNameUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
@@ -34,7 +35,8 @@ class TextViewerViewModel @Inject constructor(
             state = UiState.Loading
             try {
                 val content = getFileTextContentUseCase(path)
-                state = UiState.Success(content)
+                val fileName = getFileNameUseCase(path)
+                state = UiState.Success(content, fileName)
             } catch (e: Exception) {
                 state = UiState.Failed
             }

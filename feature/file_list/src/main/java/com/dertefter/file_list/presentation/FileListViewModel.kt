@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dertefter.data.model.PrettyPath
 import com.dertefter.file_list.presentation.content.UiState
 import com.dertefter.file_list.usecase.GetBasePathUseCase
 import com.dertefter.file_list.usecase.GetFileListUseCase
@@ -45,11 +46,18 @@ class FileListViewModel @Inject constructor(
             state = UiState.Loading
             try {
                 val fileList = getFileListUseCase(path)
-                state = UiState.Success(path = path, files = fileList)
+                state = UiState.Success(
+                    path = PrettyPath(
+                        getBasePathUseCase(),
+                        path
+                    ),
+                    files = fileList
+                )
             } catch (e: Exception) {
                 state = UiState.Failed
             }
         }
     }
+
 
 }

@@ -2,8 +2,8 @@ package com.dertefter.text_viewer.presentation.content
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,10 +13,8 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
-import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
-import androidx.wear.widget.CurvedTextView
-import com.dertefter.design.components.items.TextItem
+import com.dertefter.design.components.items.PathItem
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import com.yazantarifi.compose.library.MarkdownConfig
@@ -24,11 +22,12 @@ import com.yazantarifi.compose.library.MarkdownViewComposable
 
 @Composable
 fun ContentSuccess(
+    fileName: String,
     content: String?
 ) {
     val columnState = rememberTransformingLazyColumnState()
     val contentPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
+        first = ColumnItemType.BodyText,
         last = ColumnItemType.Button,
     )
 
@@ -43,8 +42,13 @@ fun ContentSuccess(
             state = columnState, contentPadding = contentPadding,
         ) {
             item {
-                TextItem(
-                    transformationSpec, text = "current path", textColor = MaterialTheme.colorScheme.primary
+                PathItem(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 14.dp),
+                    transformationSpec = transformationSpec,
+                    pathText = fileName,
+                    icon = Icons.AutoMirrored.Filled.InsertDriveFile
+
                 )
             }
 
@@ -81,5 +85,5 @@ fun ContentSuccess(
 @Composable
 @Preview
 fun ContentFailedPreview() {
-    ContentSuccess("")
+    ContentSuccess("", "")
 }

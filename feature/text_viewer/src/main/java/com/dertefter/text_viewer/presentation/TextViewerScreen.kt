@@ -10,7 +10,7 @@ fun TextViewerScreen(onEvent: (Event) -> Unit, uiState: UiState) {
 
     when(uiState){
         is UiState.Loading -> ContentLoading()
-        is UiState.Success -> ContentSuccess(uiState.content)
+        is UiState.Success -> ContentSuccess(uiState.fileName, uiState.content)
         is UiState.Failed -> {}
      }
 

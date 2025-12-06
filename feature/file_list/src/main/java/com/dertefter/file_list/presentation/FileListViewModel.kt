@@ -9,6 +9,7 @@ import com.dertefter.file_list.presentation.content.UiState
 import com.dertefter.file_list.usecase.GetBasePathUseCase
 import com.dertefter.file_list.usecase.GetFileListUseCase
 import com.dertefter.file_list.usecase.NavigateToPathUseCase
+import com.dertefter.file_list.usecase.OpenFileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,9 +18,9 @@ import javax.inject.Inject
 class FileListViewModel @Inject constructor(
     private val navigateToPathUseCase: NavigateToPathUseCase,
     private val getFileListUseCase: GetFileListUseCase,
-    private val getBasePathUseCase: GetBasePathUseCase
+    private val getBasePathUseCase: GetBasePathUseCase,
+    private val openFileUseCase: OpenFileUseCase
 ) : ViewModel() {
-
 
     var state by mutableStateOf<UiState>(UiState.Loading)
         private set
@@ -30,7 +31,7 @@ class FileListViewModel @Inject constructor(
                 getFileListAtPath(event.path ?: getBasePathUseCase())
             }
             is Event.OnFileClick -> {
-
+                openFileUseCase(event.file)
             }
 
             is Event.OnDirectoryClick -> {
@@ -44,7 +45,7 @@ class FileListViewModel @Inject constructor(
             state = UiState.Loading
             try {
                 val fileList = getFileListUseCase(path)
-                state = UiState.Success(fileList)
+                state = UiState.Success(path = path, files = fileList)
             } catch (e: Exception) {
                 state = UiState.Failed
             }

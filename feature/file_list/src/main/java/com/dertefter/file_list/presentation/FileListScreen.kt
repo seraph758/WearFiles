@@ -10,7 +10,7 @@ fun FileListScreen(onEvent: (Event) -> Unit, uiState: UiState) {
 
     when(uiState){
         is UiState.Loading -> ContentLoading()
-        is UiState.Success -> ContentSuccess(uiState.files, onEvent)
+        is UiState.Success -> ContentSuccess(uiState.path, uiState.files, onEvent)
         is UiState.Failed -> {}
      }
 

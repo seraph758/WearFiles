@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import com.dertefter.design.components.items.FileItem
@@ -21,13 +22,14 @@ import java.io.File
 
 @Composable
 fun ContentSuccess(
+    path: String,
     files: List<File>,
     onEvent: (Event) -> Unit
 ) {
 
     val columnState = rememberTransformingLazyColumnState()
     val contentPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
+        first = ColumnItemType.BodyText,
         last = ColumnItemType.Button,
     )
 
@@ -39,13 +41,20 @@ fun ContentSuccess(
     { contentPadding ->
 
         TransformingLazyColumn(
-            state = columnState, contentPadding = contentPadding, modifier = Modifier.padding(4.dp)
+            state = columnState,
+            contentPadding = contentPadding,
+            modifier = Modifier.padding(4.dp)
         ) {
 
 
             item {
                 TextItem(
-                    transformationSpec, text = "current path"
+                    modifier = Modifier
+                        .padding(vertical = 4.dp, horizontal = 8.dp),
+                    transformationSpec = transformationSpec,
+                    text = path,
+                    textColor = MaterialTheme.colorScheme.primary,
+                    textStyle = MaterialTheme.typography.labelMedium
                 )
             }
 
@@ -78,6 +87,7 @@ fun ContentSuccess(
 @Preview
 fun ContentFailedPreview(){
     ContentSuccess(
+        "",
         files = emptyList(),
         onEvent = {}
     )

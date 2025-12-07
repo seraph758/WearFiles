@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetFileListUseCase @Inject constructor(
     private val fileManagerRepository: FileManagerRepository
 ) {
-    suspend operator fun invoke(path: String): List<File> {
+    suspend operator fun invoke(path: String): Result<List<File>> {
         return fileManagerRepository.getFiles(path)
     }
 }

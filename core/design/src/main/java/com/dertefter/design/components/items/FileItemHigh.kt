@@ -31,13 +31,12 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 
 @Composable
-fun TransformingLazyColumnItemScope.FileItem(
+fun TransformingLazyColumnItemScope.FileItemHigh(
     transformationSpec: TransformationSpec,
     modifier: Modifier = Modifier,
     text: String,
     icon: ImageVector,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit = {}
+    onClick: () -> Unit
 ) {
     Card(
         modifier = modifier
@@ -46,10 +45,9 @@ fun TransformingLazyColumnItemScope.FileItem(
             .transformedHeight(this, transformationSpec),
         transformation = SurfaceTransformation(transformationSpec),
         onClick = onClick,
-        onLongClick = onLongClick,
         shape = RoundedCornerShape(50),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         contentPadding = PaddingValues(0.dp),
 
@@ -75,7 +73,7 @@ fun TransformingLazyColumnItemScope.FileItem(
 
             Text(
                 text = text,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -85,11 +83,11 @@ fun TransformingLazyColumnItemScope.FileItem(
 
 @Preview(device = "id:wearos_small_round", showBackground = true, showSystemUi = false)
 @Composable
-private fun FileItemPreview() {
+private fun FileItemHighPreview() {
     val transformationSpec = rememberTransformationSpec()
     TransformingLazyColumn {
         item {
-            FileItem(
+            FileItemHigh(
                 transformationSpec = transformationSpec,
                 text = "Preview Tex gdgdgdgdgdgt",
                 icon = Icons.Filled.Folder,

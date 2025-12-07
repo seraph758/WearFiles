@@ -14,5 +14,10 @@ sealed interface Routes {
     ) : Routes
 
     @Serializable
+    data class Menu(
+        val path: String
+    ) : Routes
+
+    @Serializable
     data class TextViewer(val uriString: String) : Routes
 }

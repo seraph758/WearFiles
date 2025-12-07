@@ -84,7 +84,12 @@ fun ContentSuccess(
                            } else {
 
                            }
+                       },
+
+                       onLongClick = {
+                           onEvent(Event.OnNavigateToMenu(file.absolutePath))
                        }
+
                    )
                }
            }
@@ -96,6 +101,9 @@ fun ContentSuccess(
                     transformationSpec = transformationSpec,
                     onUpClick = if (actions.contains(Action.MOVE_BACK)) {
                         { onEvent(Event.OnNavigateBack) }
+                    } else { null },
+                    onMoreClick = if (actions.contains(Action.MORE)) {
+                        { onEvent(Event.OnNavigateToMenu(path = path.path)) }
                     } else { null }
 
                 )

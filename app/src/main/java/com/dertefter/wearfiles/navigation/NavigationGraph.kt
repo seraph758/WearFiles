@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
 import com.dertefter.file_list.FileListRoute
+import com.dertefter.menu.MenuRoute
 import com.dertefter.navigation.Routes
 import com.dertefter.onboarding.OnBoardingRoute
 import com.dertefter.text_viewer.TextViewerRoute
@@ -44,6 +45,17 @@ fun NavigationGraph(
                 path = args.path
             )
         }
+
+        composable<Routes.Menu> { backStackEntry ->
+
+            val args = backStackEntry.toRoute<Routes.Menu>()
+
+            MenuRoute(
+                path = args.path
+            )
+        }
+
+
 
         composable<Routes.TextViewer> { backStackEntry ->
 

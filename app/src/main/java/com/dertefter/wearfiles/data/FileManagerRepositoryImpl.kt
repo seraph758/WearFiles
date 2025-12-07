@@ -8,47 +8,53 @@ import javax.inject.Inject
 
 class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
 
+    override suspend fun getFiles(path: String): Result<List<File>> {
+        return runCatching {
+            val file = File(path)
 
-    override suspend fun getFiles(path: String): List<File> {
-        val file = File(path)
-        return if (file.exists() && file.isDirectory) {
-            file.listFiles()?.toList() ?: emptyList()
-        } else {
-            emptyList()
+            if (!file.exists()) throw IllegalArgumentException("Path does not exist: $path")
+            if (!file.isDirectory) throw IllegalArgumentException("Path is not a directory: $path")
+
+            file.listFiles()?.toList()
+                ?: throw IllegalStateException("Cannot list files for: $path")
         }
     }
 
     override suspend fun getParentFilePath(path: String): String? {
-        val file = File(path)
-        return file.parent
+
+        try{
+            val file = File(path)
+            return file.parent
+        }catch (e: Exception){
+            return null
+        }
     }
 
     override fun hasFileAccess(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
-        } else {
-            true
-        }
+        } else true
     }
 
-    override fun deleteFile(file: File): Boolean {
-        return if (file.exists()) {
+    override fun deleteFile(file: File): Result<Boolean> {
+        return runCatching {
+            if (!file.exists()) throw IllegalArgumentException("File does not exist: ${file.path}")
+
             if (file.isDirectory) {
                 file.deleteRecursively()
             } else {
                 file.delete()
             }
-        } else {
-            false
         }
     }
 
-    override fun createDirectory(path: String, name: String): Boolean {
-        val newDir = File(path, name)
-        return if (!newDir.exists()) {
+    override fun createDirectory(path: String, name: String): Result<Boolean> {
+        return runCatching {
+            val newDir = File(path, name)
+
+            if (newDir.exists()) throw IllegalStateException("Directory already exists: ${newDir.path}")
+
             newDir.mkdirs()
-        } else {
-            false
         }
     }
 
@@ -56,11 +62,29 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
         return Environment.getExternalStorageDirectory().absolutePath
     }
 
+
     override fun canNavigateUpFrom(path: String): Boolean {
-
         val homePath = getBasePath()
-
         return path.startsWith(homePath) && path != homePath
+    }
+
+    override fun canRename(path: String): Boolean {
+
+        try {
+            val file = File(path)
+
+            if (!file.exists()) return false
+
+            val parent = file.parentFile ?: return false
+
+            if (!parent.canWrite()) return false
+
+            return true
+        } catch (e: Exception){
+            return false
+        }
+
+
     }
 
 

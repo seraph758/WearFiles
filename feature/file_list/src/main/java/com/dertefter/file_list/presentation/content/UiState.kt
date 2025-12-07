@@ -11,5 +11,7 @@ sealed interface UiState {
         val path: PrettyPath,
         val actions: List<Action> = emptyList()
     ) : UiState
-    data object Failed : UiState
+    data class Failed (
+        val e: Throwable
+    ) : UiState
 }

@@ -1,6 +1,8 @@
 package com.dertefter.onboarding.presentation.content
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhoneAndroid
@@ -46,7 +48,7 @@ fun ContentFailed(onEvent: (Event) -> Unit){
             state = columnState,
             contentPadding = contentPadding,
             modifier = Modifier
-                .padding(vertical = 16.dp, horizontal = 8.dp),
+                .padding(vertical = 16.dp, horizontal = 10.dp),
 
             verticalArrangement = Arrangement.spacedBy(14.dp)
 
@@ -85,6 +87,10 @@ fun ContentFailed(onEvent: (Event) -> Unit){
             }
 
             item {
+                Spacer(modifier = Modifier.height(4.dp))
+            }
+
+            item {
                 FilledTonalButton(
                     onClick = { onEvent(Event.OnOpenLinkOnPhone) },
                     modifier = Modifier.transformedHeight(this, transformationSpec),
@@ -96,7 +102,8 @@ fun ContentFailed(onEvent: (Event) -> Unit){
                         )
                     }) {
                     Text(
-                        text = stringResource(R.string.info)
+                        text = stringResource(R.string.info),
+                        modifier = Modifier.padding(4.dp)
                     )
                 }
             }
@@ -109,7 +116,7 @@ fun ContentFailed(onEvent: (Event) -> Unit){
 }
 
 @Composable
-@Preview()
+@Preview(device = "id:wearos_small_round", showSystemUi = false)
 fun ContentFailedPreview(){
     ContentFailed({})
 }

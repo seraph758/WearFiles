@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.data.model.PrettyPath
 import com.dertefter.file_list.presentation.content.UiState
-import com.dertefter.file_list.usecase.CheckIfNavigateUpAvaibleUseCase
+import com.dertefter.file_list.usecase.GetActionsUseCase
 import com.dertefter.file_list.usecase.GetBasePathUseCase
 import com.dertefter.file_list.usecase.GetFileListUseCase
+import com.dertefter.file_list.usecase.GetMoreActionsUseCase
 import com.dertefter.file_list.usecase.GetParentUseCase
 import com.dertefter.file_list.usecase.NavigateToPathUseCase
 import com.dertefter.file_list.usecase.NavigateBackUseCase
+import com.dertefter.file_list.usecase.NavigateToMenuUseCase
 import com.dertefter.file_list.usecase.OpenFileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,7 +28,8 @@ class FileListViewModel @Inject constructor(
     private val getParentUseCase: GetParentUseCase,
     private val openFileUseCase: OpenFileUseCase,
     private val navigateBackUseCase: NavigateBackUseCase,
-    private val checkIfNavigateUpAvaibleUseCase: CheckIfNavigateUpAvaibleUseCase
+    private val getActionsUseCase: GetActionsUseCase,
+    private val navigateToMenuUseCase: NavigateToMenuUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
@@ -51,8 +54,12 @@ class FileListViewModel @Inject constructor(
 
             is Event.OnNavigateToParent -> {
                 navigateToParent(event.path)
-
             }
+
+            is Event.OnNavigateToMenu -> {
+                navigateToMenuUseCase(event.path)
+            }
+
         }
     }
 
@@ -69,33 +76,28 @@ class FileListViewModel @Inject constructor(
     private fun getFileListAtPath(path: String) {
         viewModelScope.launch {
             state = UiState.Loading
-            try {
 
-                val canNavigateUp = checkIfNavigateUpAvaibleUseCase(path)
+            getFileListUseCase(path)
+                .onSuccess { fileList ->
 
-                val fileList = getFileListUseCase(path)
+                    val actions = getActionsUseCase(path)
 
-                val actions = mutableListOf<Action>()
+                    val homePath = getBasePathUseCase()
+                    state = UiState.Success(
+                        path = PrettyPath(
+                            homePath,
+                            path
+                        ),
+                        files = fileList,
+                        actions = actions
+                    )
 
-                val homePath = getBasePathUseCase()
-
-                if (canNavigateUp){
-                    actions.add(Action.MOVE_UP)
-                    actions.add(Action.MOVE_BACK)
+                }
+                .onFailure { e ->
+                    state = UiState.Failed(e)
                 }
 
-                state = UiState.Success(
-                    path = PrettyPath(
-                        homePath,
-                        path
-                    ),
-                    files = fileList,
-                    actions = actions
-                )
 
-            } catch (e: Exception) {
-                state = UiState.Failed
-            }
         }
     }
 

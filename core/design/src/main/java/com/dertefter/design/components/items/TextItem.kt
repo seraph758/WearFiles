@@ -36,6 +36,8 @@ fun TransformingLazyColumnItemScope.TextItem(
     text: String,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     textStyle: TextStyle = LocalTextStyle.current,
+    textAlign: TextAlign = TextAlign.Start
+
 ) {
     Card(
         modifier = modifier
@@ -63,10 +65,9 @@ fun TransformingLazyColumnItemScope.TextItem(
         ) {
             Text(
                 text = text,
-                textAlign = TextAlign.Start,
+                textAlign = textAlign,
                 style = textStyle,
                 color = textColor,
-                modifier = Modifier.align(Alignment.CenterStart)
             )
         }
 

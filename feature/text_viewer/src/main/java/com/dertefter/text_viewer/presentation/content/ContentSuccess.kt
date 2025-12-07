@@ -14,6 +14,7 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import com.dertefter.design.components.items.FileTopItem
 import com.dertefter.design.components.items.PathItem
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
@@ -39,17 +40,18 @@ fun ContentSuccess(
     ) { contentPadding ->
 
         TransformingLazyColumn(
-            state = columnState, contentPadding = contentPadding,
+            state = columnState,
+            contentPadding = contentPadding,
+            modifier = Modifier.padding(4.dp)
         ) {
             item {
-                PathItem(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp, horizontal = 14.dp),
-                    transformationSpec = transformationSpec,
-                    pathText = fileName,
-                    icon = Icons.AutoMirrored.Filled.InsertDriveFile
 
+                FileTopItem(
+                    transformationSpec = transformationSpec,
+                    text = fileName,
+                    onMoreClick = {}
                 )
+
             }
 
             item {

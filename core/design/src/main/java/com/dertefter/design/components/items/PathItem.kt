@@ -1,27 +1,32 @@
 package com.dertefter.design.components.items
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Watch
-import androidx.compose.material3.Badge
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.Watch
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,67 +35,95 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CardDefaults
-import androidx.wear.compose.material3.ColorScheme
+import androidx.wear.compose.material3.FilledIconButton
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.SurfaceTransformation
-import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import com.dertefter.design.theme.TheTheme
 
 @Composable
 fun TransformingLazyColumnItemScope.PathItem(
     transformationSpec: TransformationSpec,
     modifier: Modifier = Modifier,
-    icon: ImageVector = Icons.Outlined.Watch,
-    pathText: String
+    homeIcon: ImageVector? = null,
+    fullPath: String,
+    homePath: String,
 ) {
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(fullPath) {
+        scrollState.scrollTo(scrollState.maxValue)
+    }
+
+    val cleanedPath = fullPath.removePrefix(homePath).trimStart('/')
+    val segments = cleanedPath.split("/").filter { it.isNotEmpty() }
+
     Card(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 1.dp)
-            .clickable(
-                enabled = false,
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ){}
+            .clickable(enabled = false, indication = null, interactionSource = remember { MutableInteractionSource() }) {}
             .transformedHeight(this, transformationSpec),
         transformation = SurfaceTransformation(transformationSpec),
         onClick = {},
         enabled = false,
         shape = RoundedCornerShape(0.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent
-        ),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         contentPadding = PaddingValues(0.dp)
-    )
-    {
-
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
-        ){
-            Icon(
-                modifier = Modifier.size(14.dp),
-                imageVector = icon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
+        ) {
 
-            Spacer(
+            Spacer(modifier = Modifier.width(4.dp))
+
+            FlowRow(
                 modifier = Modifier
-                    .width(6.dp)
-            )
+                    .padding(horizontal = 4.dp),
+                maxItemsInEachRow = Int.MAX_VALUE,
+            ) {
+                if (homeIcon != null) {
+                    Icon(
+                        imageVector = homeIcon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .size(18.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                } else {
+                    Text(
+                        text = homePath.substringAfterLast('/'),
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
 
-            Text(
-                text = pathText,
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.bodySmall
-            )
+                segments.forEach { segment ->
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ){
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .size(24.dp)
+                                .padding(horizontal = 2.dp, vertical = 6.dp)
+                        )
+
+                        Text(
+                            text = segment,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+
+                }
+            }
         }
-
-
     }
 }
 
@@ -102,7 +135,9 @@ private fun PathItemPreview() {
         item {
             PathItem(
                 transformationSpec = transformationSpec,
-                pathText = "Preview Text httr fhf hf hfhf f hfh",
+                homeIcon = Icons.Filled.Watch,
+                fullPath = "/storage/emulated/0/Download/Folder/Sub",
+                homePath = "/storage/emulated/0",
             )
         }
     }

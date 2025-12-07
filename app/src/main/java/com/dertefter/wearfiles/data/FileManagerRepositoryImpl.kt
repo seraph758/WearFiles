@@ -18,6 +18,11 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
         }
     }
 
+    override suspend fun getParentFilePath(path: String): String? {
+        val file = File(path)
+        return file.parent
+    }
+
     override fun hasFileAccess(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
@@ -49,6 +54,13 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
 
     override fun getBasePath(): String {
         return Environment.getExternalStorageDirectory().absolutePath
+    }
+
+    override fun canNavigateUpFrom(path: String): Boolean {
+
+        val homePath = getBasePath()
+
+        return path.startsWith(homePath) && path != homePath
     }
 
 

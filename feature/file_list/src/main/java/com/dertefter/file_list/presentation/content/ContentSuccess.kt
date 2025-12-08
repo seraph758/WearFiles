@@ -87,7 +87,7 @@ fun ContentSuccess(
                        },
 
                        onLongClick = {
-                           onEvent(Event.OnNavigateToMenu(file.absolutePath))
+                           onEvent(Event.OnShowMenuFor(file.absolutePath))
                        }
 
                    )
@@ -103,7 +103,7 @@ fun ContentSuccess(
                         { onEvent(Event.OnNavigateBack) }
                     } else { null },
                     onMoreClick = if (actions.contains(Action.MORE)) {
-                        { onEvent(Event.OnNavigateToMenu(path = path.path)) }
+                        { onEvent(Event.OnShowMenuFor(path = path.path)) }
                     } else { null }
 
                 )

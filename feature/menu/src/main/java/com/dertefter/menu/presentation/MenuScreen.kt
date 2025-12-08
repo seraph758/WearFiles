@@ -15,7 +15,9 @@ fun MenuScreen(onEvent: (Event) -> Unit, uiState: UiState) {
             actions = uiState.actions,
             onEvent = onEvent
             )
-        is UiState.Failed -> {}
+        is UiState.Failed -> {
+            onEvent(Event.OnNavigateBack)
+        }
      }
 
 }

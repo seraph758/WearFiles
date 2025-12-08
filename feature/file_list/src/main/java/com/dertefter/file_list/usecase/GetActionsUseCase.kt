@@ -5,20 +5,21 @@ import javax.inject.Inject
 
 class GetActionsUseCase @Inject constructor(
     private val checkIfNavigateUpAvailableUseCase: CheckIfNavigateUpAvailableUseCase,
-    private val getMoreActionsUseCase: GetMoreActionsUseCase
+    private val checkHaveMoreActionsUseCase: CheckHaveMoreActionsUseCase
 ) {
     operator fun invoke(path: String): List<Action> {
         val actions = mutableListOf<Action>()
 
-        val moreActions = getMoreActionsUseCase(path)
+        val hasMoreActions = checkHaveMoreActionsUseCase(path)
+
 
         val canNavigateUp = checkIfNavigateUpAvailableUseCase(path)
 
-        if (canNavigateUp){
+        if (canNavigateUp) {
             actions.add(Action.MOVE_BACK)
         }
 
-        if (moreActions.isNotEmpty()){
+        if (hasMoreActions) {
             actions.add(Action.MORE)
         }
 

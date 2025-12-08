@@ -8,6 +8,8 @@ sealed class Event {
 
     data class OnNavigateToRename(val path: String) : Event()
 
+    data class OnNavigateToNewDirectory(val path: String) : Event()
+
     data class OnGetMenuActions(val path: String) : Event()
 
 

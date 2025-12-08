@@ -10,7 +10,8 @@ import com.dertefter.menu.presentation.MenuViewModel
 @Composable
 fun MenuRoute(
     viewModel: MenuViewModel = hiltViewModel(),
-    path: String
+    path: String,
+    onDismissRequest: () -> Unit = {}
 ) {
 
     val uiState = viewModel.state
@@ -23,6 +24,7 @@ fun MenuRoute(
         uiState = uiState,
         onEvent = { event ->
             viewModel.onEvent(event)
+            onDismissRequest()
         }
     )
 

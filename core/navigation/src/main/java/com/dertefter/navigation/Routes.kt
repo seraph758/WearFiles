@@ -14,13 +14,12 @@ sealed interface Routes {
     ) : Routes
 
     @Serializable
-    data class Menu(
+    data class Rename(
         val path: String
     ) : Routes
 
-
     @Serializable
-    data class Rename(
+    data class NewDirectory(
         val path: String
     ) : Routes
 

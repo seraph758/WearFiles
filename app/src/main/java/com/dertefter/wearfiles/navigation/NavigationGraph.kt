@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
 import com.dertefter.file_list.FileListRoute
-import com.dertefter.menu.MenuRoute
 import com.dertefter.navigation.Routes
+import com.dertefter.new_directory.NewDirectoryRoute
 import com.dertefter.onboarding.OnBoardingRoute
 import com.dertefter.rename.RenameRoute
 import com.dertefter.text_viewer.TextViewerRoute
@@ -18,9 +18,8 @@ import com.google.android.horologist.compose.nav.composable
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun NavigationGraph(
-    navController: NavHostController,
-    initialFileUri: Uri?
-    ) {
+    navController: NavHostController, initialFileUri: Uri?
+) {
 
     val startRoute = if (initialFileUri != null) {
         Routes.TextViewer(initialFileUri.toString())
@@ -30,8 +29,7 @@ fun NavigationGraph(
 
 
     SwipeDismissableNavHost(
-        navController = navController,
-        startDestination = startRoute
+        navController = navController, startDestination = startRoute
     ) {
 
         composable<Routes.OnBoarding> {
@@ -46,16 +44,6 @@ fun NavigationGraph(
                 path = args.path
             )
         }
-
-        composable<Routes.Menu> { backStackEntry ->
-
-            val args = backStackEntry.toRoute<Routes.Menu>()
-
-            MenuRoute(
-                path = args.path
-            )
-        }
-
 
 
         composable<Routes.TextViewer> { backStackEntry ->
@@ -73,6 +61,15 @@ fun NavigationGraph(
             val args = backStackEntry.toRoute<Routes.Rename>()
 
             RenameRoute(
+                path = args.path
+            )
+        }
+
+        composable<Routes.NewDirectory> { backStackEntry ->
+
+            val args = backStackEntry.toRoute<Routes.NewDirectory>()
+
+            NewDirectoryRoute(
                 path = args.path
             )
         }

@@ -30,6 +30,11 @@ import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 
+
+enum class FileItemType(){
+    DEFAULT, ERROR, PRIMARY
+}
+
 @Composable
 fun TransformingLazyColumnItemScope.FileItem(
     transformationSpec: TransformationSpec,
@@ -37,8 +42,34 @@ fun TransformingLazyColumnItemScope.FileItem(
     text: String,
     icon: ImageVector,
     onClick: () -> Unit,
-    onLongClick: () -> Unit = {}
+    onLongClick: () -> Unit = {},
+    type: FileItemType = FileItemType.DEFAULT
 ) {
+
+    val containerColor = when (type) {
+        FileItemType.DEFAULT -> MaterialTheme.colorScheme.surfaceContainer
+        FileItemType.ERROR -> MaterialTheme.colorScheme.errorContainer
+        FileItemType.PRIMARY -> MaterialTheme.colorScheme.primaryContainer
+    }
+
+    val textColor = when (type) {
+        FileItemType.DEFAULT -> MaterialTheme.colorScheme.onSurface
+        FileItemType.ERROR -> MaterialTheme.colorScheme.onErrorContainer
+        FileItemType.PRIMARY -> MaterialTheme.colorScheme.onPrimaryContainer
+    }
+
+    val iconTint = when (type) {
+        FileItemType.DEFAULT -> MaterialTheme.colorScheme.onSecondary
+        FileItemType.ERROR -> MaterialTheme.colorScheme.onError
+        FileItemType.PRIMARY -> MaterialTheme.colorScheme.onPrimary
+    }
+
+    val iconBackgroundColor = when (type) {
+        FileItemType.DEFAULT -> MaterialTheme.colorScheme.secondary
+        FileItemType.ERROR -> MaterialTheme.colorScheme.error
+        FileItemType.PRIMARY -> MaterialTheme.colorScheme.primary
+    }
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -49,7 +80,7 @@ fun TransformingLazyColumnItemScope.FileItem(
         onLongClick = onLongClick,
         shape = RoundedCornerShape(50),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
+            containerColor = containerColor
         ),
         contentPadding = PaddingValues(0.dp),
 
@@ -66,16 +97,16 @@ fun TransformingLazyColumnItemScope.FileItem(
                 contentDescription = null,
                 Modifier
                     .background(
-                    color = MaterialTheme.colorScheme.primary,
+                    color = iconBackgroundColor,
                     shape = RoundedCornerShape(50))
                     .padding(6.dp)
                 ,
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = iconTint
             )
 
             Text(
                 text = text,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = textColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

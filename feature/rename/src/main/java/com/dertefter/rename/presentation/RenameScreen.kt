@@ -2,6 +2,7 @@ package com.dertefter.rename.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.dertefter.rename.presentation.content.ContentFailed
 import com.dertefter.rename.presentation.content.ContentSuccess
 
 
@@ -14,11 +15,13 @@ fun RenameScreen(
 
     when(uiState){
         is UiState.Failed -> {
+            ContentFailed(uiState.e, onEvent)
         }
         is UiState.Loading -> {
         }
         is UiState.Success -> {
             ContentSuccess(
+                path = uiState.path,
                 newFileName = uiState.newFileName,
                 onEvent = onEvent,
                 isSaveEnabled = uiState.isSaveEnabled()

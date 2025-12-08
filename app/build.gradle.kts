@@ -52,8 +52,9 @@ dependencies {
 
     implementation(project(":feature:onboarding"))
     implementation(project(":feature:file_list"))
-    implementation(project(":feature:menu"))
     implementation(project(":feature:rename"))
+
+    implementation(project(":feature:new_directory"))
     implementation(project(":feature:text_viewer"))
 
     implementation(platform(libs.androidx.compose.bom))

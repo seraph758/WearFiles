@@ -1,4 +1,4 @@
-package com.dertefter.file_list.presentation.content
+package com.dertefter.design.components.basic_screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,20 +9,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material3.CircularProgressIndicator
 
 @Composable
-fun ContentLoading(){
+fun ContentLoadingDefaultScreen(){
     Box(
         modifier = Modifier
             .fillMaxSize()
     ){
         CircularProgressIndicator(
             modifier = Modifier
-                .align(alignment = Alignment.Center)
+                .align(alignment = Alignment.Center),
         )
     }
 }
 
 @Composable
-@Preview
-fun ContentLoadingPreview(){
-    ContentLoading()
+@Preview(device = "id:wearos_xl_round", showBackground = true)
+fun ContentLoadingDefaultScreenPreview(){
+    ContentLoadingDefaultScreen()
 }

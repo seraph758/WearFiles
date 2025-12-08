@@ -21,6 +21,7 @@ fun FileListRoute(
 
     FileListScreen(
         uiState = uiState,
+        menuState = viewModel.menuState,
         onEvent = { event ->
             viewModel.onEvent(event)
         },

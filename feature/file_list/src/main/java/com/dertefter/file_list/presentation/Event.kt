@@ -13,7 +13,10 @@ sealed class Event {
 
     data class OnNavigateToParent(val path: String) : Event()
 
-    data class OnNavigateToMenu(val path: String) : Event()
+    data class OnShowMenuFor(val path: String) : Event()
+
+    object OnHideMenu : Event()
+
 
 
 

@@ -1,17 +1,22 @@
 package com.dertefter.rename.presentation
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dertefter.rename.usecase.GetFileNameUseCase
+import com.dertefter.rename.usecase.NavigateBackUseCase
+import com.dertefter.rename.usecase.RenameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RenameViewModel @Inject constructor(
-    private val getFileNameUseCase: GetFileNameUseCase
+    private val getFileNameUseCase: GetFileNameUseCase,
+    private val renameUseCase: RenameUseCase,
+    private val navigateBackUseCase: NavigateBackUseCase
 ) : ViewModel() {
 
 
@@ -38,6 +43,18 @@ class RenameViewModel @Inject constructor(
                 if (currentState is UiState.Success) {
                     state = currentState.copy(newFileName = event.name)
                 }
+            }
+
+            is Event.OnRename -> {
+                viewModelScope.launch {
+                    renameUseCase(event.path, event.newName)
+                        .onSuccess { navigateBackUseCase() }
+                        .onFailure { state = UiState.Failed(it) }
+                }
+            }
+
+            is Event.OnNavigateBack -> {
+                navigateBackUseCase()
             }
         }
     }

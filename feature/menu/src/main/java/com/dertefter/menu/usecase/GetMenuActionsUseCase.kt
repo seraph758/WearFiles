@@ -8,16 +8,19 @@ import javax.inject.Inject
 class GetMenuActionsUseCase @Inject constructor(
     private val fileManagerRepository: FileManagerRepository
 ) {
-    operator fun invoke(path: String): List<MenuAction> {
-        val actions = mutableListOf<MenuAction>()
+    operator fun invoke(path: String): List<MenuAction> =
+        listOfNotNull(
+            MenuAction(MenuActionType.RENAME, path).takeIf {
+                fileManagerRepository.canBeRenamed(path)
+            },
 
-        val canRename = fileManagerRepository.canRename(path)
+            MenuAction(MenuActionType.NEW_DIR, path).takeIf {
+                fileManagerRepository.canCreateDirHere(path)
+            },
 
-        if (canRename){
-            actions.add(MenuAction(MenuActionType.RENAME, path = path))
-        }
+            MenuAction(MenuActionType.DELETE, path).takeIf {
+                fileManagerRepository.canBeDeleted(path)
+            },
 
-        return actions
-
-    }
+        )
 }

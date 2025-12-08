@@ -5,6 +5,8 @@ import java.io.File
 interface FileManagerRepository {
     suspend fun getFiles(path: String): Result<List<File>>
 
+    suspend fun rename(path: String, newName: String): Result<Boolean>
+
     suspend fun getParentFilePath(path: String): String?
     fun hasFileAccess(): Boolean
     fun deleteFile(file: File): Result<Boolean>
@@ -16,7 +18,12 @@ interface FileManagerRepository {
 
     fun canNavigateUpFrom(path: String): Boolean
 
-    fun canRename(path: String): Boolean
+    fun canBeRenamed(path: String): Boolean
+
+    fun canBeDeleted(path: String): Boolean
+
+    fun canCreateDirHere(path: String): Boolean
+
 
 
 }

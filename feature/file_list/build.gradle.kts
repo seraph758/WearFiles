@@ -43,6 +43,8 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:menu"))
+
     implementation(project(":core:navigation"))
     implementation(project(":core:data"))
     implementation(project(":core:design"))

@@ -6,15 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.data.model.PrettyPath
+import com.dertefter.file_list.presentation.content.MenuState
 import com.dertefter.file_list.presentation.content.UiState
 import com.dertefter.file_list.usecase.GetActionsUseCase
 import com.dertefter.file_list.usecase.GetBasePathUseCase
 import com.dertefter.file_list.usecase.GetFileListUseCase
-import com.dertefter.file_list.usecase.GetMoreActionsUseCase
 import com.dertefter.file_list.usecase.GetParentUseCase
-import com.dertefter.file_list.usecase.NavigateToPathUseCase
 import com.dertefter.file_list.usecase.NavigateBackUseCase
-import com.dertefter.file_list.usecase.NavigateToMenuUseCase
+import com.dertefter.file_list.usecase.NavigateToPathUseCase
 import com.dertefter.file_list.usecase.OpenFileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -29,10 +28,12 @@ class FileListViewModel @Inject constructor(
     private val openFileUseCase: OpenFileUseCase,
     private val navigateBackUseCase: NavigateBackUseCase,
     private val getActionsUseCase: GetActionsUseCase,
-    private val navigateToMenuUseCase: NavigateToMenuUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
+        private set
+
+    var menuState by mutableStateOf<MenuState>(MenuState.Hide)
         private set
 
     fun onEvent(event: Event) {
@@ -56,8 +57,12 @@ class FileListViewModel @Inject constructor(
                 navigateToParent(event.path)
             }
 
-            is Event.OnNavigateToMenu -> {
-                navigateToMenuUseCase(event.path)
+            is Event.OnHideMenu -> {
+                menuState = MenuState.Hide
+            }
+
+            is Event.OnShowMenuFor -> {
+                menuState = MenuState.Show(event.path)
             }
 
         }

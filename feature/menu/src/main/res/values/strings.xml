@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="new_dir">New folder</string>
 </resources>

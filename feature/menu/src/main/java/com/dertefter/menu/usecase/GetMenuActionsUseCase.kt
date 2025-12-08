@@ -1,6 +1,7 @@
 package com.dertefter.menu.usecase
 
 import com.dertefter.data.repository.FileManagerRepository
+import com.dertefter.menu.MenuMode
 import com.dertefter.menu.presentation.MenuAction
 import com.dertefter.menu.presentation.MenuActionType
 import javax.inject.Inject
@@ -8,19 +9,35 @@ import javax.inject.Inject
 class GetMenuActionsUseCase @Inject constructor(
     private val fileManagerRepository: FileManagerRepository
 ) {
-    operator fun invoke(path: String): List<MenuAction> =
-        listOfNotNull(
-            MenuAction(MenuActionType.RENAME, path).takeIf {
-                fileManagerRepository.canBeRenamed(path)
-            },
+    operator fun invoke(path: String, mode: MenuMode): List<MenuAction> {
 
-            MenuAction(MenuActionType.NEW_DIR, path).takeIf {
-                fileManagerRepository.canCreateDirHere(path)
-            },
+        when (mode) {
+            MenuMode.INSIDE -> {
+                return buildList {
+                    if (fileManagerRepository.canCreateDirHere(path)) {
+                        add(MenuAction(MenuActionType.NEW_DIR, path))
+                    }
+                }
+            }
+            MenuMode.OUTSIDE -> {
+                return buildList {
+                    add(MenuAction(MenuActionType.OPEN, path))
 
-            MenuAction(MenuActionType.DELETE, path).takeIf {
-                fileManagerRepository.canBeDeleted(path)
-            },
+                    if (fileManagerRepository.canBeRenamed(path)) {
+                        add(MenuAction(MenuActionType.RENAME, path))
+                    }
 
-        )
+                    if (fileManagerRepository.canCreateDirHere(path)) {
+                        add(MenuAction(MenuActionType.NEW_DIR, path))
+                    }
+
+                    if (fileManagerRepository.canBeDeleted(path)) {
+                        add(MenuAction(MenuActionType.DELETE, path))
+                    }
+                }
+            }
+        }
+
+    }
 }
+

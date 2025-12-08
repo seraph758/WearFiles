@@ -24,6 +24,7 @@ interface FileManagerRepository {
 
     fun canCreateDirHere(path: String): Boolean
 
+    fun isDirectory(path: String): Boolean
 
 
 }

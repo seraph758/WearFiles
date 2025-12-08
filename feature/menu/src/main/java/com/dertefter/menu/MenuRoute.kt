@@ -11,13 +11,14 @@ import com.dertefter.menu.presentation.MenuViewModel
 fun MenuRoute(
     viewModel: MenuViewModel = hiltViewModel(),
     path: String,
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
+    mode: MenuMode = MenuMode.OUTSIDE
 ) {
 
     val uiState = viewModel.state
 
     LaunchedEffect(path) {
-       viewModel.onEvent(Event.OnGetMenuActions(path))
+       viewModel.onEvent(Event.OnGetMenuActions(path,mode))
     }
 
     MenuScreen(
@@ -28,4 +29,8 @@ fun MenuRoute(
         }
     )
 
+}
+
+enum class MenuMode{
+    INSIDE, OUTSIDE
 }

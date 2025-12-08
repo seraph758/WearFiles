@@ -142,5 +142,15 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
         }
     }
 
+    override fun isDirectory(path: String): Boolean {
+        return try{
+            val file = File(path)
+            file.isDirectory
+        }
+        catch (e: Exception){
+            false
+        }
+    }
+
 
 }

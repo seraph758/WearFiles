@@ -2,6 +2,8 @@ package com.dertefter.menu.presentation.content
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.CreateNewFolder
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -12,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
@@ -51,62 +54,45 @@ fun ContentSuccess(
             modifier = Modifier.padding(4.dp)
         ) {
 
-            item {
+            items(actions) { action ->
 
-                FileItem(
-                    transformationSpec = transformationSpec,
-                    text = name,
-                    icon = Icons.Filled.Folder,
-                    onClick = {},
-                    type = FileItemType.PRIMARY
-                )
-
-                FileItemHigh(
-                    transformationSpec = transformationSpec,
-                    text = name,
-                    icon = Icons.Filled.Folder,
-                    onClick = {}
-                )
-            }
-
-            actions.forEach { action ->
-
-                val textRes = when (action.type) {
-                    MenuActionType.DELETE -> R.string.delete
-                    MenuActionType.RENAME -> R.string.rename
-                    MenuActionType.NEW_DIR -> R.string.new_dir
+                val text = when (action.type) {
+                    MenuActionType.DELETE -> stringResource(R.string.delete)
+                    MenuActionType.RENAME -> stringResource(R.string.rename)
+                    MenuActionType.NEW_DIR -> stringResource(R.string.new_dir)
+                    MenuActionType.OPEN -> name
                 }
 
                 val icon = when (action.type) {
                     MenuActionType.DELETE -> Icons.Default.Delete
                     MenuActionType.RENAME -> Icons.Default.Edit
                     MenuActionType.NEW_DIR -> Icons.Default.CreateNewFolder
+                    MenuActionType.OPEN -> Icons.AutoMirrored.Filled.ArrowForward
                 }
 
                 val event: Event = when (action.type) {
-                    MenuActionType.DELETE -> { Event.OnNavigateToRename(action.path) }
-                    MenuActionType.RENAME -> { (Event.OnNavigateToRename(action.path)) }
-                    MenuActionType.NEW_DIR -> { (Event.OnNavigateToNewDirectory(action.path)) }
+                    MenuActionType.DELETE -> Event.OnNavigateToRename(action.path)
+                    MenuActionType.RENAME -> Event.OnNavigateToRename(action.path)
+                    MenuActionType.NEW_DIR -> Event.OnNavigateToNewDirectory(action.path)
+                    MenuActionType.OPEN -> Event.OnNavigateToNewDirectory(action.path)
                 }
 
-                val type = if (action.type == MenuActionType.DELETE) FileItemType.ERROR else FileItemType.DEFAULT
-
-                item {
-                    FileItem(
-                        transformationSpec = transformationSpec,
-                        text = stringResource(textRes),
-                        icon = icon,
-                        onClick = { onEvent(event) },
-                        type = type
-                    )
+                val type = when (action.type) {
+                    MenuActionType.DELETE -> FileItemType.ERROR
+                    MenuActionType.OPEN -> FileItemType.PRIMARY
+                    else -> FileItemType.DEFAULT
                 }
 
-
+                FileItem(
+                    transformationSpec = transformationSpec,
+                    text = text,
+                    icon = icon,
+                    onClick = { onEvent(event) },
+                    type = type
+                )
             }
-
-
-
         }
+
 
     }
 

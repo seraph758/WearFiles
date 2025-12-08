@@ -20,6 +20,14 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
         }
     }
 
+    override fun getFileName(path: String): Result<String> {
+        return runCatching {
+            val file = File(path)
+            file.name
+        }
+    }
+
+
     override suspend fun getParentFilePath(path: String): String? {
 
         try{
@@ -61,6 +69,8 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
     override fun getBasePath(): String {
         return Environment.getExternalStorageDirectory().absolutePath
     }
+
+
 
 
     override fun canNavigateUpFrom(path: String): Boolean {

@@ -8,6 +8,7 @@ import com.dertefter.file_list.FileListRoute
 import com.dertefter.menu.MenuRoute
 import com.dertefter.navigation.Routes
 import com.dertefter.onboarding.OnBoardingRoute
+import com.dertefter.rename.RenameRoute
 import com.dertefter.text_viewer.TextViewerRoute
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.nav.SwipeDismissableNavHost
@@ -63,6 +64,16 @@ fun NavigationGraph(
 
             TextViewerRoute(
                 uriString = args.uriString
+            )
+        }
+
+
+        composable<Routes.Rename> { backStackEntry ->
+
+            val args = backStackEntry.toRoute<Routes.Rename>()
+
+            RenameRoute(
+                path = args.path
             )
         }
 

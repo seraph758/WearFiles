@@ -47,6 +47,8 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:design"))
 
+    implementation(project(":feature:rename"))
+
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)

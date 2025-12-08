@@ -18,6 +18,12 @@ sealed interface Routes {
         val path: String
     ) : Routes
 
+
+    @Serializable
+    data class Rename(
+        val path: String
+    ) : Routes
+
     @Serializable
     data class TextViewer(val uriString: String) : Routes
 }

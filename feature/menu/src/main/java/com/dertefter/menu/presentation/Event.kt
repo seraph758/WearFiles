@@ -6,6 +6,8 @@ sealed class Event {
 
     object OnNavigateBack : Event()
 
+    data class OnNavigateToRename(val path: String) : Event()
+
     data class OnGetMenuActions(val path: String) : Event()
 
 

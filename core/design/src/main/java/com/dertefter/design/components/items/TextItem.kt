@@ -61,12 +61,13 @@ fun TransformingLazyColumnItemScope.TextItem(
     {
 
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = text,
-                textAlign = textAlign,
                 style = textStyle,
+                textAlign = textAlign,
                 color = textColor,
             )
         }

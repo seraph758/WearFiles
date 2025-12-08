@@ -7,13 +7,15 @@ import androidx.lifecycle.ViewModel
 import com.dertefter.menu.presentation.content.UiState
 import com.dertefter.menu.usecase.GetMenuActionsUseCase
 import com.dertefter.menu.usecase.NavigateBackUseCase
+import com.dertefter.menu.usecase.NavigateToRenameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
     private val navigateBackUseCase: NavigateBackUseCase,
-    private val getMenuActionsUseCase: GetMenuActionsUseCase
+    private val getMenuActionsUseCase: GetMenuActionsUseCase,
+    private  val navigateToRenameUseCase: NavigateToRenameUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
@@ -23,6 +25,10 @@ class MenuViewModel @Inject constructor(
         when (event) {
             is Event.OnNavigateBack -> {
                 navigateBackUseCase()
+            }
+
+            is Event.OnNavigateToRename -> {
+                navigateToRenameUseCase(event.path)
             }
 
             is Event.OnGetMenuActions -> {

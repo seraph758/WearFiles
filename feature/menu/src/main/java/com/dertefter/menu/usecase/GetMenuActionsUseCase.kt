@@ -2,6 +2,7 @@ package com.dertefter.menu.usecase
 
 import com.dertefter.data.repository.FileManagerRepository
 import com.dertefter.menu.presentation.MenuAction
+import com.dertefter.menu.presentation.MenuActionType
 import javax.inject.Inject
 
 class GetMenuActionsUseCase @Inject constructor(
@@ -13,7 +14,7 @@ class GetMenuActionsUseCase @Inject constructor(
         val canRename = fileManagerRepository.canRename(path)
 
         if (canRename){
-            actions.add(MenuAction.RENAME)
+            actions.add(MenuAction(MenuActionType.RENAME, path = path))
         }
 
         return actions

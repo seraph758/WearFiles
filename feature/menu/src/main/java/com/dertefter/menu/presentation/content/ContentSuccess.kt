@@ -2,7 +2,6 @@ package com.dertefter.menu.presentation.content
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.runtime.Composable
@@ -19,6 +18,7 @@ import com.dertefter.design.components.items.FileItemHigh
 import com.dertefter.menu.R
 import com.dertefter.menu.presentation.Event
 import com.dertefter.menu.presentation.MenuAction
+import com.dertefter.menu.presentation.MenuActionType
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
@@ -59,16 +59,16 @@ fun ContentSuccess(
 
             for (action in actions){
 
-                when (action){
-                    MenuAction.DELETE -> {}
-                    MenuAction.RENAME -> {
+                when (action.type){
+                    MenuActionType.DELETE -> {}
+                    MenuActionType.RENAME -> {
                         item {
                             FileItem(
                                 transformationSpec,
                                 text = stringResource(R.string.rename),
                                 icon = Icons.Default.Edit,
                                 onClick = {
-
+                                    onEvent(Event.OnNavigateToRename(action.path))
                                 }
                             )
                         }

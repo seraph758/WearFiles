@@ -1,5 +1,6 @@
 package com.dertefter.menu.presentation
 
-enum class MenuAction {
-   RENAME, DELETE,
-}
+data class MenuAction(
+    val type: MenuActionType,
+    val path: String
+)

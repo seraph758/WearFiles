@@ -12,6 +12,8 @@ interface FileManagerRepository {
 
     fun getBasePath(): String
 
+    fun getFileName(path: String): Result<String>
+
     fun canNavigateUpFrom(path: String): Boolean
 
     fun canRename(path: String): Boolean

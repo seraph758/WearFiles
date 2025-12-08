@@ -51,7 +51,7 @@ fun ContentSuccess(
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding,
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier.padding(4.dp).padding(top = 24.dp)
         ) {
 
             items(actions) { action ->
@@ -74,7 +74,7 @@ fun ContentSuccess(
                     MenuActionType.DELETE -> Event.OnNavigateToRename(action.path)
                     MenuActionType.RENAME -> Event.OnNavigateToRename(action.path)
                     MenuActionType.NEW_DIR -> Event.OnNavigateToNewDirectory(action.path)
-                    MenuActionType.OPEN -> Event.OnNavigateToNewDirectory(action.path)
+                    MenuActionType.OPEN -> Event.OnHeaderClick(action.path)
                 }
 
                 val type = when (action.type) {

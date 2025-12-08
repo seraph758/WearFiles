@@ -1,6 +1,5 @@
 package com.dertefter.file_list.presentation.content
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
@@ -20,6 +19,7 @@ import com.dertefter.design.components.items.FileItem
 import com.dertefter.design.components.items.PathItem
 import com.dertefter.file_list.presentation.Action
 import com.dertefter.file_list.presentation.Event
+import com.dertefter.menu.MenuMode
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import java.io.File
@@ -87,7 +87,7 @@ fun ContentSuccess(
                        },
 
                        onLongClick = {
-                           onEvent(Event.OnShowMenuFor(file.absolutePath))
+                           onEvent(Event.OnShowMenuFor(file.absolutePath, menuMode = MenuMode.OUTSIDE))
                        }
 
                    )
@@ -103,7 +103,7 @@ fun ContentSuccess(
                         { onEvent(Event.OnNavigateBack) }
                     } else { null },
                     onMoreClick = if (actions.contains(Action.MORE)) {
-                        { onEvent(Event.OnShowMenuFor(path = path.path)) }
+                        { onEvent(Event.OnShowMenuFor(path = path.path, menuMode = MenuMode.INSIDE)) }
                     } else { null }
 
                 )

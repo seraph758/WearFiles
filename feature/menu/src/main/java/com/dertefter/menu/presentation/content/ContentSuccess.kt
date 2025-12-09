@@ -1,15 +1,12 @@
 package com.dertefter.menu.presentation.content
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.CreateNewFolder
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Folder
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,14 +16,11 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import com.dertefter.design.components.items.FileItem
-import com.dertefter.design.components.items.FileItemHigh
 import com.dertefter.design.components.items.FileItemType
 import com.dertefter.menu.R
 import com.dertefter.menu.presentation.Event
 import com.dertefter.menu.presentation.MenuAction
 import com.dertefter.menu.presentation.MenuActionType
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 @Composable
 fun ContentSuccess(
@@ -36,22 +30,20 @@ fun ContentSuccess(
 ) {
 
     val columnState = rememberTransformingLazyColumnState()
-    val contentPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.BodyText,
-        last = ColumnItemType.Button,
-    )
 
     val transformationSpec = rememberTransformationSpec()
 
     ScreenScaffold(
-        scrollState = columnState, contentPadding = contentPadding
+        scrollState = columnState,
+        contentPadding = PaddingValues(
+            top = 72.dp, start = 10.dp, end = 10.dp, bottom = 72.dp
+        )
     )
     { contentPadding ->
 
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding,
-            modifier = Modifier.padding(4.dp).padding(top = 24.dp)
         ) {
 
             items(actions) { action ->
@@ -71,7 +63,7 @@ fun ContentSuccess(
                 }
 
                 val event: Event = when (action.type) {
-                    MenuActionType.DELETE -> Event.OnNavigateToRename(action.path)
+                    MenuActionType.DELETE -> Event.OnNavigateToDelete(action.path)
                     MenuActionType.RENAME -> Event.OnNavigateToRename(action.path)
                     MenuActionType.NEW_DIR -> Event.OnNavigateToNewDirectory(action.path)
                     MenuActionType.OPEN -> Event.OnHeaderClick(action.path)
@@ -102,7 +94,7 @@ fun ContentSuccess(
 @Preview(device = "id:wearos_small_round", showSystemUi = false, showBackground = true)
 fun ContentFailedPreview(){
     ContentSuccess(
-"",
+"really",
         emptyList(),
         onEvent = {}
     )

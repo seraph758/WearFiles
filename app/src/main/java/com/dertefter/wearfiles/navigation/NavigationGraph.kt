@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
+import com.dertefter.delete.DeleteRoute
 import com.dertefter.file_list.FileListRoute
 import com.dertefter.navigation.Routes
 import com.dertefter.new_directory.NewDirectoryRoute
@@ -70,6 +71,15 @@ fun NavigationGraph(
             val args = backStackEntry.toRoute<Routes.NewDirectory>()
 
             NewDirectoryRoute(
+                path = args.path
+            )
+        }
+
+        composable<Routes.Delete> { backStackEntry ->
+
+            val args = backStackEntry.toRoute<Routes.Delete>()
+
+            DeleteRoute(
                 path = args.path
             )
         }

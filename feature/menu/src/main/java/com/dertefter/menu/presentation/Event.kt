@@ -9,6 +9,8 @@ sealed class Event {
 
     data class OnNavigateToRename(val path: String) : Event()
 
+    data class OnNavigateToDelete(val path: String) : Event()
+
     data class OnHeaderClick(val path: String) : Event()
     data class OnNavigateToNewDirectory(val path: String) : Event()
 

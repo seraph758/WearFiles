@@ -27,10 +27,6 @@ class GetMenuActionsUseCase @Inject constructor(
                         add(MenuAction(MenuActionType.RENAME, path))
                     }
 
-                    if (fileManagerRepository.canCreateDirHere(path)) {
-                        add(MenuAction(MenuActionType.NEW_DIR, path))
-                    }
-
                     if (fileManagerRepository.canBeDeleted(path)) {
                         add(MenuAction(MenuActionType.DELETE, path))
                     }

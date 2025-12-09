@@ -8,6 +8,7 @@ import com.dertefter.menu.presentation.content.UiState
 import com.dertefter.menu.usecase.GetMenuActionsUseCase
 import com.dertefter.menu.usecase.IsDirectoryUseCase
 import com.dertefter.menu.usecase.NavigateBackUseCase
+import com.dertefter.menu.usecase.NavigateToDeleteUseCase
 import com.dertefter.menu.usecase.NavigateToNewDirectoryUseCase
 import com.dertefter.menu.usecase.NavigateToPathUseCase
 import com.dertefter.menu.usecase.NavigateToRenameUseCase
@@ -24,6 +25,7 @@ class MenuViewModel @Inject constructor(
     private val navigateToPathUseCase: NavigateToPathUseCase,
     private val openFileUseCase: OpenFileUseCase,
     private val isDirectoryUseCase: IsDirectoryUseCase,
+    private val navigateToDeleteUseCase: NavigateToDeleteUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
@@ -54,6 +56,10 @@ class MenuViewModel @Inject constructor(
 
             is Event.OnNavigateToRename -> {
                 navigateToRenameUseCase(event.path)
+            }
+
+            is Event.OnNavigateToDelete -> {
+                navigateToDeleteUseCase(event.path)
             }
 
             is Event.OnNavigateToNewDirectory -> {

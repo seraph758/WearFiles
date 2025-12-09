@@ -24,5 +24,10 @@ sealed interface Routes {
     ) : Routes
 
     @Serializable
+    data class Delete(
+        val path: String
+    ) : Routes
+
+    @Serializable
     data class TextViewer(val uriString: String) : Routes
 }

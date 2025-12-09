@@ -9,7 +9,7 @@ interface FileManagerRepository {
 
     suspend fun getParentFilePath(path: String): String?
     fun hasFileAccess(): Boolean
-    fun deleteFile(file: File): Result<Boolean>
+    fun delete(path: String): Result<Boolean>
     fun createDirectory(path: String, name: String): Result<Boolean>
 
     fun getBasePath(): String

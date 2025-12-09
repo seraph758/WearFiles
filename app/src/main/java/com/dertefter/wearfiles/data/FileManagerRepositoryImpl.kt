@@ -60,8 +60,11 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
         } else true
     }
 
-    override fun deleteFile(file: File): Result<Boolean> {
+    override fun delete(path: String): Result<Boolean> {
         return runCatching {
+
+            val file = File(path)
+
             if (!file.exists()) throw IllegalArgumentException("File does not exist: ${file.path}")
 
             if (file.isDirectory) {

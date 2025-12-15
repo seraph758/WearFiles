@@ -9,6 +9,9 @@ sealed interface Routes {
     data object OnBoarding : Routes
 
     @Serializable
+    data object Home : Routes
+
+    @Serializable
     data class FilesList(
         val path: String? = null
     ) : Routes

@@ -1,4 +1,4 @@
-package com.dertefter.onboarding.usecase
+package com.dertefter.wearfiles.usecase
 
 import com.dertefter.data.repository.FileManagerRepository
 import javax.inject.Inject

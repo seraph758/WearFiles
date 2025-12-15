@@ -14,11 +14,6 @@ fun OnBoardingRoute(
 
     val uiState = viewModel.state
 
-    LaunchedEffect(Unit) {
-        viewModel.onEvent(Event.OnCheckPermissions)
-    }
-
-
     OnBoardingScreen(
         uiState = uiState,
         onEvent = viewModel::onEvent,

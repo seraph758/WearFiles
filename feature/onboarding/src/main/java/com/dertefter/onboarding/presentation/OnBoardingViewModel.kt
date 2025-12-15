@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.onboarding.presentation.content.DialogState
 import com.dertefter.onboarding.presentation.content.UiState
-import com.dertefter.onboarding.usecase.CheckFileAccessUseCase
-import com.dertefter.onboarding.usecase.NavigateToFileListUseCase
 import com.dertefter.onboarding.usecase.OpenLinkOnPhoneUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,13 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
-    val checkFileAccessUseCase: CheckFileAccessUseCase,
     val openLinkOnPhoneUseCase: OpenLinkOnPhoneUseCase,
-    val navigateToFileListUseCase: NavigateToFileListUseCase
 ) : ViewModel() {
 
 
-    var state by mutableStateOf(UiState.LOADING)
+    var state by mutableStateOf(UiState.FAILED)
         private set
 
     var dialogState by mutableStateOf(DialogState.CLOSED)
@@ -33,14 +29,6 @@ class OnBoardingViewModel @Inject constructor(
         when (event) {
             is Event.OnOpenLinkOnPhone -> {
                 openLinkOnPhone()
-            }
-
-            is Event.OnCheckPermissions -> {
-                checkPermissions()
-            }
-
-            is Event.OnNavigateToFileList -> {
-                navigateToFileList()
             }
 
             is Event.CloseDialog -> {
@@ -68,26 +56,6 @@ class OnBoardingViewModel @Inject constructor(
                     onEvent(Event.ShowDialog(isSuccessful = false))
                 }
 
-        }
-
-    }
-
-    private fun navigateToFileList() {
-        navigateToFileListUseCase()
-    }
-
-    private fun checkPermissions(){
-        state = UiState.LOADING
-
-        val hasFileAccess = checkFileAccessUseCase()
-
-        state = if (hasFileAccess){
-            viewModelScope.launch {
-                onEvent(Event.OnNavigateToFileList)
-            }
-            UiState.SUCCESS
-        } else {
-            UiState.FAILED
         }
 
     }

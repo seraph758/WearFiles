@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":core:design"))
     implementation(project(":core:navigation"))
 
+    implementation(project(":feature:home"))
     implementation(project(":feature:onboarding"))
     implementation(project(":feature:file_list"))
     implementation(project(":feature:rename"))

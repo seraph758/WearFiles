@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 
 @Composable
 fun ContentLoading(){
@@ -22,7 +22,7 @@ fun ContentLoading(){
 }
 
 @Composable
-@Preview
+@WearPreviewDevices
 fun ContentLoadingPreview(){
     ContentLoading()
 }

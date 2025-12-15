@@ -8,8 +8,8 @@ kotlin {
 
 
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -37,15 +37,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.wear.compose.material3)
+    implementation(libs.androidx.wear.compose.foundation)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.horologist.compose.layout)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
-    implementation(libs.androidx.navigation.compose)
 }

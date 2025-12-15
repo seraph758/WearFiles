@@ -19,18 +19,10 @@ import com.google.android.horologist.compose.nav.composable
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun NavigationGraph(
-    navController: NavHostController, initialFileUri: Uri?
+    navController: NavHostController
 ) {
-
-    val startRoute = if (initialFileUri != null) {
-        Routes.TextViewer(initialFileUri.toString())
-    } else {
-        Routes.OnBoarding
-    }
-
-
     SwipeDismissableNavHost(
-        navController = navController, startDestination = startRoute
+        navController = navController, startDestination = Routes.OnBoarding
     ) {
 
         composable<Routes.OnBoarding> {

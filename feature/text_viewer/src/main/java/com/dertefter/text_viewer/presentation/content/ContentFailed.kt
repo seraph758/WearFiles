@@ -1,8 +1,7 @@
 package com.dertefter.text_viewer.presentation.content
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import com.dertefter.design.components.basic_screens.ContentFailedDefaultScreen
 import com.dertefter.text_viewer.presentation.Event
 
@@ -13,13 +12,13 @@ fun ContentFailed(
 ){
     ContentFailedDefaultScreen(
         e = e,
-        title = "",
+        title = "2",
         onBackClick = {}
     )
 }
 
 @Composable
-@Preview(device = "id:wearos_large_round", showBackground = true, showSystemUi = false)
+@WearPreviewDevices
 fun ContentErrorPreview(){
     ContentFailed(null, {})
 }

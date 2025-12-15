@@ -1,22 +1,15 @@
 package com.dertefter.design.components.items
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,7 +17,6 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CardDefaults
-import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
@@ -36,8 +28,7 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 fun TransformingLazyColumnItemScope.FileTopItem(
     transformationSpec: TransformationSpec,
     modifier: Modifier = Modifier,
-    text: String,
-    onMoreClick: () -> Unit
+    text: String
 ) {
     Card(
         modifier = modifier
@@ -53,29 +44,14 @@ fun TransformingLazyColumnItemScope.FileTopItem(
         contentPadding = PaddingValues(0.dp),
 
     ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-                .padding(horizontal = 6.dp)
-                .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = Icons.Default.MoreHoriz,
-                contentDescription = null,
-                Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.secondary,
-                        shape = RoundedCornerShape(50)
-                    )
-                    .padding(6.dp)
-                    .clickable(
-                        onClick = onMoreClick
-                    )
-                ,
-                tint = MaterialTheme.colorScheme.onSecondary
-            )
 
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .fillMaxSize(),
+            contentAlignment = Alignment.CenterStart
+
+        ){
             Text(
                 text = text,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -83,6 +59,8 @@ fun TransformingLazyColumnItemScope.FileTopItem(
                 overflow = TextOverflow.Ellipsis
             )
         }
+
+
     }
 }
 
@@ -94,8 +72,7 @@ private fun FileTopItemPreview() {
         item {
             FileTopItem(
                 transformationSpec = transformationSpec,
-                text = "Preview Tex gdgdgdgdgdgt",
-                onMoreClick = {}
+                text = "Preview Tex gdgdgdgdgdgt"
             )
         }
     }

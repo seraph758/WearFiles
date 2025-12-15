@@ -27,6 +27,9 @@ class TextViewerViewModel @Inject constructor(
                 getFileTextContent(event.uriString)
             }
 
+            is Event.OnExit -> {
+            }
+
         }
     }
 

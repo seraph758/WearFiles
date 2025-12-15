@@ -3,17 +3,24 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url = 'https://jitpack.io' }
+    }
+    plugins {
+        id("com.autonomousapps.dependency-analysis") version "3.5.1"
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        maven { url = 'https://jitpack.io' }
     }
 }
+
+
+
+
+
 rootProject.name = "WearFiles"
 include ':app'
 include ':core:design'

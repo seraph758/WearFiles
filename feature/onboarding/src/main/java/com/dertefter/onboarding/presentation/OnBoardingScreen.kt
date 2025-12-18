@@ -33,7 +33,8 @@ fun OnBoardingScreen(
         onDismissRequest = {
             onEvent(Event.CloseDialog)
         }
-    ) {
+    )
+    {
         Alert(
             icon = {
                 if (dialogState == DialogState.SUCCESS){

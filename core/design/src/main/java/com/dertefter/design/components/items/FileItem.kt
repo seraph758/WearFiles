@@ -24,7 +24,9 @@ import androidx.wear.compose.material3.*
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import androidx.compose.ui.platform.LocalContext
 
 enum class FileItemType {
     DEFAULT, ERROR, PRIMARY
@@ -37,6 +39,7 @@ fun TransformingLazyColumnItemScope.FileItem(
     text: String,
     icon: ImageVector,
     thumbnail: ImageBitmap? = null,
+    thumbnailUrl: String? = null,
     onClick: () -> Unit,
     onLongClick: () -> Unit = {},
     type: FileItemType = FileItemType.DEFAULT
@@ -108,9 +111,23 @@ fun TransformingLazyColumnItemScope.FileItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
+            val context = LocalContext.current
+
             if (thumbnail != null) {
                 Image(
                     bitmap = thumbnail,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(insideRadius))
+                )
+            } else if (!thumbnailUrl.isNullOrEmpty()) {
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(thumbnailUrl)
+                        .crossfade(true)
+                        .build(),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

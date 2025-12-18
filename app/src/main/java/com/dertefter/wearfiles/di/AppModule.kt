@@ -25,4 +25,5 @@ object AppModule {
     fun provideContentResolver(
         @ApplicationContext context: Context
     ): ContentResolver = context.contentResolver
+
 }

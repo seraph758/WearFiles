@@ -1,13 +1,19 @@
 package com.dertefter.wearfiles.data
 
+import android.Manifest
+import android.content.Context
 import android.os.Build
 import android.os.Environment
+import androidx.core.content.ContextCompat
 import com.dertefter.data.repository.FileManagerRepository
-import kotlinx.coroutines.delay
 import java.io.File
 import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
+class FileManagerRepositoryImpl @Inject constructor(
+    @param:ApplicationContext
+    private val context: Context
+) : FileManagerRepository {
 
     override suspend fun getFiles(path: String): Result<List<File>> {
         return runCatching {
@@ -49,7 +55,7 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
         try{
             val file = File(path)
             return file.parent
-        }catch (e: Exception){
+        }catch (_: Exception){
             return null
         }
     }
@@ -58,6 +64,38 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
         } else true
+    }
+
+    override fun hasMediaAccess(): Boolean {
+        if (hasFileAccess()) {
+            return true
+        }
+        try {
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                    val readImages = ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+                    val readVideos = ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_MEDIA_VIDEO
+                    ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+                    return readImages && readVideos
+                }
+
+                else -> {
+                    return ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+                }
+            }
+        } catch (_: Exception) {
+            return false
+        }
     }
 
     override fun delete(path: String): Result<Boolean> {
@@ -109,7 +147,7 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
             if (!parent.canWrite()) return false
 
             return true
-        } catch (e: Exception){
+        } catch (_: Exception){
             return false
         }
 
@@ -126,7 +164,7 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
             if (!parent.canWrite()) return false
 
             true
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             false
         }
     }
@@ -140,7 +178,7 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
             if (!dir.canWrite()) return false
 
             true
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             false
         }
     }
@@ -150,7 +188,7 @@ class FileManagerRepositoryImpl @Inject constructor() : FileManagerRepository {
             val file = File(path)
             file.isDirectory
         }
-        catch (e: Exception){
+        catch (_: Exception){
             false
         }
     }

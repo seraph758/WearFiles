@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
 import com.dertefter.delete.DeleteRoute
 import com.dertefter.file_list.FileListRoute
+import com.dertefter.gallery.GalleryRoute
 import com.dertefter.home.HomeRoute
 import com.dertefter.navigation.Routes
 import com.dertefter.new_directory.NewDirectoryRoute
@@ -23,7 +24,7 @@ fun NavigationGraph(
     navController: NavHostController
 ) {
     SwipeDismissableNavHost(
-        navController = navController, startDestination = Routes.Home
+        navController = navController, startDestination = Routes.Gallery
     ) {
 
         composable<Routes.Home> {
@@ -32,6 +33,10 @@ fun NavigationGraph(
 
         composable<Routes.OnBoarding> {
             OnBoardingRoute()
+        }
+
+        composable<Routes.Gallery> {
+            GalleryRoute()
         }
 
         composable<Routes.FilesList> { backStackEntry ->

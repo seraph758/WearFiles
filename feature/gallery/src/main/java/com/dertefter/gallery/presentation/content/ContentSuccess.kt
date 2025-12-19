@@ -13,19 +13,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListSubHeader
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SurfaceTransformation
+import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.dertefter.design.components.items.TextItem
+import com.dertefter.gallery.R
 import com.dertefter.gallery.data.MediaItem
 import com.dertefter.gallery.presentation.Event
+import com.google.android.horologist.compose.layout.ColumnItemType
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 @Suppress("UNUSED_PARAMETER")
 @Composable
@@ -36,13 +45,16 @@ fun ContentSuccess(
 
     val columnState = rememberTransformingLazyColumnState()
 
+    val contentPadding = rememberResponsiveColumnPadding(
+        first = ColumnItemType.ListHeader,
+        last = ColumnItemType.Button,
+    )
+
     val transformationSpec = rememberTransformationSpec()
 
     ScreenScaffold(
         scrollState = columnState,
-        contentPadding = PaddingValues(
-            top = 52.dp, start = 10.dp, end = 10.dp, bottom = 52.dp
-        ),
+        contentPadding = contentPadding,
     )
     { contentPadding ->
 
@@ -52,6 +64,39 @@ fun ContentSuccess(
             state = columnState,
             contentPadding = contentPadding,
         ) {
+
+
+            item {
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec),
+                    transformation = SurfaceTransformation(transformationSpec)
+                ){
+                    Text(
+                        text = stringResource(R.string.gallery_title),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+
+            if (media.isEmpty()){
+                item {
+                    ListSubHeader(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec),
+                        transformation = SurfaceTransformation(transformationSpec)
+                    ){
+                        Text(
+                            text = stringResource(R.string.nothing_here),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
 
             media.chunked(3).forEach { rowItems ->
                 item {

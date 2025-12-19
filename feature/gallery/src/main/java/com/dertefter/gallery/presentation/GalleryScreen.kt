@@ -46,6 +46,7 @@ fun GalleyScreen(onEvent: (Event) -> Unit, uiState: UiState, dialogState: Permis
             title = stringResource(R.string.perm_title),
             content = listOf({
             Button(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         arrayOf(

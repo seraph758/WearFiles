@@ -94,7 +94,7 @@ fun GalleyScreen(onEvent: (Event) -> Unit, uiState: UiState, dialogState: Permis
         when (uiState) {
             is UiState.Loading -> ContentLoadingDefaultScreen()
             is UiState.Success -> ContentSuccess(
-                uiState.mediaItems
+                uiState.mediaItems, onEvent
             )
 
             is UiState.Failed -> {

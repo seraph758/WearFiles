@@ -1,5 +1,6 @@
 package com.dertefter.gallery.presentation.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,11 +25,13 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dertefter.gallery.data.MediaItem
+import com.dertefter.gallery.presentation.Event
 
+@Suppress("UNUSED_PARAMETER")
 @Composable
 fun ContentSuccess(
     media: List<MediaItem>,
-    onClick: (MediaItem) -> Unit = {}
+    onEvent: (Event) -> Unit,
 ) {
 
     val columnState = rememberTransformingLazyColumnState()
@@ -74,6 +77,11 @@ fun ContentSuccess(
                                         .weight(1f)
                                         .aspectRatio(1f)
                                         .clip(RoundedCornerShape(50))
+                                        .clickable(
+                                            onClick = {
+                                                onEvent(Event.OnOpenFile(item.uri, item.isVideo, item.displayName))
+                                            }
+                                        )
                                 )
                             }
                             repeat(3 - rowItems.size) {
@@ -100,6 +108,7 @@ fun ContentSuccess(
 @Preview(device = "id:wearos_square", showBackground = true)
 fun ContentFailedPreview(){
     ContentSuccess(
-        emptyList()
+        emptyList(),
+        {  }
     )
 }

@@ -9,6 +9,7 @@ import com.dertefter.gallery.presentation.content.PermissionDialogState
 import com.dertefter.gallery.presentation.content.UiState
 import com.dertefter.gallery.usecase.CheckPermissionsUseCase
 import com.dertefter.gallery.usecase.GetMediaUseCase
+import com.dertefter.gallery.usecase.OpenFileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(
     private val getMediaUseCase: GetMediaUseCase,
     private val checkPermissionsUseCase: CheckPermissionsUseCase,
+    private val openFileUseCase: OpenFileUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
@@ -45,6 +47,10 @@ class GalleryViewModel @Inject constructor(
                     permissionDialogState = PermissionDialogState.SHOW
                 }
 
+            }
+
+            is Event.OnOpenFile -> {
+                openFileUseCase(event.uri)
             }
         }
     }

@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.dertefter.design.theme.TheTheme
+import com.dertefter.image_viewer.ImageViewerRoute
 import com.dertefter.navigation.Navigator
 import com.dertefter.navigation.Routes
 import com.dertefter.text_viewer.TextViewerRoute
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TextViewerActivity : ComponentActivity() {
+class ImageViewerActivity : ComponentActivity() {
 
     private var incomingFileUri: Uri? = null
 
@@ -27,19 +28,14 @@ class TextViewerActivity : ComponentActivity() {
 
         if (intent.action == Intent.ACTION_VIEW && intent.data != null) {
             val uri = intent.data!!
-            val mimeType = contentResolver.getType(uri)
-            if (mimeType != null && mimeType.startsWith("text/")) {
-                incomingFileUri = uri
-            } else {
-                finish()
-            }
+            incomingFileUri = uri
         }
 
 
         setContent {
             TheTheme {
                 AppScaffold {
-                    TextViewerRoute(incomingFileUri.toString())
+                    ImageViewerRoute(incomingFileUri.toString())
                 }
 
             }

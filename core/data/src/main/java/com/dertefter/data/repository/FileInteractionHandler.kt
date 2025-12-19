@@ -1,6 +1,10 @@
 package com.dertefter.data.repository
 
+import android.net.Uri
+
 interface FileInteractionHandler {
 
-    fun openFile(path: String)
+    fun openFileByPath(path: String)
+
+    fun openFileByUri(uri: Uri)
 }

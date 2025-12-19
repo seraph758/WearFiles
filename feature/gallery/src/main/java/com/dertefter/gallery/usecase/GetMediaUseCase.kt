@@ -13,25 +13,22 @@ class GetMediaUseCase @Inject constructor(
     private val contentResolver: ContentResolver
 ) {
 
-    operator fun invoke(limit: Int = 100): Result<List<MediaItem>> {
+    operator fun invoke(): Result<List<MediaItem>> {
         return try {
             val result = mutableListOf<MediaItem>()
 
-            result += queryImages(limit)
-            result += queryVideos(limit)
+            result += queryImages()
+            result += queryVideos()
 
-            val sorted = result.sortedByDescending { it.id }
-                .take(limit)
+            val finalList = result.sortedByDescending { it.id }
 
-            Log.e("sorted", "$sorted")
-
-            Result.success(sorted)
+            Result.success(finalList)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    private fun queryImages(limit: Int): List<MediaItem> {
+    private fun queryImages(): List<MediaItem> {
         val list = mutableListOf<MediaItem>()
 
         val projection = arrayOf(
@@ -51,11 +48,10 @@ class GetMediaUseCase @Inject constructor(
                     ContentResolver.QUERY_ARG_SORT_DIRECTION,
                     ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
                 )
-                putInt(ContentResolver.QUERY_ARG_LIMIT, limit)
             }
             contentResolver.query(uri, projection, args, null)
         } else {
-            val sort = "${MediaStore.Images.Media._ID} DESC LIMIT $limit"
+            val sort = "${MediaStore.Images.Media._ID} DESC"
             contentResolver.query(uri, projection, null, null, sort)
         }
 
@@ -67,13 +63,12 @@ class GetMediaUseCase @Inject constructor(
                 val id = c.getLong(idIndex)
                 val name = c.getString(nameIndex)
 
-                val contentUri =
-                    ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+                val contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
 
                 list.add(
                     MediaItem(
                         id = id,
-                        uri = contentUri.toString(),
+                        uri = contentUri,
                         displayName = name,
                         isVideo = false
                     )
@@ -84,7 +79,7 @@ class GetMediaUseCase @Inject constructor(
         return list
     }
 
-    private fun queryVideos(limit: Int): List<MediaItem> {
+    private fun queryVideos(): List<MediaItem> {
         val list = mutableListOf<MediaItem>()
 
         val projection = arrayOf(
@@ -104,11 +99,10 @@ class GetMediaUseCase @Inject constructor(
                     ContentResolver.QUERY_ARG_SORT_DIRECTION,
                     ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
                 )
-                putInt(ContentResolver.QUERY_ARG_LIMIT, limit)
             }
             contentResolver.query(uri, projection, args, null)
         } else {
-            val sort = "${MediaStore.Video.Media._ID} DESC LIMIT $limit"
+            val sort = "${MediaStore.Video.Media._ID} DESC"
             contentResolver.query(uri, projection, null, null, sort)
         }
 
@@ -126,7 +120,7 @@ class GetMediaUseCase @Inject constructor(
                 list.add(
                     MediaItem(
                         id = id,
-                        uri = contentUri.toString(),
+                        uri = contentUri,
                         displayName = name,
                         isVideo = true
                     )

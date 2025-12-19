@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(
             pinned = listOf(
                 Pinned(
                     PinnedType.MEDIA,
-                    Routes.OnBoarding
+                    Routes.Gallery
                 )
             )
         )

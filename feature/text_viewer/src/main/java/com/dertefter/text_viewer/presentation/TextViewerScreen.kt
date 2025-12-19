@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.dertefter.text_viewer.presentation.content.ContentFailed
 import com.dertefter.text_viewer.presentation.content.ContentLoading
 import com.dertefter.text_viewer.presentation.content.ContentSuccess
-import com.dertefter.text_viewer.presentation.content.UiState
+import com.dertefter.text_viewer.presentation.UiState
 
 @Composable
 fun TextViewerScreen(onEvent: (Event) -> Unit, uiState: UiState) {

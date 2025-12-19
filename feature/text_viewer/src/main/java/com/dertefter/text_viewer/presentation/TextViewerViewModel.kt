@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.text_viewer.presentation.content.UiState
+import com.dertefter.text_viewer.presentation.UiState
 import com.dertefter.text_viewer.usecase.GetFileNameUseCase
 import com.dertefter.text_viewer.usecase.GetFileTextContentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

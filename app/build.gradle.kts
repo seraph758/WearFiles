@@ -57,7 +57,9 @@ dependencies {
     implementation(project(":feature:rename"))
     implementation(project(":feature:delete"))
     implementation(project(":feature:new_directory"))
+
     implementation(project(":feature:text_viewer"))
+    implementation(project(":feature:image_viewer"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)

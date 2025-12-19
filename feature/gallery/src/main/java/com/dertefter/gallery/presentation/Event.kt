@@ -1,5 +1,6 @@
 package com.dertefter.gallery.presentation
 
+import android.net.Uri
 import com.dertefter.gallery.data.MediaItem
 
 sealed class Event {
@@ -9,6 +10,7 @@ sealed class Event {
 
     object OnNavigateBack : Event()
     data class OnMediaClick(val item: MediaItem) : Event()
+    data class OnOpenFile(val uri: Uri, val isVideo: Boolean, val displayName: String?) : Event()
 
 
 }

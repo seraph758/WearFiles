@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
     <application
         android:name=".WearFiles"
         android:allowBackup="true"
@@ -49,6 +50,22 @@
                 <data android:scheme="content" />
                 <data android:mimeType="text/plain" />
                 <data android:mimeType="text/markdown" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".viewers.ImageViewerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
 

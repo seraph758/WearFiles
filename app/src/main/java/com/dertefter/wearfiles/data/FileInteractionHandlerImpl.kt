@@ -3,8 +3,10 @@ package com.dertefter.wearfiles.data
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import com.dertefter.data.repository.FileInteractionHandler
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -14,7 +16,7 @@ class FileInteractionHandlerImpl @Inject constructor(
     @param:ApplicationContext private val context: Context
 ) : FileInteractionHandler {
 
-    override fun openFile(path: String) {
+    override fun openFileByPath(path: String) {
 
         val file = File(path)
 
@@ -36,6 +38,18 @@ class FileInteractionHandlerImpl @Inject constructor(
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(context, "Нет приложения для открытия файла", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun openFileByUri(uri: Uri) {
+        val mime = context.contentResolver.getType(uri) ?: "*/*"
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, mime)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        try {
+            context.startActivity(intent)
+        } catch (_: ActivityNotFoundException) {
         }
     }
 }

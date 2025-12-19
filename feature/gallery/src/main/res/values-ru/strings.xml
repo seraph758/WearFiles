@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error">Ошибка</string>
+    <string name="grant_permissions">Предоставить разрешения</string>
+    <string name="perm_title">Для доступа к этому разделу необходимы разрешения</string>
 </resources>

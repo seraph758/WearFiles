@@ -10,12 +10,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +25,7 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.Text
 import com.dertefter.design.components.basic_screens.AskDefaultScreen
 import com.dertefter.design.components.basic_screens.ContentLoadingDefaultScreen
+import com.dertefter.gallery.R
 import com.dertefter.gallery.presentation.content.ContentSuccess
 import com.dertefter.gallery.presentation.content.PermissionDialogState
 import com.dertefter.gallery.presentation.content.UiState
@@ -41,7 +42,9 @@ fun GalleyScreen(onEvent: (Event) -> Unit, uiState: UiState, dialogState: Permis
     }
 
     if (dialogState == PermissionDialogState.SHOW) {
-        AskDefaultScreen(title = "Необходимы разрешения", content = listOf({
+        AskDefaultScreen(
+            title = stringResource(R.string.perm_title),
+            content = listOf({
             Button(
                 onClick = {
                     val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -59,7 +62,7 @@ fun GalleyScreen(onEvent: (Event) -> Unit, uiState: UiState, dialogState: Permis
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    text = "Предоставить разрешения"
+                    text = stringResource(R.string.grant_permissions)
                 )
             }
         },
@@ -78,7 +81,7 @@ fun GalleyScreen(onEvent: (Event) -> Unit, uiState: UiState, dialogState: Permis
                         }, modifier = Modifier.padding(4.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Settings,
+                            painter  = painterResource(id = R.drawable.ic_settings),
                             contentDescription = null,
                         )
                     }

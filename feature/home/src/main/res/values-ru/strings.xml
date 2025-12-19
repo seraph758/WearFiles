@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="media">Фото и видео</string>
+    <string name="music">Музыка</string>
+    <string name="docs">Документы</string>
+    <string name="files">Файлы на устройстве</string>
+    <string name="settings">Настройки</string>
+</resources>

@@ -1,38 +1,25 @@
 package com.dertefter.home.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.Watch
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
-import com.dertefter.data.model.PrettyPath
-import com.dertefter.design.components.items.BottomBarItem
 import com.dertefter.design.components.items.FileItem
-import com.dertefter.design.components.items.PathItem
+import com.dertefter.design.components.items.FileItemType
+import com.dertefter.design.icons.Icons
+import com.dertefter.home.R
 import com.dertefter.home.data.model.Pinned
-import kotlinx.coroutines.launch
-import java.io.File
+import com.dertefter.home.data.model.PinnedType
 
 @Composable
 fun ContentSuccess(
-    pinned: List<Pinned>
+    pinned: List<Pinned>,
+    onEvent: (Event) -> Unit,
 ) {
 
     val columnState = rememberTransformingLazyColumnState()
@@ -44,31 +31,37 @@ fun ContentSuccess(
         contentPadding = PaddingValues(
             top = 52.dp, start = 10.dp, end = 10.dp, bottom = 10.dp
         ),
-    )
-    { contentPadding ->
+    ) { contentPadding ->
 
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding,
         ) {
 
-           for (item in pinned){
+            for (item in pinned) {
 
-               item {
+                item {
 
-                   FileItem(
-                       transformationSpec, 
-                       text = item.type.name,
-                       icon = Icons.Default.Watch,
-                       onClick = {
+                    val title = when (item.type){
+                        PinnedType.AUDIO -> stringResource(R.string.music)
+                        PinnedType.MEDIA -> stringResource(R.string.media)
+                        PinnedType.DOCUMENTS -> ""
+                        PinnedType.CUSTOM -> ""
+                    }
 
-                       },
-                       onLongClick = {
-                               }
+                    FileItem(
+                        transformationSpec,
+                        text = title,
+                        icon = Icons.Wallpaper,
+                        onClick = {
+                            onEvent(Event.OnNavigateToGallery)
+                        },
+                        onLongClick = {},
+                        type = FileItemType.PRIMARY
 
-                   )
-               }
-           }
+                    )
+                }
+            }
 
         }
 
@@ -78,8 +71,8 @@ fun ContentSuccess(
 
 @Composable
 @Preview(device = "id:wearos_square", showBackground = true)
-fun ContentFailedPreview(){
+fun ContentFailedPreview() {
     ContentSuccess(
-        emptyList()
+        emptyList(),{}
     )
 }

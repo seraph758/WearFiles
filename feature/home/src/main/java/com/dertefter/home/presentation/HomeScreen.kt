@@ -10,7 +10,7 @@ fun HomeScreen(onEvent: (Event) -> Unit, uiState: UiState) {
 
     when(uiState){
         is UiState.Loading -> ContentLoadingDefaultScreen()
-        is UiState.Success -> ContentSuccess(uiState.pinned)
+        is UiState.Success -> ContentSuccess(uiState.pinned, onEvent)
         is UiState.Failed -> {}
      }
 

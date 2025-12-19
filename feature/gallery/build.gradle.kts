@@ -43,7 +43,6 @@ dependencies {
     implementation(libs.androidx.compose.foundation)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.horologist.compose.layout)
-    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)

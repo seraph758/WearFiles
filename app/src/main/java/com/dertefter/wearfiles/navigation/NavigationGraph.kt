@@ -24,7 +24,7 @@ fun NavigationGraph(
     navController: NavHostController
 ) {
     SwipeDismissableNavHost(
-        navController = navController, startDestination = Routes.Gallery
+        navController = navController, startDestination = Routes.Home
     ) {
 
         composable<Routes.Home> {

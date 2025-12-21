@@ -52,6 +52,10 @@ fun ContentSuccess(
                     MenuActionType.OPEN -> name
                     MenuActionType.PIN -> stringResource(R.string.pin)
                     MenuActionType.UNPIN -> stringResource(R.string.unpin)
+                    MenuActionType.PASTE -> stringResource(R.string.paste)
+                    MenuActionType.CUT -> stringResource(R.string.cut)
+                    MenuActionType.COPY -> stringResource(R.string.copy)
+                    MenuActionType.CANCEL_PASTE -> stringResource(R.string.cancel_paste)
                 }
 
                 val icon = when (action.type) {
@@ -61,6 +65,10 @@ fun ContentSuccess(
                     MenuActionType.OPEN -> Icons.OpenInNew
                     MenuActionType.PIN -> Icons.Keep
                     MenuActionType.UNPIN -> Icons.KeepOff
+                    MenuActionType.PASTE -> Icons.ContentPaste
+                    MenuActionType.CUT -> Icons.ContentCut
+                    MenuActionType.COPY -> Icons.ContentCopy
+                    MenuActionType.CANCEL_PASTE -> Icons.ContentPasteOff
                 }
 
                 val event: Event = when (action.type) {
@@ -70,6 +78,10 @@ fun ContentSuccess(
                     MenuActionType.OPEN -> OnHeaderClick(action.path)
                     MenuActionType.PIN -> OnPin(action.path)
                     MenuActionType.UNPIN -> OnUnpin(action.path)
+                    MenuActionType.PASTE -> OnPaste(action.path)
+                    MenuActionType.CUT -> OnCut(action.path)
+                    MenuActionType.COPY -> OnCopy(action.path)
+                    MenuActionType.CANCEL_PASTE -> OnCancelPaste(action.path)
                 }
 
                 val type = when (action.type) {

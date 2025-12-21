@@ -5,4 +5,11 @@
     <string name="new_dir">New folder</string>
     <string name="pin">Pin to the home screen</string>
     <string name="unpin">Unpin from the home screen</string>
+    <string name="paste">Paste here</string>
+    <string name="cut">Cut</string>
+    <string name="copy">Copy</string>
+    <string name="cancel_paste">Clear clipboard</string>
+    <string name="wait">Please wait...</string>
+    <string name="wait2">" "</string>
+    <string name="wait3">"  "</string>
 </resources>

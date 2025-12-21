@@ -103,4 +103,8 @@ object Icons {
         @Composable
         get() = ImageVector.vectorResource(id = R.drawable.ic_docs)
 
+    val ContentPasteOff: ImageVector
+        @Composable
+        get() = ImageVector.vectorResource(id = R.drawable.ic_content_paste_off)
+
 }

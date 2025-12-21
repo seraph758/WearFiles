@@ -1,10 +1,12 @@
 package com.dertefter.wearfiles.di
 
+import com.dertefter.data.repository.ClipboardRepository
 import com.dertefter.data.repository.FileContentRepository
 import com.dertefter.data.repository.FileManagerRepository
 import com.dertefter.data.repository.PinnedRepository
 import com.dertefter.wearfiles.data.FileManagerRepositoryImpl
 import com.dertefter.data.repository.RemoteInteractionHandler
+import com.dertefter.wearfiles.data.ClipboardRepositoryImpl
 import com.dertefter.wearfiles.data.FileContentRepositoryImpl
 import com.dertefter.wearfiles.data.PinnedRepositoryImpl
 import com.dertefter.wearfiles.data.RemoteInteractionHandlerImpl
@@ -23,6 +25,12 @@ interface RepositoryModule {
     fun bindFileManagerRepository(
         impl: FileManagerRepositoryImpl
     ): FileManagerRepository
+
+    @Binds
+    @Singleton
+    fun bindClipboardRepository(
+        impl: ClipboardRepositoryImpl
+    ): ClipboardRepository
 
     @Binds
     @Singleton

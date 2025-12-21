@@ -23,6 +23,14 @@ sealed class Event {
     data class OnUnpin(val path: String) : Event()
     data class OnDirectoryClick(val path: String) : Event()
 
+    data class OnCut(val path: String) : Event()
+
+    data class OnCopy(val path: String) : Event()
+
+    data class OnPaste(val path: String) : Event()
+
+    data class OnCancelPaste(val path: String) : Event()
+
 
 
 

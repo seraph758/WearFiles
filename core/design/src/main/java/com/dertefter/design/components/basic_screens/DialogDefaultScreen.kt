@@ -7,13 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.FilledIconButton
@@ -21,6 +18,7 @@ import androidx.wear.compose.material3.FilledTonalIconButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
+import com.dertefter.design.icons.Icons
 
 @Composable
 fun DialogDefaultScreen(
@@ -91,7 +89,7 @@ fun DialogDefaultScreenPreview(){
         title = "viojvdiojv",
         onCancel = {},
         onOk = {},
-        cancelIcon = Icons.Default.Preview,
-        okIcon = Icons.Default.Preview
+        cancelIcon = Icons.ArrowBack,
+        okIcon = Icons.ArrowBack
     )
 }

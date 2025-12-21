@@ -44,9 +44,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.horologist.compose.layout)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons.extended)
 
-    // Coil for Compose (thumbnails / image loading)
     implementation(libs.coil.compose)
     implementation(libs.coil.video)
+    implementation(libs.androidx.foundation)
 }

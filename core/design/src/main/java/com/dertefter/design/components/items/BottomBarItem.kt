@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -29,6 +26,7 @@ import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
+import com.dertefter.design.icons.Icons
 
 @Composable
 fun TransformingLazyColumnItemScope.BottomBarItem(
@@ -66,7 +64,7 @@ fun TransformingLazyColumnItemScope.BottomBarItem(
             onUpClick?.let {
                 FilledIconButton(onClick = onUpClick) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        imageVector = Icons.ArrowBack,
                         contentDescription = null,
                     )
                 }
@@ -75,7 +73,7 @@ fun TransformingLazyColumnItemScope.BottomBarItem(
             onMoreClick?.let {
                 FilledTonalIconButton(onClick = onMoreClick) {
                     Icon(
-                        imageVector = Icons.Filled.MoreHoriz,
+                        imageVector = Icons.MoreHorizontal,
                         contentDescription = null,
                     )
                 }

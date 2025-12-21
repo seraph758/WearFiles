@@ -47,6 +47,14 @@ fun ContentSuccess(
                         PinnedType.MEDIA -> stringResource(R.string.media)
                         PinnedType.DOCUMENTS -> ""
                         PinnedType.CUSTOM -> ""
+                        PinnedType.STORAGE -> stringResource(R.string.storage)
+                    }
+
+                    val onClickEvent = when (item.type){
+                        PinnedType.MEDIA -> Event.OnNavigateToGallery
+                        PinnedType.STORAGE -> Event.OnNavigateToStorage
+
+                        else ->  Event.OnNavigateToGallery
                     }
 
                     FileItem(
@@ -54,7 +62,7 @@ fun ContentSuccess(
                         text = title,
                         icon = Icons.Wallpaper,
                         onClick = {
-                            onEvent(Event.OnNavigateToGallery)
+                            onEvent(onClickEvent)
                         },
                         onLongClick = {},
                         type = FileItemType.PRIMARY

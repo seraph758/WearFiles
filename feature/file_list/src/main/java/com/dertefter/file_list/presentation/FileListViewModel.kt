@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.dertefter.data.model.PrettyPath
 import com.dertefter.file_list.presentation.content.MenuState
 import com.dertefter.file_list.presentation.content.UiState
+import com.dertefter.file_list.usecase.CheckFileAccessUseCase
 import com.dertefter.file_list.usecase.GetActionsUseCase
 import com.dertefter.file_list.usecase.GetBasePathUseCase
 import com.dertefter.file_list.usecase.GetFileListUseCase
@@ -28,6 +29,7 @@ class FileListViewModel @Inject constructor(
     private val openFileUseCase: OpenFileUseCase,
     private val navigateBackUseCase: NavigateBackUseCase,
     private val getActionsUseCase: GetActionsUseCase,
+    private val checkFileAccessUseCase: CheckFileAccessUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
@@ -39,8 +41,18 @@ class FileListViewModel @Inject constructor(
     fun onEvent(event: Event) {
         when (event) {
             is Event.OnGetFileListAtPath -> {
-                getFileListAtPath(event.path ?: getBasePathUseCase())
+
+                val hasFileAccess = checkFileAccessUseCase()
+
+                if (!hasFileAccess) {
+                    state = UiState.NoPermissions
+                } else {
+                    getFileListAtPath(event.path ?: getBasePathUseCase())
+                }
+
+
             }
+
             is Event.OnFileClick -> {
                 openFileUseCase(event.file)
             }
@@ -72,7 +84,7 @@ class FileListViewModel @Inject constructor(
     private fun navigateToParent(path: String) {
         viewModelScope.launch {
             val parentPath = getParentUseCase(path)
-            if (parentPath != null){
+            if (parentPath != null) {
                 navigateToPathUseCase(parentPath)
             }
         }
@@ -82,23 +94,18 @@ class FileListViewModel @Inject constructor(
         viewModelScope.launch {
             state = UiState.Loading
 
-            getFileListUseCase(path)
-                .onSuccess { fileList ->
+            getFileListUseCase(path).onSuccess { fileList ->
 
                     val actions = getActionsUseCase(path)
 
                     val homePath = getBasePathUseCase()
                     state = UiState.Success(
                         path = PrettyPath(
-                            homePath,
-                            path
-                        ),
-                        files = fileList,
-                        actions = actions
+                            homePath, path
+                        ), files = fileList, actions = actions
                     )
 
-                }
-                .onFailure { e ->
+                }.onFailure { e ->
                     state = UiState.Failed(e)
                 }
 

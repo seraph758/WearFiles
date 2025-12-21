@@ -7,6 +7,7 @@ import com.dertefter.file_list.presentation.content.ContentSuccess
 import com.dertefter.file_list.presentation.content.MenuState
 import com.dertefter.file_list.presentation.content.UiState
 import com.dertefter.menu.MenuRoute
+import com.dertefter.onboarding.OnBoardingRoute
 
 @Composable
 fun FileListScreen(onEvent: (Event) -> Unit, uiState: UiState, menuState: MenuState) {
@@ -39,6 +40,10 @@ fun FileListScreen(onEvent: (Event) -> Unit, uiState: UiState, menuState: MenuSt
             )
         is UiState.Failed -> {
             onEvent(Event.OnNavigateBack)
+        }
+
+        is UiState.NoPermissions -> {
+            OnBoardingRoute()
         }
      }
 

@@ -51,8 +51,7 @@ fun ContentSuccess(
         contentPadding = PaddingValues(
             top = 52.dp, start = 10.dp, end = 10.dp, bottom = 10.dp
         ),
-    )
-    { contentPadding ->
+    ) { contentPadding ->
 
         TransformingLazyColumn(
             state = columnState,
@@ -66,8 +65,7 @@ fun ContentSuccess(
 
 
                 PathItem(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp, horizontal = 14.dp),
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 14.dp),
                     transformationSpec = transformationSpec,
                     fullPath = fullPath,
                     homePath = homePath,
@@ -75,59 +73,74 @@ fun ContentSuccess(
                 )
             }
 
-           for (file in files){
+            for (file in files) {
 
-               item {
+                item {
 
-                   var thumbnail by remember { mutableStateOf<ImageBitmap?>(null) }
-                   val scope = rememberCoroutineScope()
+                    var thumbnail by remember { mutableStateOf<ImageBitmap?>(null) }
+                    val scope = rememberCoroutineScope()
 
-                   if (file.isImage()) {
-                       LaunchedEffect(file) {
-                           scope.launch {
-                               file.loadThumbnail()?.let {
-                                   thumbnail = it.asImageBitmap()
-                               }
-                           }
-                       }
-                   }
+                    if (file.isImage()) {
+                        LaunchedEffect(file) {
+                            scope.launch {
+                                file.loadThumbnail()?.let {
+                                    thumbnail = it.asImageBitmap()
+                                }
+                            }
+                        }
+                    }
 
-                   val icon =
-                       if (file.isDirectory) Icons.Filled.Folder else Icons.AutoMirrored.Filled.InsertDriveFile
-                   FileItem(
-                       transformationSpec, 
-                       text = file.name, 
-                       icon = icon,
-                       thumbnail = thumbnail,
-                       onClick = {
-                           if (file.isFile) {
-                               onEvent(Event.OnFileClick(file))
-                           } else if (file.isDirectory) {
-                               onEvent(Event.OnDirectoryClick(file.absolutePath))
-                           } else {
+                    val icon =
+                        if (file.isDirectory) Icons.Filled.Folder else Icons.AutoMirrored.Filled.InsertDriveFile
+                    FileItem(
+                        transformationSpec,
+                        text = file.name,
+                        icon = icon,
+                        thumbnail = thumbnail,
+                        onClick = {
+                            if (file.isFile) {
+                                onEvent(Event.OnFileClick(file))
+                            } else if (file.isDirectory) {
+                                onEvent(Event.OnDirectoryClick(file.absolutePath))
+                            } else {
 
-                           }
-                       },
+                            }
+                        },
 
-                       onLongClick = {
-                           onEvent(Event.OnShowMenuFor(file.absolutePath, menuMode = MenuMode.OUTSIDE))
-                       }
+                        onLongClick = {
+                            onEvent(
+                                Event.OnShowMenuFor(
+                                    file.absolutePath,
+                                    menuMode = MenuMode.OUTSIDE
+                                )
+                            )
+                        }
 
-                   )
-               }
-           }
+                    )
+                }
+            }
 
             item {
                 BottomBarItem(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp, horizontal = 14.dp),
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 14.dp),
                     transformationSpec = transformationSpec,
                     onUpClick = if (actions.contains(Action.MOVE_BACK)) {
                         { onEvent(Event.OnNavigateBack) }
-                    } else { null },
+                    } else {
+                        null
+                    },
                     onMoreClick = if (actions.contains(Action.MORE)) {
-                        { onEvent(Event.OnShowMenuFor(path = path.path, menuMode = MenuMode.INSIDE)) }
-                    } else { null }
+                        {
+                            onEvent(
+                                Event.OnShowMenuFor(
+                                    path = path.path,
+                                    menuMode = MenuMode.INSIDE
+                                )
+                            )
+                        }
+                    } else {
+                        null
+                    }
 
                 )
             }
@@ -140,10 +153,7 @@ fun ContentSuccess(
 
 @Composable
 @Preview(device = "id:wearos_square", showBackground = true)
-fun ContentFailedPreview(){
+fun ContentFailedPreview() {
     ContentSuccess(
-        PrettyPath("", ""),
-        files = emptyList(),
-        onEvent = {}
-    )
+        PrettyPath("", ""), files = emptyList(), onEvent = {})
 }

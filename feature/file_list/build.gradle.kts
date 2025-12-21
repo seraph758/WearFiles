@@ -44,6 +44,7 @@ android {
 dependencies {
 
     implementation(project(":feature:menu"))
+    implementation(project(":feature:onboarding"))
 
     implementation(project(":core:navigation"))
     implementation(project(":core:data"))

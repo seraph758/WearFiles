@@ -5,6 +5,9 @@ import com.dertefter.file_list.presentation.Action
 import java.io.File
 
 sealed interface UiState {
+
+    data object NoPermissions : UiState
+
     data object Loading : UiState
     data class Success(
         val files: List<File>,

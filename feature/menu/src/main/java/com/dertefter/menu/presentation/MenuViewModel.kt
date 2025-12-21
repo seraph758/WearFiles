@@ -9,6 +9,8 @@ import com.dertefter.menu.presentation.Event.OnDirectoryClick
 import com.dertefter.menu.presentation.Event.OnFileClick
 import com.dertefter.menu.presentation.content.UiState
 import com.dertefter.menu.presentation.content.UiState.Success
+import com.dertefter.menu.usecase.CopyUseCase
+import com.dertefter.menu.usecase.CutUseCase
 import com.dertefter.menu.usecase.GetMenuActionsUseCase
 import com.dertefter.menu.usecase.IsDirectoryUseCase
 import com.dertefter.menu.usecase.NavigateBackUseCase
@@ -17,6 +19,8 @@ import com.dertefter.menu.usecase.NavigateToNewDirectoryUseCase
 import com.dertefter.menu.usecase.NavigateToPathUseCase
 import com.dertefter.menu.usecase.NavigateToRenameUseCase
 import com.dertefter.menu.usecase.OpenFileUseCase
+import com.dertefter.menu.usecase.PasteCancelUseCase
+import com.dertefter.menu.usecase.PasteHereUseCase
 import com.dertefter.menu.usecase.PinUseCase
 import com.dertefter.menu.usecase.UnpinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +29,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
-    private val navigateBackUseCase: NavigateBackUseCase,
     private val getMenuActionsUseCase: GetMenuActionsUseCase,
     private val navigateToRenameUseCase: NavigateToRenameUseCase,
     private val navigateToNewDirectoryUseCase: NavigateToNewDirectoryUseCase,
@@ -34,11 +37,22 @@ class MenuViewModel @Inject constructor(
     private val isDirectoryUseCase: IsDirectoryUseCase,
     private val navigateToDeleteUseCase: NavigateToDeleteUseCase,
     private val pinUseCase: PinUseCase,
-    private val unpinUseCase: UnpinUseCase
+    private val unpinUseCase: UnpinUseCase,
+    private val cutUseCase: CutUseCase,
+    private val copyUseCase: CopyUseCase,
+    private val pasteHereUseCase: PasteHereUseCase,
+    private val cancelPasteUseCase: PasteCancelUseCase
+
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
         private set
+
+    private var navigateBackUseCase: () -> Unit = {  }
+
+    fun setOnDismiss(onDismissRequest: () -> Unit) {
+        navigateBackUseCase = onDismissRequest
+    }
 
     fun onEvent(event: Event) {
         when (event) {
@@ -61,26 +75,32 @@ class MenuViewModel @Inject constructor(
                         )
                     )
                 }
+                navigateBackUseCase()
             }
 
             is Event.OnNavigateToRename -> {
                 navigateToRenameUseCase(event.path)
+                navigateBackUseCase()
             }
 
             is Event.OnNavigateToDelete -> {
                 navigateToDeleteUseCase(event.path)
+                navigateBackUseCase()
             }
 
             is Event.OnNavigateToNewDirectory -> {
                 navigateToNewDirectoryUseCase(event.path)
+                navigateBackUseCase()
             }
 
             is OnDirectoryClick -> {
                 navigateToPathUseCase(event.path)
+                navigateBackUseCase()
             }
 
             is OnFileClick -> {
                 openFileUseCase(event.path)
+                navigateBackUseCase()
             }
 
             is Event.OnGetMenuActions -> {
@@ -96,13 +116,37 @@ class MenuViewModel @Inject constructor(
             is Event.OnPin -> {
                 viewModelScope.launch {
                     pinUseCase(event.path)
+                    navigateBackUseCase()
                 }
             }
 
             is Event.OnUnpin -> {
                 viewModelScope.launch {
                     unpinUseCase(event.path)
+                    navigateBackUseCase()
                 }
+            }
+
+            is Event.OnCancelPaste -> {
+                cancelPasteUseCase()
+                navigateBackUseCase()
+            }
+
+            is Event.OnCopy -> {
+                copyUseCase(event.path)
+                navigateBackUseCase()
+            }
+            is Event.OnCut -> {
+                cutUseCase(event.path)
+                navigateBackUseCase()
+            }
+            is Event.OnPaste -> {
+                viewModelScope.launch {
+                    state = UiState.Operation
+                    pasteHereUseCase(event.path)
+                    navigateBackUseCase()
+                }
+
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.dertefter.menu.usecase
 
+import com.dertefter.data.repository.ClipboardRepository
 import com.dertefter.data.repository.FileManagerRepository
 import com.dertefter.menu.MenuMode
 import com.dertefter.menu.presentation.MenuAction
@@ -8,7 +9,8 @@ import javax.inject.Inject
 
 class GetMenuActionsUseCase @Inject constructor(
     private val fileManagerRepository: FileManagerRepository,
-    private val checkPinnedUseCase: CheckPinnedUseCase
+    private val clipboardRepository: ClipboardRepository,
+    private val checkPinnedUseCase: CheckPinnedUseCase,
 ) {
     suspend operator fun invoke(path: String, mode: MenuMode): List<MenuAction> {
 
@@ -20,6 +22,11 @@ class GetMenuActionsUseCase @Inject constructor(
                     if (fileManagerRepository.canCreateDirHere(path)) {
                         add(MenuAction(MenuActionType.NEW_DIR, path))
                     }
+
+                    if (clipboardRepository.operation != null) {
+                        add(MenuAction(MenuActionType.PASTE, path))
+                    }
+
                 }
             }
 
@@ -29,6 +36,13 @@ class GetMenuActionsUseCase @Inject constructor(
 
                     if (fileManagerRepository.canBeRenamed(path)) {
                         add(MenuAction(MenuActionType.RENAME, path))
+                    }
+
+                    if (clipboardRepository.operation == null) {
+                        add(MenuAction(MenuActionType.CUT, path))
+                        add(MenuAction(MenuActionType.COPY, path))
+                    } else {
+                        add(MenuAction(MenuActionType.CANCEL_PASTE, path))
                     }
 
                     if (isPinned){

@@ -3,6 +3,7 @@ package com.dertefter.menu.presentation
 import androidx.compose.runtime.Composable
 import com.dertefter.menu.presentation.content.ContentLoading
 import com.dertefter.menu.presentation.content.ContentSuccess
+import com.dertefter.menu.presentation.content.OperationWorking
 import com.dertefter.menu.presentation.content.UiState
 
 @Composable
@@ -17,6 +18,9 @@ fun MenuScreen(onEvent: (Event) -> Unit, uiState: UiState) {
             )
         is UiState.Failed -> {
             onEvent(Event.OnNavigateBack)
+        }
+        is UiState.Operation -> {
+            OperationWorking()
         }
      }
 

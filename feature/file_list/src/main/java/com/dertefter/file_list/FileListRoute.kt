@@ -1,8 +1,12 @@
 package com.dertefter.file_list
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.dertefter.file_list.presentation.Event
 import com.dertefter.file_list.presentation.FileListScreen
 import com.dertefter.file_list.presentation.FileListViewModel
@@ -15,8 +19,20 @@ fun FileListRoute(
 
     val uiState = viewModel.state
 
-    LaunchedEffect(path) {
-        viewModel.onEvent(Event.OnGetFileListAtPath(path))
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner, path) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                viewModel.onEvent(Event.OnGetFileListAtPath(path))
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     FileListScreen(
@@ -24,6 +40,11 @@ fun FileListRoute(
         menuState = viewModel.menuState,
         onEvent = { event ->
             viewModel.onEvent(event)
+
+            if (event == Event.OnHideMenu) {
+                viewModel.onEvent(Event.OnGetFileListAtPath(path))
+            }
+
         },
     )
 

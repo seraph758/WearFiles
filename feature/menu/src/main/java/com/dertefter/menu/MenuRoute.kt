@@ -19,13 +19,13 @@ fun MenuRoute(
 
     LaunchedEffect(path) {
        viewModel.onEvent(Event.OnGetMenuActions(path,mode))
+        viewModel.setOnDismiss(onDismissRequest)
     }
 
     MenuScreen(
         uiState = uiState,
         onEvent = { event ->
             viewModel.onEvent(event)
-            onDismissRequest()
         }
     )
 

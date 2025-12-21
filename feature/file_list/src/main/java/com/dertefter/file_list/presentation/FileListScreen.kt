@@ -1,11 +1,6 @@
 package com.dertefter.file_list.presentation
 
-import android.Manifest
-import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.wear.compose.material.dialog.Dialog
 import com.dertefter.design.components.basic_screens.ContentLoadingDefaultScreen
 import com.dertefter.file_list.presentation.content.ContentSuccess

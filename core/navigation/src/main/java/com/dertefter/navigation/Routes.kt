@@ -6,9 +6,6 @@ import java.io.File
 
 sealed interface Routes {
     @Serializable
-    data object OnBoarding : Routes
-
-    @Serializable
     data object Home : Routes
 
     @Serializable

@@ -31,10 +31,6 @@ fun NavigationGraph(
             HomeRoute()
         }
 
-        composable<Routes.OnBoarding> {
-            OnBoardingRoute()
-        }
-
         composable<Routes.Gallery> {
             GalleryRoute()
         }

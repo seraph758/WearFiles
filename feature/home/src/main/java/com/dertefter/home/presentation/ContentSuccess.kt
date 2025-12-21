@@ -25,6 +25,7 @@ import com.dertefter.design.icons.Icons
 import com.dertefter.home.R
 import com.dertefter.home.data.model.HomeItem
 import com.dertefter.home.data.model.HomeItemType
+import java.io.File
 
 @Composable
 fun ContentSuccess(
@@ -40,7 +41,7 @@ fun ContentSuccess(
     ScreenScaffold(
         scrollState = columnState,
         contentPadding = PaddingValues(
-            top = 52.dp, start = 10.dp, end = 10.dp, bottom = 52.dp
+            top = 52.dp, start = 10.dp, end = 10.dp, bottom = 72.dp
         ),
     ) { contentPadding ->
 
@@ -127,7 +128,8 @@ fun ContentSuccess(
                         FileItem(
                             transformationSpec,
                             text = item.name,
-                            icon = Icons.Watch,
+                            thumbnailUrl = item.path,
+                            file = File(item.path),
                             onClick = {
                                 if (item.isFile) {
                                     onEvent(Event.OnFileClick(item.path))

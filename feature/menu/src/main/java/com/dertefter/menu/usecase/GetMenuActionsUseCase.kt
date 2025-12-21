@@ -12,6 +12,7 @@ class GetMenuActionsUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(path: String, mode: MenuMode): List<MenuAction> {
 
+        val isPinned = checkPinnedUseCase(path)
 
         val menuList = when (mode) {
             MenuMode.INSIDE -> {
@@ -30,6 +31,12 @@ class GetMenuActionsUseCase @Inject constructor(
                         add(MenuAction(MenuActionType.RENAME, path))
                     }
 
+                    if (isPinned){
+                        add(MenuAction(MenuActionType.UNPIN, path))
+                    }else{
+                        add(MenuAction(MenuActionType.PIN, path))
+                    }
+
                     if (fileManagerRepository.canBeDeleted(path)) {
                         add(MenuAction(MenuActionType.DELETE, path))
                     }
@@ -39,21 +46,18 @@ class GetMenuActionsUseCase @Inject constructor(
             MenuMode.PINNED -> {
                 buildList {
                     add(MenuAction(MenuActionType.OPEN, path))
+
+                    if (isPinned){
+                        add(MenuAction(MenuActionType.UNPIN, path))
+                    }else{
+                        add(MenuAction(MenuActionType.PIN, path))
+                    }
+
                 }
             }
         }.toMutableList()
 
-        val isPinned = checkPinnedUseCase(path)
 
-        if (isPinned) {
-            menuList.add(
-                MenuAction(MenuActionType.UNPIN, path)
-            )
-        } else {
-            menuList.add(
-                MenuAction(MenuActionType.PIN, path)
-            )
-        }
 
         return menuList
 

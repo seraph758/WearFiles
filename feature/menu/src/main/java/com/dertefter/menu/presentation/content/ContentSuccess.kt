@@ -1,11 +1,6 @@
 package com.dertefter.menu.presentation.content
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.CreateNewFolder
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +12,7 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import com.dertefter.design.components.items.FileItem
 import com.dertefter.design.components.items.FileItemType
+import com.dertefter.design.icons.Icons
 import com.dertefter.menu.R
 import com.dertefter.menu.presentation.Event
 import com.dertefter.menu.presentation.Event.*
@@ -59,12 +55,12 @@ fun ContentSuccess(
                 }
 
                 val icon = when (action.type) {
-                    MenuActionType.DELETE -> Icons.Default.Delete
-                    MenuActionType.RENAME -> Icons.Default.Edit
-                    MenuActionType.NEW_DIR -> Icons.Default.CreateNewFolder
-                    MenuActionType.OPEN -> Icons.AutoMirrored.Filled.ArrowForward
-                    MenuActionType.PIN -> Icons.Default.Edit
-                    MenuActionType.UNPIN -> Icons.Default.Edit
+                    MenuActionType.DELETE -> Icons.Delete
+                    MenuActionType.RENAME -> Icons.Edit
+                    MenuActionType.NEW_DIR -> Icons.CreateNewFolder
+                    MenuActionType.OPEN -> Icons.OpenInNew
+                    MenuActionType.PIN -> Icons.Keep
+                    MenuActionType.UNPIN -> Icons.KeepOff
                 }
 
                 val event: Event = when (action.type) {

@@ -9,11 +9,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
-import com.dertefter.design.components.items.FileTopItem
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import com.yazantarifi.compose.library.MarkdownConfig
@@ -44,10 +45,10 @@ fun ContentSuccess(
         ) {
             item {
 
-                FileTopItem(
-                    transformationSpec = transformationSpec,
-                    text = fileName
-                )
+                ListHeader(
+                ){
+                    Text(fileName)
+                }
 
             }
 

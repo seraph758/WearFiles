@@ -42,6 +42,7 @@ espressoCore = "3.7.0"
 # Other
 kotlinxSerializationJson = "1.9.0"
 zoomable = "2.9.0"
+foundation = "1.10.0"
 
 [libraries]
 # Compose (BOM)
@@ -93,6 +94,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 # Other
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
+androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

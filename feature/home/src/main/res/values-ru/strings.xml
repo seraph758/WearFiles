@@ -6,4 +6,5 @@
     <string name="files">Файлы на устройстве</string>
     <string name="settings">Настройки</string>
     <string name="storage">Память устройства</string>
+    <string name="pinned">Закреплено</string>
 </resources>

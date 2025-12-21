@@ -12,6 +12,9 @@ interface FileManagerRepository {
 
     fun hasMediaAccess(): Boolean
 
+    fun getFileByPath(path: String): File?
+
+
     fun delete(path: String): Result<Boolean>
     fun createDirectory(path: String, name: String): Result<Boolean>
 

@@ -18,6 +18,9 @@ sealed class Event {
 
     data class OnFileClick(val path: String) : Event()
 
+    data class OnPin(val path: String) : Event()
+
+    data class OnUnpin(val path: String) : Event()
     data class OnDirectoryClick(val path: String) : Event()
 
 

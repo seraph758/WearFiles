@@ -1,24 +1,35 @@
 package com.dertefter.home.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListSubHeader
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
+import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
+import com.dertefter.data.model.PinnedItem
 import com.dertefter.design.components.items.FileItem
 import com.dertefter.design.components.items.FileItemType
 import com.dertefter.design.icons.Icons
 import com.dertefter.home.R
-import com.dertefter.home.data.model.Pinned
-import com.dertefter.home.data.model.PinnedType
+import com.dertefter.home.data.model.HomeItem
+import com.dertefter.home.data.model.HomeItemType
 
 @Composable
 fun ContentSuccess(
-    pinned: List<Pinned>,
+    homeItems: List<HomeItem>,
+    pinnedItems: List<PinnedItem>,
     onEvent: (Event) -> Unit,
 ) {
 
@@ -29,7 +40,7 @@ fun ContentSuccess(
     ScreenScaffold(
         scrollState = columnState,
         contentPadding = PaddingValues(
-            top = 52.dp, start = 10.dp, end = 10.dp, bottom = 10.dp
+            top = 52.dp, start = 10.dp, end = 10.dp, bottom = 52.dp
         ),
     ) { contentPadding ->
 
@@ -38,21 +49,42 @@ fun ContentSuccess(
             contentPadding = contentPadding,
         ) {
 
-            for (item in pinned) {
+
+            item {
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec),
+                    transformation = SurfaceTransformation(transformationSpec)
+                ){
+                    Text(
+                        text = stringResource(R.string.home_title),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+
+            for (item in homeItems) {
 
                 item {
 
                     val title = when (item.type){
-                        PinnedType.AUDIO -> stringResource(R.string.music)
-                        PinnedType.MEDIA -> stringResource(R.string.media)
-                        PinnedType.DOCUMENTS -> ""
-                        PinnedType.CUSTOM -> ""
-                        PinnedType.STORAGE -> stringResource(R.string.storage)
+                        HomeItemType.AUDIO -> stringResource(R.string.music)
+                        HomeItemType.MEDIA -> stringResource(R.string.media)
+                        HomeItemType.DOCUMENTS -> ""
+                        HomeItemType.STORAGE -> stringResource(R.string.storage)
+                    }
+
+                    val icon = when (item.type){
+                        HomeItemType.MEDIA -> Icons.Wallpaper
+                        HomeItemType.DOCUMENTS -> Icons.Watch
+                        HomeItemType.AUDIO -> Icons.Watch
+                        HomeItemType.STORAGE -> Icons.Watch
                     }
 
                     val onClickEvent = when (item.type){
-                        PinnedType.MEDIA -> Event.OnNavigateToGallery
-                        PinnedType.STORAGE -> Event.OnNavigateToStorage
+                        HomeItemType.MEDIA -> Event.OnNavigateToGallery
+                        HomeItemType.STORAGE -> Event.OnNavigateToStorage
 
                         else ->  Event.OnNavigateToGallery
                     }
@@ -60,7 +92,7 @@ fun ContentSuccess(
                     FileItem(
                         transformationSpec,
                         text = title,
-                        icon = Icons.Wallpaper,
+                        icon = icon,
                         onClick = {
                             onEvent(onClickEvent)
                         },
@@ -69,6 +101,49 @@ fun ContentSuccess(
 
                     )
                 }
+            }
+
+            if (pinnedItems.isNotEmpty()){
+                item {
+                    ListSubHeader(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec),
+                        transformation = SurfaceTransformation(transformationSpec)
+                    ){
+                        Text(
+                            text = stringResource(R.string.pinned),
+                            color = MaterialTheme.colorScheme.secondary,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+
+                for (item in pinnedItems) {
+
+                    item {
+
+                        FileItem(
+                            transformationSpec,
+                            text = item.name,
+                            icon = Icons.Watch,
+                            onClick = {
+                                if (item.isFile) {
+                                    onEvent(Event.OnFileClick(item.path))
+                                }  else {
+                                    onEvent(Event.OnDirectoryClick(item.path))
+                                }
+                            },
+                            onLongClick = {
+                                onEvent(Event.OnShowMenuFor(item.path))
+                            },
+                            type = FileItemType.DEFAULT
+
+                        )
+                    }
+                }
+
             }
 
         }
@@ -81,6 +156,6 @@ fun ContentSuccess(
 @Preview(device = "id:wearos_square", showBackground = true)
 fun ContentFailedPreview() {
     ContentSuccess(
-        emptyList(),{}
+        emptyList(),emptyList(),{}
     )
 }

@@ -3,4 +3,6 @@
     <string name="rename">Переименовать</string>
     <string name="delete">Удалить</string>
     <string name="new_dir">Создать папку</string>
+    <string name="pin">Закрепить на начальном экране</string>
+    <string name="unpin">Открепить от начального экрана</string>
 </resources>

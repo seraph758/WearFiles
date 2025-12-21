@@ -6,4 +6,6 @@
     <string name="files">Explorer</string>
     <string name="settings">Settings</string>
     <string name="storage">Storage</string>
+    <string name="home_title">WearFiles</string>
+    <string name="pinned">Pinned</string>
 </resources>

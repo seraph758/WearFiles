@@ -12,8 +12,11 @@ fun HomeRoute(
 
     val uiState = viewModel.state
 
+    val menuState = viewModel.menuState
+
     HomeScreen(
         uiState = uiState,
+        menuState = menuState,
         onEvent = { event ->
             viewModel.onEvent(event)
         },

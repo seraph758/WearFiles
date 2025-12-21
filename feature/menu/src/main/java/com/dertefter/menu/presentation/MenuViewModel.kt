@@ -4,7 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.dertefter.menu.presentation.Event.OnDirectoryClick
+import com.dertefter.menu.presentation.Event.OnFileClick
 import com.dertefter.menu.presentation.content.UiState
+import com.dertefter.menu.presentation.content.UiState.Success
 import com.dertefter.menu.usecase.GetMenuActionsUseCase
 import com.dertefter.menu.usecase.IsDirectoryUseCase
 import com.dertefter.menu.usecase.NavigateBackUseCase
@@ -13,19 +17,24 @@ import com.dertefter.menu.usecase.NavigateToNewDirectoryUseCase
 import com.dertefter.menu.usecase.NavigateToPathUseCase
 import com.dertefter.menu.usecase.NavigateToRenameUseCase
 import com.dertefter.menu.usecase.OpenFileUseCase
+import com.dertefter.menu.usecase.PinUseCase
+import com.dertefter.menu.usecase.UnpinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
     private val navigateBackUseCase: NavigateBackUseCase,
     private val getMenuActionsUseCase: GetMenuActionsUseCase,
-    private  val navigateToRenameUseCase: NavigateToRenameUseCase,
-    private  val navigateToNewDirectoryUseCase: NavigateToNewDirectoryUseCase,
+    private val navigateToRenameUseCase: NavigateToRenameUseCase,
+    private val navigateToNewDirectoryUseCase: NavigateToNewDirectoryUseCase,
     private val navigateToPathUseCase: NavigateToPathUseCase,
     private val openFileUseCase: OpenFileUseCase,
     private val isDirectoryUseCase: IsDirectoryUseCase,
-    private val navigateToDeleteUseCase: NavigateToDeleteUseCase
+    private val navigateToDeleteUseCase: NavigateToDeleteUseCase,
+    private val pinUseCase: PinUseCase,
+    private val unpinUseCase: UnpinUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf<UiState>(UiState.Loading)
@@ -41,13 +50,13 @@ class MenuViewModel @Inject constructor(
                 val isDirectory = isDirectoryUseCase(path = event.path)
                 if (isDirectory) {
                     onEvent(
-                        Event.OnDirectoryClick(
+                        OnDirectoryClick(
                             path = event.path
                         )
                     )
                 } else {
                     onEvent(
-                        Event.OnFileClick(
+                        OnFileClick(
                             path = event.path
                         )
                     )
@@ -66,23 +75,35 @@ class MenuViewModel @Inject constructor(
                 navigateToNewDirectoryUseCase(event.path)
             }
 
-            is Event.OnDirectoryClick -> {
+            is OnDirectoryClick -> {
                 navigateToPathUseCase(event.path)
             }
 
-            is Event.OnFileClick -> {
+            is OnFileClick -> {
                 openFileUseCase(event.path)
             }
 
             is Event.OnGetMenuActions -> {
-                val mode = event.mode
-                val actions = getMenuActionsUseCase(event.path, mode)
-                state = UiState.Success(
-                    name = event.path.split("/").last(),
-                    actions = actions
-                )
+                viewModelScope.launch {
+                    val mode = event.mode
+                    val actions = getMenuActionsUseCase(event.path, mode)
+                    state = Success(
+                        name = event.path.split("/").last(), actions = actions
+                    )
+                }
             }
 
+            is Event.OnPin -> {
+                viewModelScope.launch {
+                    pinUseCase(event.path)
+                }
+            }
+
+            is Event.OnUnpin -> {
+                viewModelScope.launch {
+                    unpinUseCase(event.path)
+                }
+            }
         }
     }
 

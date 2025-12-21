@@ -7,20 +7,23 @@ import com.dertefter.menu.presentation.MenuActionType
 import javax.inject.Inject
 
 class GetMenuActionsUseCase @Inject constructor(
-    private val fileManagerRepository: FileManagerRepository
+    private val fileManagerRepository: FileManagerRepository,
+    private val checkPinnedUseCase: CheckPinnedUseCase
 ) {
-    operator fun invoke(path: String, mode: MenuMode): List<MenuAction> {
+    suspend operator fun invoke(path: String, mode: MenuMode): List<MenuAction> {
 
-        when (mode) {
+
+        val menuList = when (mode) {
             MenuMode.INSIDE -> {
-                return buildList {
+                buildList {
                     if (fileManagerRepository.canCreateDirHere(path)) {
                         add(MenuAction(MenuActionType.NEW_DIR, path))
                     }
                 }
             }
+
             MenuMode.OUTSIDE -> {
-                return buildList {
+                buildList {
                     add(MenuAction(MenuActionType.OPEN, path))
 
                     if (fileManagerRepository.canBeRenamed(path)) {
@@ -32,7 +35,27 @@ class GetMenuActionsUseCase @Inject constructor(
                     }
                 }
             }
+
+            MenuMode.PINNED -> {
+                buildList {
+                    add(MenuAction(MenuActionType.OPEN, path))
+                }
+            }
+        }.toMutableList()
+
+        val isPinned = checkPinnedUseCase(path)
+
+        if (isPinned) {
+            menuList.add(
+                MenuAction(MenuActionType.UNPIN, path)
+            )
+        } else {
+            menuList.add(
+                MenuAction(MenuActionType.PIN, path)
+            )
         }
+
+        return menuList
 
     }
 }

@@ -3,4 +3,6 @@
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
     <string name="new_dir">New folder</string>
+    <string name="pin">Pin to the home screen</string>
+    <string name="unpin">Unpin from the home screen</string>
 </resources>

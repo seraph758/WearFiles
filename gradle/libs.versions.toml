@@ -3,11 +3,14 @@
 agp = "8.13.2"
 coilCompose = "2.7.0"
 coilVideo = "2.7.0"
+datastorePreferences = "1.2.0"
+gson = "2.13.2"
 kotlin = "2.2.21"
 
 # Compose
 composeBom = "2025.12.00"
 activityCompose = "1.12.1"
+kotlinxCoroutinesAndroid = "1.10.2"
 kotlinxCoroutinesCore = "1.10.2"
 navigationCompose = "2.9.6"
 markdownCompose = "1.0.4"
@@ -51,9 +54,12 @@ androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling
 
 # Compose (Versioned)
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 coil-video = { module = "io.coil-kt:coil-video", version.ref = "coilVideo" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 markdown-compose = { module = "com.yazantarifi:markdown-compose", version.ref = "markdownCompose" }
 

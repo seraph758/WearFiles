@@ -19,6 +19,7 @@ import com.dertefter.design.components.items.FileItem
 import com.dertefter.design.components.items.FileItemType
 import com.dertefter.menu.R
 import com.dertefter.menu.presentation.Event
+import com.dertefter.menu.presentation.Event.*
 import com.dertefter.menu.presentation.MenuAction
 import com.dertefter.menu.presentation.MenuActionType
 
@@ -53,6 +54,8 @@ fun ContentSuccess(
                     MenuActionType.RENAME -> stringResource(R.string.rename)
                     MenuActionType.NEW_DIR -> stringResource(R.string.new_dir)
                     MenuActionType.OPEN -> name
+                    MenuActionType.PIN -> stringResource(R.string.pin)
+                    MenuActionType.UNPIN -> stringResource(R.string.unpin)
                 }
 
                 val icon = when (action.type) {
@@ -60,13 +63,17 @@ fun ContentSuccess(
                     MenuActionType.RENAME -> Icons.Default.Edit
                     MenuActionType.NEW_DIR -> Icons.Default.CreateNewFolder
                     MenuActionType.OPEN -> Icons.AutoMirrored.Filled.ArrowForward
+                    MenuActionType.PIN -> Icons.Default.Edit
+                    MenuActionType.UNPIN -> Icons.Default.Edit
                 }
 
                 val event: Event = when (action.type) {
-                    MenuActionType.DELETE -> Event.OnNavigateToDelete(action.path)
-                    MenuActionType.RENAME -> Event.OnNavigateToRename(action.path)
-                    MenuActionType.NEW_DIR -> Event.OnNavigateToNewDirectory(action.path)
-                    MenuActionType.OPEN -> Event.OnHeaderClick(action.path)
+                    MenuActionType.DELETE -> OnNavigateToDelete(action.path)
+                    MenuActionType.RENAME -> OnNavigateToRename(action.path)
+                    MenuActionType.NEW_DIR -> OnNavigateToNewDirectory(action.path)
+                    MenuActionType.OPEN -> OnHeaderClick(action.path)
+                    MenuActionType.PIN -> OnPin(action.path)
+                    MenuActionType.UNPIN -> OnUnpin(action.path)
                 }
 
                 val type = when (action.type) {

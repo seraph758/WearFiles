@@ -98,6 +98,14 @@ class FileManagerRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getFileByPath(path: String): File? {
+        return try{
+            File(path)
+        }catch (e: Exception){
+            null
+        }
+    }
+
     override fun delete(path: String): Result<Boolean> {
         return runCatching {
 

@@ -32,5 +32,5 @@ fun MenuRoute(
 }
 
 enum class MenuMode{
-    INSIDE, OUTSIDE
+    INSIDE, OUTSIDE, PINNED
 }

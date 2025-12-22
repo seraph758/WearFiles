@@ -2,10 +2,8 @@ package com.dertefter.gallery.presentation
 
 import android.Manifest
 import android.content.Intent
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -28,6 +26,7 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.Text
 import com.dertefter.design.components.basic_screens.AskDefaultScreen
 import com.dertefter.design.components.basic_screens.ContentLoadingDefaultScreen
+import com.dertefter.design.icons.Icons
 import com.dertefter.gallery.R
 import com.dertefter.gallery.presentation.content.ContentSuccess
 import com.dertefter.gallery.presentation.content.PermissionDialogState
@@ -90,7 +89,7 @@ fun GalleyScreen(onEvent: (Event) -> Unit, uiState: UiState, dialogState: Permis
                         }, modifier = Modifier.padding(4.dp)
                     ) {
                         Icon(
-                            painter  = painterResource(id = R.drawable.ic_settings),
+                            imageVector = Icons.Settings,
                             contentDescription = null,
                         )
                     }

@@ -1,14 +1,12 @@
 package com.dertefter.delete.presentation.content
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.dertefter.delete.R
 import com.dertefter.delete.presentation.Event
 import com.dertefter.design.components.basic_screens.DialogDefaultScreen
+import com.dertefter.design.icons.Icons
 import com.dertefter.design.theme.TheTheme
 
 @Composable
@@ -25,8 +23,8 @@ fun ContentSuccess(
         onOk = {
             onEvent(Event.OnDelete(path))
         },
-        okIcon = Icons.Default.Delete,
-        cancelIcon = Icons.AutoMirrored.Filled.ArrowBack
+        okIcon = Icons.Delete,
+        cancelIcon = Icons.ArrowBack
     )
 
 }

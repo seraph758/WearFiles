@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.PhoneAndroid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,6 +21,7 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import com.dertefter.design.components.items.BadgedTextItem
 import com.dertefter.design.components.items.CodeItem
 import com.dertefter.design.components.items.TextItem
+import com.dertefter.design.icons.Icons
 import com.dertefter.onboarding.R
 import com.dertefter.onboarding.presentation.Event
 import com.google.android.horologist.compose.layout.ColumnItemType
@@ -97,7 +96,7 @@ fun ContentFailed(onEvent: (Event) -> Unit){
                     transformation = SurfaceTransformation(transformationSpec),
                     icon = {
                         Icon(
-                            imageVector = Icons.Outlined.PhoneAndroid,
+                            imageVector = Icons.MobileArrowRight,
                             contentDescription = "",
                         )
                     }) {

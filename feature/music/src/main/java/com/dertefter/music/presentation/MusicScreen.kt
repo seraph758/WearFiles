@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +24,7 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.Text
 import com.dertefter.design.components.basic_screens.AskDefaultScreen
 import com.dertefter.design.components.basic_screens.ContentLoadingDefaultScreen
+import com.dertefter.design.icons.Icons
 import com.dertefter.gallery.R
 import com.dertefter.music.presentation.content.ContentSuccess
 import com.dertefter.music.presentation.content.PermissionDialogState
@@ -82,7 +81,7 @@ fun MusicScreen(onEvent: (Event) -> Unit, uiState: UiState, dialogState: Permiss
                         }, modifier = Modifier.padding(4.dp)
                     ) {
                         Icon(
-                            painter  = painterResource(id = R.drawable.ic_settings),
+                            imageVector = Icons.Settings,
                             contentDescription = null,
                         )
                     }

@@ -1,11 +1,5 @@
 package com.dertefter.onboarding.presentation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.SendToMobile
-import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.Error
-import androidx.compose.material.icons.rounded.MobileFriendly
-import androidx.compose.material.icons.rounded.SendToMobile
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -14,6 +8,7 @@ import androidx.wear.compose.material.dialog.Alert
 import androidx.wear.compose.material.dialog.Dialog
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.Text
+import com.dertefter.design.icons.Icons
 import com.dertefter.onboarding.R
 import com.dertefter.onboarding.presentation.content.ContentFailed
 import com.dertefter.onboarding.presentation.content.ContentLoading
@@ -39,12 +34,12 @@ fun OnBoardingScreen(
             icon = {
                 if (dialogState == DialogState.SUCCESS){
                     Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.SendToMobile,
+                        imageVector = Icons.Check,
                         contentDescription = stringResource(R.string.success)
                     )
                 } else if (dialogState == DialogState.FAILED){
                     Icon(
-                        imageVector = Icons.Rounded.Error,
+                        imageVector = Icons.Error,
                         contentDescription = stringResource(R.string.failed)
                     )
                 }

@@ -8,7 +8,7 @@ plugins {
 
 
 android {
-    namespace = "com.dertefter.gallery"
+    namespace = "com.dertefter.images"
     compileSdk {
         version = release(36)
     }

@@ -1,15 +1,15 @@
-package com.dertefter.gallery.presentation
+package com.dertefter.images.presentation
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.gallery.presentation.content.PermissionDialogState
-import com.dertefter.gallery.presentation.content.UiState
-import com.dertefter.gallery.usecase.CheckPermissionsUseCase
-import com.dertefter.gallery.usecase.GetMediaUseCase
-import com.dertefter.gallery.usecase.OpenFileUseCase
+import com.dertefter.images.presentation.content.PermissionDialogState
+import com.dertefter.images.presentation.content.UiState
+import com.dertefter.images.usecase.CheckPermissionsUseCase
+import com.dertefter.images.usecase.GetMediaUseCase
+import com.dertefter.images.usecase.OpenFileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

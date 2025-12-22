@@ -1,4 +1,4 @@
-package com.dertefter.gallery.usecase
+package com.dertefter.images.usecase
 
 import android.net.Uri
 import com.dertefter.data.repository.FileInteractionHandler

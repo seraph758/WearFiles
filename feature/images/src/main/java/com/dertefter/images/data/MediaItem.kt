@@ -1,4 +1,4 @@
-package com.dertefter.gallery.data
+package com.dertefter.images.data
 
 import android.net.Uri
 

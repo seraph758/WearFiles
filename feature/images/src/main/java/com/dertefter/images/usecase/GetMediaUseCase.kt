@@ -1,12 +1,11 @@
-package com.dertefter.gallery.usecase
+package com.dertefter.images.usecase
 
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import com.dertefter.gallery.data.MediaItem
+import com.dertefter.images.data.MediaItem
 import javax.inject.Inject
 
 class GetMediaUseCase @Inject constructor(

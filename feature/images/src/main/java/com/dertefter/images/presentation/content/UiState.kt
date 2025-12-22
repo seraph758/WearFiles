@@ -1,6 +1,6 @@
-package com.dertefter.gallery.presentation.content
+package com.dertefter.images.presentation.content
 
-import com.dertefter.gallery.data.MediaItem
+import com.dertefter.images.data.MediaItem
 
 sealed interface UiState {
     data object Loading : UiState

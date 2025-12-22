@@ -1,11 +1,11 @@
-package com.dertefter.gallery
+package com.dertefter.images
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.dertefter.gallery.presentation.Event
-import com.dertefter.gallery.presentation.GalleryViewModel
-import com.dertefter.gallery.presentation.GalleyScreen
+import com.dertefter.images.presentation.Event
+import com.dertefter.images.presentation.GalleryViewModel
+import com.dertefter.images.presentation.GalleyScreen
 
 @Composable
 fun GalleryRoute(

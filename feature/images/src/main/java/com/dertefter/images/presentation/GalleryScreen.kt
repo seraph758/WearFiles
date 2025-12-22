@@ -1,4 +1,4 @@
-package com.dertefter.gallery.presentation
+package com.dertefter.images.presentation
 
 import android.Manifest
 import android.content.Intent
@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,10 +26,10 @@ import androidx.wear.compose.material3.Text
 import com.dertefter.design.components.basic_screens.AskDefaultScreen
 import com.dertefter.design.components.basic_screens.ContentLoadingDefaultScreen
 import com.dertefter.design.icons.Icons
-import com.dertefter.gallery.R
-import com.dertefter.gallery.presentation.content.ContentSuccess
-import com.dertefter.gallery.presentation.content.PermissionDialogState
-import com.dertefter.gallery.presentation.content.UiState
+import com.dertefter.images.R
+import com.dertefter.images.presentation.content.ContentSuccess
+import com.dertefter.images.presentation.content.PermissionDialogState
+import com.dertefter.images.presentation.content.UiState
 
 @Composable
 fun GalleyScreen(onEvent: (Event) -> Unit, uiState: UiState, dialogState: PermissionDialogState) {

@@ -1,7 +1,7 @@
-package com.dertefter.gallery.presentation
+package com.dertefter.images.presentation
 
 import android.net.Uri
-import com.dertefter.gallery.data.MediaItem
+import com.dertefter.images.data.MediaItem
 
 sealed class Event {
 

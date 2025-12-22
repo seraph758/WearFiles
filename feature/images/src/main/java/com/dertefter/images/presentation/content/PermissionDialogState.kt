@@ -1,4 +1,4 @@
-package com.dertefter.gallery.presentation.content
+package com.dertefter.images.presentation.content
 
 enum class PermissionDialogState {
     SHOW, HIDE

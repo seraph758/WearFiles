@@ -6,7 +6,7 @@ import androidx.navigation.toRoute
 import com.dertefter.delete.DeleteRoute
 import com.dertefter.file_list.FileListRoute
 import com.dertefter.video.VideoRoute
-import com.dertefter.gallery.GalleryRoute
+import com.dertefter.images.GalleryRoute
 import com.dertefter.home.HomeRoute
 import com.dertefter.music.MusicRoute
 import com.dertefter.navigation.Routes

@@ -26,7 +26,7 @@ import androidx.wear.compose.material3.Text
 import com.dertefter.design.components.basic_screens.AskDefaultScreen
 import com.dertefter.design.components.basic_screens.ContentLoadingDefaultScreen
 import com.dertefter.design.icons.Icons
-import com.dertefter.gallery.R
+import com.dertefter.video.R
 import com.dertefter.video.presentation.content.ContentSuccess
 import com.dertefter.video.presentation.content.PermissionDialogState
 import com.dertefter.video.presentation.content.UiState

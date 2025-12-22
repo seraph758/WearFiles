@@ -1,11 +1,11 @@
-package com.dertefter.gallery.presentation.content
+package com.dertefter.images.presentation.content
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.dertefter.design.components.basic_screens.ContentFailedDefaultScreen
-import com.dertefter.gallery.R
-import com.dertefter.gallery.presentation.Event
+import com.dertefter.images.R
+import com.dertefter.images.presentation.Event
 
 @Composable
 fun ContentFailed(

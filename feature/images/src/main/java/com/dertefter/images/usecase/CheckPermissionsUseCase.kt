@@ -1,4 +1,4 @@
-package com.dertefter.gallery.usecase
+package com.dertefter.images.usecase
 
 import com.dertefter.data.repository.FileManagerRepository
 import javax.inject.Inject

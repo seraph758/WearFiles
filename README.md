@@ -6,16 +6,18 @@
 
 ![WearFiles Banner](screenshots/banner.jpg)
 
-**WearFiles** is a simple file manager for Wear OS smartwatches.
+Simple file manager for Wear OS smartwatches.
 
-## 📌 Features
-- 📂 View and open files
-- 🗑 Delete files
-- ✂️ Cut/📋 Copy/📌 Paste files
+## Features
+- View and open files
+- Delete files
+- Cut/Copy/Paste files
 
-## ⚠️ Important
-Due to Wear OS platform restrictions, the app cannot grant file access permissions on its own. You need to do this manually:
+## Important
+- Due to Wear OS platform limitations, the application cannot automatically grant the MANAGE_EXTERNAL_STORAGE permission. You need to do this manually. This permission is necessary to access the device's file system.
+- You will be able to use the application without this permission in a limited mode. You will have access to viewing a list of photos, videos, and audio files.
 
+### How to manually grant access to files:  
 1. Connect your watch to a computer via ADB.
 2. Run the following command:
 

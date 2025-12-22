@@ -98,6 +98,33 @@ class FileManagerRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun hasAudioAccess(): Boolean {
+        if (hasFileAccess()) {
+            return true
+        }
+        try {
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                    val readAudio = ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_MEDIA_AUDIO
+                    ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+                    return readAudio
+                }
+
+                else -> {
+                    return ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+                }
+            }
+        } catch (_: Exception) {
+            return false
+        }
+    }
+
     override fun getFileByPath(path: String): File? {
         return try{
             File(path)

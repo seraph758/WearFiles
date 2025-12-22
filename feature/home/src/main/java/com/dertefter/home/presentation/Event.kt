@@ -7,6 +7,8 @@ sealed class Event {
 
     object OnNavigateToGallery : Event()
 
+    object OnNavigateToMusic : Event()
+
     object OnNavigateToStorage : Event()
 
     object OnHideMenu : Event()

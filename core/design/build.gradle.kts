@@ -47,5 +47,5 @@ dependencies {
 
     implementation(libs.coil.compose)
     implementation(libs.coil.video)
-    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.compose.foundation)
 }

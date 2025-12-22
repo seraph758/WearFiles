@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.wear.compose.material3)
     implementation(libs.androidx.wear.compose.foundation)
     implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material3)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

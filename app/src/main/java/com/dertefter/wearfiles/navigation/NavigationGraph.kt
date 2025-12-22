@@ -1,16 +1,15 @@
 package com.dertefter.wearfiles.navigation
 
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
 import com.dertefter.delete.DeleteRoute
 import com.dertefter.file_list.FileListRoute
 import com.dertefter.gallery.GalleryRoute
+import com.dertefter.music.MusicRoute
 import com.dertefter.home.HomeRoute
 import com.dertefter.navigation.Routes
 import com.dertefter.new_directory.NewDirectoryRoute
-import com.dertefter.onboarding.OnBoardingRoute
 import com.dertefter.rename.RenameRoute
 import com.dertefter.text_viewer.TextViewerRoute
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
@@ -33,6 +32,10 @@ fun NavigationGraph(
 
         composable<Routes.Gallery> {
             GalleryRoute()
+        }
+
+        composable<Routes.Music> {
+            MusicRoute()
         }
 
         composable<Routes.FilesList> { backStackEntry ->

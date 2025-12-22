@@ -43,12 +43,12 @@ espressoCore = "3.7.0"
 kotlinxSerializationJson = "1.9.0"
 zoomable = "2.9.0"
 foundation = "1.10.0"
+material3 = "1.4.0"
 
 [libraries]
 # Compose (BOM)
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
-androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
@@ -94,7 +94,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 # Other
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
-androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

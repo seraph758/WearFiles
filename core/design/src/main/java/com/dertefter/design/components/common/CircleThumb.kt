@@ -7,25 +7,25 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.decode.VideoFrameDecoder
 import coil.request.ImageRequest
+import coil.request.videoFrameMillis
 import com.dertefter.design.icons.Icons
 import java.io.File
-
 
 @Composable
 fun CircleThumb(
@@ -40,53 +40,68 @@ fun CircleThumb(
 ) {
     val context = LocalContext.current
 
+    var previewLoaded by remember { mutableStateOf(false) }
+
     Box(
         modifier = modifier
             .clip(CircleShape)
-            .background(backgroundColor)
-    ){
+            .clickable(onClick = onClick)
+    ) {
 
-        val icon = icon ?: file?.resolveIcon()
+        val resolvedIcon = icon ?: file?.resolveIcon()
 
-        Icon(
-            contentDescription = "",
-            imageVector = icon ?: Icons.Draft,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(6.dp),
-            tint = iconColor
-        )
+        if (!previewLoaded) {
+            Icon(
+                contentDescription = null,
+                imageVector = resolvedIcon ?: Icons.Draft,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor)
+                    .padding(6.dp),
+                tint = iconColor
+            )
+        }
+
+        val isVideo = remember(uri, file, context) {
+            file?.let {
+                val mime = MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(it.extension.lowercase())
+                mime?.startsWith("video/") == true
+            } ?: uri?.let { u ->
+                context.contentResolver.getType(u)?.startsWith("video/") == true
+            } ?: false
+        }
+
+        val imageLoader = remember(context, isVideo) {
+            if (isVideo) {
+                ImageLoader.Builder(context)
+                    .components { add(VideoFrameDecoder.Factory()) }
+                    .build()
+            } else {
+                ImageLoader.Builder(context).build()
+            }
+        }
+
+        val request = remember(uri, isVideo) {
+            ImageRequest.Builder(context)
+                .data(uri)
+                .apply { if (isVideo) videoFrameMillis(0) }
+                .crossfade(true)
+                .build()
+        }
 
         AsyncImage(
-            model = ImageRequest.Builder(context)
-                .data(uri)
-                .crossfade(true)
-                .build(),
+            model = request,
+            imageLoader = imageLoader,
             contentDescription = contentDescription,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            onState = { state ->
+                previewLoaded = state is AsyncImagePainter.State.Success
+            }
         )
-
-
-
-
-
-
-
     }
-
 }
-
-@Preview(showBackground = true, showSystemUi = false)
-@Composable
-fun CircleThumbPreview(){
-    CircleThumb(
-        uri = "https://picsum.photos/200/300".toUri(),
-        modifier = Modifier.size(64.dp),
-    )
-}
-
 
 @Composable
 fun File.resolveIcon(): ImageVector {

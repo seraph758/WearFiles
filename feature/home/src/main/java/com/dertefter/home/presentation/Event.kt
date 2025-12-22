@@ -1,13 +1,12 @@
 package com.dertefter.home.presentation
 
+import com.dertefter.home.data.model.HomeItem
 import com.dertefter.menu.MenuMode
 import java.io.File
 
 sealed class Event {
 
-    object OnNavigateToGallery : Event()
-
-    object OnNavigateToMusic : Event()
+    data class OnNavigateTo (val item: HomeItem) : Event()
 
     object OnNavigateToStorage : Event()
 

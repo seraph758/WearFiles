@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":feature:rename"))
     implementation(project(":feature:delete"))
     implementation(project(":feature:new_directory"))
+    implementation(project(":feature:video"))
 
     implementation(project(":feature:text_viewer"))
     implementation(project(":feature:image_viewer"))

@@ -7,5 +7,6 @@
     <string name="storage">Storage</string>
     <string name="home_title" translatable="false">WearFiles</string>
     <string name="pinned">Pinned</string>
-    <string name="media">Gallery</string>
+    <string name="photo">Photos</string>
+    <string name="video">Videos</string>
 </resources>

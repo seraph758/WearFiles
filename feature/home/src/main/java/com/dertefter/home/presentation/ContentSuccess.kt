@@ -71,24 +71,16 @@ fun ContentSuccess(
 
                     val title = when (item.type){
                         HomeItemType.AUDIO -> stringResource(R.string.music)
-                        HomeItemType.MEDIA -> stringResource(R.string.media)
-                        HomeItemType.DOCUMENTS -> ""
+                        HomeItemType.IMAGES -> stringResource(R.string.photo)
+                        HomeItemType.VIDEOS -> stringResource(R.string.video)
                         HomeItemType.STORAGE -> stringResource(R.string.storage)
                     }
 
                     val icon = when (item.type){
-                        HomeItemType.MEDIA -> Icons.Wallpaper
-                        HomeItemType.DOCUMENTS -> Icons.Watch
+                        HomeItemType.IMAGES -> Icons.Wallpaper
+                        HomeItemType.VIDEOS -> Icons.Video
                         HomeItemType.AUDIO -> Icons.Music
                         HomeItemType.STORAGE -> Icons.Watch
-                    }
-
-                    val onClickEvent = when (item.type){
-                        HomeItemType.MEDIA -> Event.OnNavigateToGallery
-                        HomeItemType.AUDIO -> Event.OnNavigateToMusic
-                        HomeItemType.STORAGE -> Event.OnNavigateToStorage
-
-                        else ->  Event.OnNavigateToGallery
                     }
 
                     FileItem(
@@ -96,7 +88,7 @@ fun ContentSuccess(
                         text = title,
                         icon = icon,
                         onClick = {
-                            onEvent(onClickEvent)
+                            onEvent(Event.OnNavigateTo(item))
                         },
                         onLongClick = {},
                         type = FileItemType.PRIMARY

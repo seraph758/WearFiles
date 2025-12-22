@@ -66,7 +66,7 @@ class FileManagerRepositoryImpl @Inject constructor(
         } else true
     }
 
-    override fun hasMediaAccess(): Boolean {
+    override fun hasImagesAccess(): Boolean {
         if (hasFileAccess()) {
             return true
         }
@@ -78,12 +78,34 @@ class FileManagerRepositoryImpl @Inject constructor(
                         Manifest.permission.READ_MEDIA_IMAGES
                     ) == android.content.pm.PackageManager.PERMISSION_GRANTED
 
+                    return readImages
+                }
+
+                else -> {
+                    return ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+                }
+            }
+        } catch (_: Exception) {
+            return false
+        }
+    }
+
+    override fun hasVideosAccess(): Boolean {
+        if (hasFileAccess()) {
+            return true
+        }
+        try {
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
                     val readVideos = ContextCompat.checkSelfPermission(
                         context,
                         Manifest.permission.READ_MEDIA_VIDEO
                     ) == android.content.pm.PackageManager.PERMISSION_GRANTED
 
-                    return readImages && readVideos
+                    return readVideos
                 }
 
                 else -> {

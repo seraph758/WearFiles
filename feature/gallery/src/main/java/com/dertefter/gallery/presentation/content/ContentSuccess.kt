@@ -29,6 +29,7 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.dertefter.design.components.common.CircleThumb
 import com.dertefter.design.components.items.TextItem
 import com.dertefter.gallery.R
 import com.dertefter.gallery.data.MediaItem
@@ -111,22 +112,18 @@ fun ContentSuccess(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             rowItems.forEach { item ->
-                                AsyncImage(
-                                    model = ImageRequest.Builder(context)
-                                        .data(item.uri)
-                                        .crossfade(true)
-                                        .build(),
+
+                                CircleThumb(
+                                    uri = item.uri,
                                     contentDescription = item.displayName,
-                                    contentScale = ContentScale.Crop,
+                                    onClick = {
+                                        onEvent(Event.OnOpenFile(item.uri, item.isVideo, item.displayName))
+                                    },
+                                    backgroundColor = MaterialTheme.colorScheme.background,
+                                    iconColor = MaterialTheme.colorScheme.background,
                                     modifier = Modifier
                                         .weight(1f)
                                         .aspectRatio(1f)
-                                        .clip(RoundedCornerShape(50))
-                                        .clickable(
-                                            onClick = {
-                                                onEvent(Event.OnOpenFile(item.uri, item.isVideo, item.displayName))
-                                            }
-                                        )
                                 )
                             }
                             repeat(3 - rowItems.size) {

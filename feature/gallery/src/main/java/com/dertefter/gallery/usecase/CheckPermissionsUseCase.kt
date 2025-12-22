@@ -8,7 +8,7 @@ class CheckPermissionsUseCase @Inject constructor(
 ) {
 
     operator fun invoke(): Boolean {
-        return fileManagerRepository.hasMediaAccess()
+        return fileManagerRepository.hasImagesAccess()
     }
 
 }

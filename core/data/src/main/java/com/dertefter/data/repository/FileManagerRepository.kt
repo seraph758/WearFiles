@@ -10,7 +10,9 @@ interface FileManagerRepository {
     suspend fun getParentFilePath(path: String): String?
     fun hasFileAccess(): Boolean
 
-    fun hasMediaAccess(): Boolean
+    fun hasImagesAccess(): Boolean
+
+    fun hasVideosAccess(): Boolean
 
     fun hasAudioAccess(): Boolean
 

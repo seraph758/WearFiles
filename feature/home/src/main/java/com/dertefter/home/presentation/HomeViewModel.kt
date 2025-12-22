@@ -8,23 +8,19 @@ import androidx.lifecycle.viewModelScope
 import com.dertefter.data.repository.PinnedRepository
 import com.dertefter.home.data.model.HomeItem
 import com.dertefter.home.data.model.HomeItemType
-import com.dertefter.home.presentation.MenuState.*
-import com.dertefter.home.usecase.NavigateToGalleryUseCase
-import com.dertefter.home.usecase.NavigateToMusicUseCase
+import com.dertefter.home.presentation.MenuState.Show
 import com.dertefter.home.usecase.NavigateToPathUseCase
 import com.dertefter.home.usecase.NavigateToStorageUseCase
+import com.dertefter.home.usecase.NavigateToUseCase
 import com.dertefter.home.usecase.OpenFileUseCase
 import com.dertefter.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val navigateToGalleryUseCase: NavigateToGalleryUseCase,
-    private val navigateToMusicUseCase: NavigateToMusicUseCase,
+    private val navigateToUseCase: NavigateToUseCase,
     private val navigateToStorageUseCase: NavigateToStorageUseCase,
     private val settingsRepository: PinnedRepository,
     private val navigateToPathUseCase: NavigateToPathUseCase,
@@ -43,7 +39,8 @@ class HomeViewModel @Inject constructor(
             settingsRepository.getPinnedFlow().collect { pinned ->
                 state = UiState.Success(
                     homeItems = listOf(
-                        HomeItem(HomeItemType.MEDIA, Routes.Gallery),
+                        HomeItem(HomeItemType.IMAGES, Routes.Gallery),
+                        HomeItem(HomeItemType.VIDEOS, Routes.Video),
                         HomeItem(HomeItemType.AUDIO, Routes.Music),
                         HomeItem(HomeItemType.STORAGE, Routes.FilesList())
                     ),
@@ -56,12 +53,8 @@ class HomeViewModel @Inject constructor(
 
     fun onEvent(event: Event) {
         when (event) {
-            is Event.OnNavigateToGallery -> {
-                navigateToGalleryUseCase()
-            }
-
-            is Event.OnNavigateToMusic -> {
-                navigateToMusicUseCase()
+            is Event.OnNavigateTo -> {
+                navigateToUseCase(event.item.routes)
             }
 
             is Event.OnNavigateToStorage -> {

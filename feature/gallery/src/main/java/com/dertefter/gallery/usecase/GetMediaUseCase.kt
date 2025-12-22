@@ -18,7 +18,6 @@ class GetMediaUseCase @Inject constructor(
             val result = mutableListOf<MediaItem>()
 
             result += queryImages()
-            result += queryVideos()
 
             val finalList = result.sortedByDescending { it.id }
 
@@ -79,55 +78,4 @@ class GetMediaUseCase @Inject constructor(
         return list
     }
 
-    private fun queryVideos(): List<MediaItem> {
-        val list = mutableListOf<MediaItem>()
-
-        val projection = arrayOf(
-            MediaStore.Video.Media._ID,
-            MediaStore.Video.Media.DISPLAY_NAME
-        )
-
-        val uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-
-        val cursor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val args = Bundle().apply {
-                putStringArray(
-                    ContentResolver.QUERY_ARG_SORT_COLUMNS,
-                    arrayOf(MediaStore.Video.Media._ID)
-                )
-                putInt(
-                    ContentResolver.QUERY_ARG_SORT_DIRECTION,
-                    ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
-                )
-            }
-            contentResolver.query(uri, projection, args, null)
-        } else {
-            val sort = "${MediaStore.Video.Media._ID} DESC"
-            contentResolver.query(uri, projection, null, null, sort)
-        }
-
-        cursor?.use { c ->
-            val idIndex = c.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
-            val nameIndex = c.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)
-
-            while (c.moveToNext()) {
-                val id = c.getLong(idIndex)
-                val name = c.getString(nameIndex)
-
-                val contentUri =
-                    ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
-
-                list.add(
-                    MediaItem(
-                        id = id,
-                        uri = contentUri,
-                        displayName = name,
-                        isVideo = true
-                    )
-                )
-            }
-        }
-
-        return list
-    }
 }

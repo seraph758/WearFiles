@@ -5,9 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
 import com.dertefter.delete.DeleteRoute
 import com.dertefter.file_list.FileListRoute
+import com.dertefter.video.VideoRoute
 import com.dertefter.gallery.GalleryRoute
-import com.dertefter.music.MusicRoute
 import com.dertefter.home.HomeRoute
+import com.dertefter.music.MusicRoute
 import com.dertefter.navigation.Routes
 import com.dertefter.new_directory.NewDirectoryRoute
 import com.dertefter.rename.RenameRoute
@@ -36,6 +37,10 @@ fun NavigationGraph(
 
         composable<Routes.Music> {
             MusicRoute()
+        }
+
+        composable<Routes.Video> {
+            VideoRoute()
         }
 
         composable<Routes.FilesList> { backStackEntry ->

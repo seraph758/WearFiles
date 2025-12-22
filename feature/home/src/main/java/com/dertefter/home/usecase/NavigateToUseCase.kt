@@ -4,10 +4,10 @@ import com.dertefter.navigation.Navigator
 import com.dertefter.navigation.Routes
 import javax.inject.Inject
 
-class NavigateToGalleryUseCase @Inject constructor(
+class NavigateToUseCase @Inject constructor(
     private val navigator: Navigator
 ) {
-    operator fun invoke() {
-        return navigator.navigate(Routes.Gallery)
+    operator fun invoke(routes: Routes) {
+        return navigator.navigate(routes)
     }
 }

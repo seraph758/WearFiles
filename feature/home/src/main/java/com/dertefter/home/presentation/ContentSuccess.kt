@@ -79,12 +79,13 @@ fun ContentSuccess(
                     val icon = when (item.type){
                         HomeItemType.MEDIA -> Icons.Wallpaper
                         HomeItemType.DOCUMENTS -> Icons.Watch
-                        HomeItemType.AUDIO -> Icons.Watch
+                        HomeItemType.AUDIO -> Icons.Music
                         HomeItemType.STORAGE -> Icons.Watch
                     }
 
                     val onClickEvent = when (item.type){
                         HomeItemType.MEDIA -> Event.OnNavigateToGallery
+                        HomeItemType.AUDIO -> Event.OnNavigateToMusic
                         HomeItemType.STORAGE -> Event.OnNavigateToStorage
 
                         else ->  Event.OnNavigateToGallery

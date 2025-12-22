@@ -10,6 +10,7 @@ import com.dertefter.home.data.model.HomeItem
 import com.dertefter.home.data.model.HomeItemType
 import com.dertefter.home.presentation.MenuState.*
 import com.dertefter.home.usecase.NavigateToGalleryUseCase
+import com.dertefter.home.usecase.NavigateToMusicUseCase
 import com.dertefter.home.usecase.NavigateToPathUseCase
 import com.dertefter.home.usecase.NavigateToStorageUseCase
 import com.dertefter.home.usecase.OpenFileUseCase
@@ -23,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigateToGalleryUseCase: NavigateToGalleryUseCase,
+    private val navigateToMusicUseCase: NavigateToMusicUseCase,
     private val navigateToStorageUseCase: NavigateToStorageUseCase,
     private val settingsRepository: PinnedRepository,
     private val navigateToPathUseCase: NavigateToPathUseCase,
@@ -42,6 +44,7 @@ class HomeViewModel @Inject constructor(
                 state = UiState.Success(
                     homeItems = listOf(
                         HomeItem(HomeItemType.MEDIA, Routes.Gallery),
+                        HomeItem(HomeItemType.AUDIO, Routes.Music),
                         HomeItem(HomeItemType.STORAGE, Routes.FilesList())
                     ),
                     pinnedItems = pinned
@@ -55,6 +58,10 @@ class HomeViewModel @Inject constructor(
         when (event) {
             is Event.OnNavigateToGallery -> {
                 navigateToGalleryUseCase()
+            }
+
+            is Event.OnNavigateToMusic -> {
+                navigateToMusicUseCase()
             }
 
             is Event.OnNavigateToStorage -> {

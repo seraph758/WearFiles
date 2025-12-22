@@ -12,6 +12,9 @@ sealed interface Routes {
     data object Gallery : Routes
 
     @Serializable
+    data object Music : Routes
+
+    @Serializable
     data class FilesList(
         val path: String? = null
     ) : Routes

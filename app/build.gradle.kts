@@ -52,6 +52,7 @@ dependencies {
 
     implementation(project(":feature:home"))
     implementation(project(":feature:gallery"))
+    implementation(project(":feature:music"))
     implementation(project(":feature:onboarding"))
     implementation(project(":feature:file_list"))
     implementation(project(":feature:rename"))

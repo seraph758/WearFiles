@@ -1,12 +1,3 @@
-
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
-}
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -15,8 +6,9 @@ plugins {
     kotlin("kapt")
 }
 
+
 android {
-    namespace = "com.dertefter.menu"
+    namespace = "com.dertefter.gallery"
     compileSdk {
         version = release(36)
     }
@@ -28,21 +20,18 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-
-    buildFeatures {
-        compose = true
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 
 dependencies {
-
     implementation(project(":core:navigation"))
     implementation(project(":core:data"))
     implementation(project(":core:design"))
@@ -52,9 +41,11 @@ dependencies {
     implementation(libs.androidx.wear.compose.material3)
     implementation(libs.androidx.wear.compose.foundation)
     implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material3)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.horologist.compose.layout)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.video)
 }

@@ -12,6 +12,8 @@ interface FileManagerRepository {
 
     fun hasMediaAccess(): Boolean
 
+    fun hasAudioAccess(): Boolean
+
     fun getFileByPath(path: String): File?
 
 

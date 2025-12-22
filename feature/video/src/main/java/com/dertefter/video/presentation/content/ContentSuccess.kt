@@ -64,7 +64,7 @@ fun ContentSuccess(
                     transformation = SurfaceTransformation(transformationSpec)
                 ){
                     Text(
-                        text = stringResource(R.string.gallery_title),
+                        text = stringResource(R.string.videos_title),
                         color = MaterialTheme.colorScheme.primary
                     )
                 }

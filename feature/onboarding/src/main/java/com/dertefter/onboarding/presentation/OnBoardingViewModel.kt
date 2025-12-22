@@ -48,7 +48,7 @@ class OnBoardingViewModel @Inject constructor(
 
     private fun openLinkOnPhone(){
         viewModelScope.launch {
-            openLinkOnPhoneUseCase("https://google.com")
+            openLinkOnPhoneUseCase("https://github.com/dertefter/WearFiles")
                 .onSuccess {
                     onEvent(Event.ShowDialog(isSuccessful = true))
                 }

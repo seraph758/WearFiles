@@ -3,6 +3,6 @@
     <string name="error">Ошибка</string>
     <string name="grant_permissions">Предоставить разрешения</string>
     <string name="perm_title">Для доступа к этому разделу необходимы разрешения</string>
-    <string name="gallery_title">Фото и видео</string>
-    <string name="nothing_here">Тут пусто...</string>
+    <string name="videos_title">Видео</string>
+    <string name="nothing_here">Тут пусто…</string>
 </resources>

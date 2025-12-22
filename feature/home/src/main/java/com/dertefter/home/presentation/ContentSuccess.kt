@@ -83,6 +83,12 @@ fun ContentSuccess(
                         HomeItemType.STORAGE -> Icons.Watch
                     }
 
+                    val type = if (item.type == HomeItemType.STORAGE) {
+                        FileItemType.PRIMARY
+                    } else {
+                        FileItemType.DEFAULT
+                    }
+
                     FileItem(
                         transformationSpec,
                         text = title,
@@ -91,7 +97,7 @@ fun ContentSuccess(
                             onEvent(Event.OnNavigateTo(item))
                         },
                         onLongClick = {},
-                        type = FileItemType.PRIMARY
+                        type = type
 
                     )
                 }

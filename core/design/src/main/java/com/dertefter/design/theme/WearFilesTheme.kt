@@ -7,6 +7,7 @@ import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.dynamicColorScheme
 import com.materialkolor.PaletteStyle
+import com.materialkolor.dynamiccolor.ColorSpec
 import com.materialkolor.rememberDynamicColorScheme
 
 @Composable
@@ -41,7 +42,8 @@ fun buildColorScheme(seedColor: Color): ColorScheme {
     val colorScheme = rememberDynamicColorScheme(
         seedColor = seedColor,
         isDark = true,
-        style = PaletteStyle.TonalSpot,
+        specVersion = ColorSpec.SpecVersion.SPEC_2021,
+        style = PaletteStyle.Vibrant,
     )
 
     val wearColorScheme = ColorScheme(

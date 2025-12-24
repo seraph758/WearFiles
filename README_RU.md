@@ -4,7 +4,7 @@
 
 [![Get it on Google Play](screenshots/gb_badge.png)](https://play.google.com/store/apps/details?id=com.dertefter.wearfiles)
 
-![WearFiles Banner](screenshots/banner.jpg)
+![WearFiles Banner](screenshots/banner_new.jpg)
 
 Простой файловый менеджер для часов на Wear OS.
 

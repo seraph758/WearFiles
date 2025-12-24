@@ -1,9 +1,7 @@
 package com.dertefter.home.presentation
 
-import com.dertefter.home.data.model.HomeItem
 import com.dertefter.menu.MenuMode
 import com.dertefter.navigation.Routes
-import java.io.File
 
 sealed class Event {
 

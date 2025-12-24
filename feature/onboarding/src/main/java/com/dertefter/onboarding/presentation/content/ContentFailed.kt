@@ -3,7 +3,6 @@ package com.dertefter.onboarding.presentation.content
 import android.Manifest
 import android.content.Intent
 import android.os.Build
-import android.os.Environment
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts

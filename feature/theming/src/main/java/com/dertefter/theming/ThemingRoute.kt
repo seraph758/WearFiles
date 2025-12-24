@@ -1,7 +1,6 @@
 package com.dertefter.theming
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.dertefter.theming.presentation.ThemingScreen
 import com.dertefter.theming.presentation.ThemingViewModel

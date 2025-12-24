@@ -1,8 +1,6 @@
 package com.dertefter.navigation
 
-import android.net.Uri
 import kotlinx.serialization.Serializable
-import java.io.File
 
 sealed interface Routes {
     @Serializable
@@ -13,9 +11,6 @@ sealed interface Routes {
 
     @Serializable
     data object Settings : Routes
-
-    @Serializable
-    data object About : Routes
 
     @Serializable
     data object Theming : Routes

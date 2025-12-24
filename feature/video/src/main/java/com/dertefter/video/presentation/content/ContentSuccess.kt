@@ -21,7 +21,7 @@ import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import com.dertefter.design.components.common.CircleThumb
+import com.dertefter.design.components.items.CircleThumb
 import com.dertefter.video.R
 import com.dertefter.video.data.MediaItem
 import com.dertefter.video.presentation.Event

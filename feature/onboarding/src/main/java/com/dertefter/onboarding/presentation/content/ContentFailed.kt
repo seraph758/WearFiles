@@ -1,11 +1,19 @@
 package com.dertefter.onboarding.presentation.content
 
+import android.Manifest
+import android.content.Intent
+import android.os.Build
+import android.os.Environment
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +45,12 @@ fun ContentFailed(onEvent: (Event) -> Unit){
     )
 
     val transformationSpec = rememberTransformationSpec()
+
+    val context = LocalContext.current
+    val permissionsLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { _ -> }
+
 
     ScreenScaffold(
         scrollState = columnState, contentPadding = contentPadding
@@ -102,6 +116,32 @@ fun ContentFailed(onEvent: (Event) -> Unit){
                     }) {
                     Text(
                         text = stringResource(R.string.info),
+                        modifier = Modifier.padding(4.dp)
+                    )
+                }
+            }
+
+            item {
+                FilledTonalButton(
+                    onClick = {
+
+                        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                            context.startActivity(intent)
+                        } else {
+                            permissionsLauncher.launch(
+                                arrayOf(
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                )
+                            )
+                        }
+                    },
+                    modifier = Modifier.transformedHeight(this, transformationSpec),
+                    transformation = SurfaceTransformation(transformationSpec),
+                    ) {
+                    Text(
+                        text = stringResource(R.string.try_grant_permissions),
                         modifier = Modifier.padding(4.dp)
                     )
                 }

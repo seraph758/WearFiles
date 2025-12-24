@@ -63,7 +63,19 @@ class FileManagerRepositoryImpl @Inject constructor(
     override fun hasFileAccess(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
-        } else true
+        } else {
+            val readStorage = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+            val writeStorage = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+            return readStorage && writeStorage
+        }
     }
 
     override fun hasImagesAccess(): Boolean {

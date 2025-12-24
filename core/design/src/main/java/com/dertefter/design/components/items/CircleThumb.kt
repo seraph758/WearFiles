@@ -1,4 +1,4 @@
-package com.dertefter.design.components.common
+package com.dertefter.design.components.items
 
 import android.net.Uri
 import android.webkit.MimeTypeMap
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
@@ -37,6 +38,7 @@ fun CircleThumb(
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     icon: ImageVector? = null,
+    shape: RoundedCornerShape = CircleShape
 ) {
     val context = LocalContext.current
 
@@ -44,7 +46,7 @@ fun CircleThumb(
 
     Box(
         modifier = modifier
-            .clip(CircleShape)
+            .clip(shape)
             .clickable(onClick = onClick)
     ) {
 

@@ -22,9 +22,9 @@ android {
 
     defaultConfig {
         applicationId = "com.dertefter.wearfiles"
-        minSdk = 28
+        minSdk = 26
         targetSdk = 36
-        versionCode = 26
+        versionCode = 30
         versionName = "2.0.0"
     }
 
@@ -59,10 +59,13 @@ dependencies {
     implementation(project(":feature:delete"))
     implementation(project(":feature:new_directory"))
     implementation(project(":feature:video"))
+    implementation(project(":feature:theming"))
+    implementation(project(":feature:settings"))
 
     implementation(project(":feature:text_viewer"))
     implementation(project(":feature:image_viewer"))
 
+    implementation(libs.material.kolor)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.wear.compose.material3)

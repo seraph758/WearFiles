@@ -12,6 +12,15 @@ sealed interface Routes {
     data object Gallery : Routes
 
     @Serializable
+    data object Settings : Routes
+
+    @Serializable
+    data object About : Routes
+
+    @Serializable
+    data object Theming : Routes
+
+    @Serializable
     data object Video : Routes
 
     @Serializable

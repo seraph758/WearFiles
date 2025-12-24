@@ -2,6 +2,7 @@ package com.dertefter.home.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -10,6 +11,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.FilledIconButton
+import androidx.wear.compose.material3.FilledTonalIconButton
+import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.ListSubHeader
 import androidx.wear.compose.material3.MaterialTheme
@@ -25,6 +29,7 @@ import com.dertefter.design.icons.Icons
 import com.dertefter.home.R
 import com.dertefter.home.data.model.HomeItem
 import com.dertefter.home.data.model.HomeItemType
+import com.dertefter.navigation.Routes
 import java.io.File
 
 @Composable
@@ -74,6 +79,7 @@ fun ContentSuccess(
                         HomeItemType.IMAGES -> stringResource(R.string.photo)
                         HomeItemType.VIDEOS -> stringResource(R.string.video)
                         HomeItemType.STORAGE -> stringResource(R.string.storage)
+                        HomeItemType.SETTINGS -> stringResource(R.string.settings)
                     }
 
                     val icon = when (item.type){
@@ -81,6 +87,7 @@ fun ContentSuccess(
                         HomeItemType.VIDEOS -> Icons.Video
                         HomeItemType.AUDIO -> Icons.Music
                         HomeItemType.STORAGE -> Icons.Watch
+                        HomeItemType.SETTINGS -> Icons.Settings
                     }
 
                     val type = if (item.type == HomeItemType.STORAGE) {
@@ -94,7 +101,7 @@ fun ContentSuccess(
                         text = title,
                         icon = icon,
                         onClick = {
-                            onEvent(Event.OnNavigateTo(item))
+                            onEvent(Event.OnNavigateTo(item.routes))
                         },
                         onLongClick = {},
                         type = type
@@ -145,6 +152,20 @@ fun ContentSuccess(
                     }
                 }
 
+            }
+
+            item {
+                FilledIconButton(
+                    onClick = {
+                        onEvent(Event.OnNavigateTo(Routes.Settings))
+                    },
+                    modifier = Modifier.padding(top = 12.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Settings,
+                        contentDescription = ""
+                    )
+                }
             }
 
         }

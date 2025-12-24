@@ -7,7 +7,7 @@ import com.dertefter.delete.R
 import com.dertefter.delete.presentation.Event
 import com.dertefter.design.components.basic_screens.DialogDefaultScreen
 import com.dertefter.design.icons.Icons
-import com.dertefter.design.theme.TheTheme
+import com.dertefter.design.theme.WearFilesTheme
 
 @Composable
 fun ContentSuccess(
@@ -32,7 +32,7 @@ fun ContentSuccess(
 @Composable
 @Preview(device = "id:wearos_small_round", showSystemUi = false, showBackground = true)
 fun ContentFailedPreview(){
-    TheTheme() {
+    WearFilesTheme() {
         ContentSuccess(
             "33333",{}
         )

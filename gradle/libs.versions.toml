@@ -12,6 +12,7 @@ composeBom = "2025.12.00"
 activityCompose = "1.12.1"
 kotlinxCoroutinesAndroid = "1.10.2"
 kotlinxCoroutinesCore = "1.10.2"
+materialKolor = "4.0.5"
 navigationCompose = "2.9.6"
 markdownCompose = "1.0.4"
 
@@ -93,6 +94,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 
 # Other
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 

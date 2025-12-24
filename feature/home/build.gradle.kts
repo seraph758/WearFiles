@@ -1,3 +1,11 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -6,7 +14,6 @@ plugins {
     kotlin("kapt")
 }
 
-
 android {
     namespace = "com.dertefter.home"
     compileSdk {
@@ -14,7 +21,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 28
+        minSdk = 26
     }
 
     buildTypes {
@@ -23,13 +30,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "11"
+
+    buildFeatures {
+        compose = true
     }
 }
+
 
 dependencies {
 

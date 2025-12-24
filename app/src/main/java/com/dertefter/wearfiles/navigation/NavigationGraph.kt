@@ -12,7 +12,9 @@ import com.dertefter.music.MusicRoute
 import com.dertefter.navigation.Routes
 import com.dertefter.new_directory.NewDirectoryRoute
 import com.dertefter.rename.RenameRoute
+import com.dertefter.settings.SettingsRoute
 import com.dertefter.text_viewer.TextViewerRoute
+import com.dertefter.theming.ThemingRoute
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.nav.SwipeDismissableNavHost
 import com.google.android.horologist.compose.nav.composable
@@ -31,9 +33,17 @@ fun NavigationGraph(
             HomeRoute()
         }
 
+        composable<Routes.Settings> {
+            SettingsRoute()
+        }
+
         composable<Routes.Gallery> {
             GalleryRoute()
         }
+        composable<Routes.Theming> {
+            ThemingRoute()
+        }
+
 
         composable<Routes.Music> {
             MusicRoute()

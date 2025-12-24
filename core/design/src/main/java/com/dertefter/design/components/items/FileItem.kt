@@ -1,11 +1,8 @@
 package com.dertefter.design.components.items
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -20,7 +17,6 @@ import androidx.wear.compose.material3.*
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import com.dertefter.design.components.common.CircleThumb
 import java.io.File
 
 enum class FileItemType {
@@ -49,14 +45,10 @@ fun TransformingLazyColumnItemScope.FileItem(
     val outsideRadius = if (isRound) {
         height/2
     } else {
-        10.dp
+        12.dp
     }
 
-    val contentPadding = if (isRound) {
-        6.dp
-    } else {
-        4.dp
-    }
+    val contentPadding = 6.dp
 
     val insideRadius = outsideRadius - contentPadding
 
@@ -114,7 +106,8 @@ fun TransformingLazyColumnItemScope.FileItem(
                 ,
                 icon = icon,
                 iconColor = iconTint,
-                backgroundColor = iconBackgroundColor
+                backgroundColor = iconBackgroundColor,
+                shape = RoundedCornerShape(insideRadius)
             )
 
             Text(
@@ -130,6 +123,22 @@ fun TransformingLazyColumnItemScope.FileItem(
 @Preview(device = "id:wearos_small_round", showBackground = true, showSystemUi = false)
 @Composable
 private fun FileItemPreview() {
+    val transformationSpec = rememberTransformationSpec()
+    TransformingLazyColumn {
+        item {
+            FileItem(
+                transformationSpec = transformationSpec,
+                text = "Preview Text Example",
+                thumbnailUrl = "",
+                onClick = {}
+            )
+        }
+    }
+}
+
+@Preview(device = "id:wear_square_320", showBackground = true, showSystemUi = false)
+@Composable
+private fun FileItemPreviewSq() {
     val transformationSpec = rememberTransformationSpec()
     TransformingLazyColumn {
         item {

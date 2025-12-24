@@ -1,21 +1,14 @@
-package com.dertefter.wearfiles.viewers
+package com.dertefter.wearfiles.common.viewers
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.wear.compose.material3.AppScaffold
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
-import com.dertefter.design.theme.TheTheme
-import com.dertefter.navigation.Navigator
-import com.dertefter.navigation.Routes
+import com.dertefter.design.theme.WearFilesTheme
 import com.dertefter.text_viewer.TextViewerRoute
-import com.dertefter.wearfiles.navigation.NavigationGraph
-import com.dertefter.wearfiles.navigation.NavigationHandler
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TextViewerActivity : ComponentActivity() {
@@ -37,7 +30,7 @@ class TextViewerActivity : ComponentActivity() {
 
 
         setContent {
-            TheTheme {
+            WearFilesTheme {
                 AppScaffold {
                     TextViewerRoute(incomingFileUri.toString())
                 }

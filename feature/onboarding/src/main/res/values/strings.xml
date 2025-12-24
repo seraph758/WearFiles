@@ -10,4 +10,5 @@
     <string name="send_failed">Failed to send instructions to your phone</string>
     <string name="success">Success</string>
     <string name="failed">Failed</string>
+    <string name="try_grant_permissions">Try to grant permissions</string>
 </resources>

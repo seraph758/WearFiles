@@ -19,10 +19,10 @@ class PinnedRepositoryImpl @Inject constructor(
 ) : PinnedRepository {
 
     val Context.settingsDataStore by preferencesDataStore(
-        name = "settings"
+        name = "pinned"
     )
 
-    object SettingsKeys {
+    object PinnedKeys {
         val PINNED_ITEMS = stringPreferencesKey("pinned_items")
     }
 
@@ -31,12 +31,12 @@ class PinnedRepositoryImpl @Inject constructor(
 
     override suspend fun getPinnedItems(): List<PinnedItem> {
         val prefs = dataStore.data.first()
-        return decode(prefs[SettingsKeys.PINNED_ITEMS])
+        return decode(prefs[PinnedKeys.PINNED_ITEMS])
     }
 
     override fun getPinnedFlow(): Flow<List<PinnedItem>> {
         return dataStore.data.map { prefs ->
-            decode(prefs[SettingsKeys.PINNED_ITEMS])
+            decode(prefs[PinnedKeys.PINNED_ITEMS])
         }
     }
 
@@ -47,21 +47,21 @@ class PinnedRepositoryImpl @Inject constructor(
 
     override suspend fun pinItem(item: PinnedItem) {
         dataStore.edit { prefs ->
-            val current = decode(prefs[SettingsKeys.PINNED_ITEMS]).toMutableList()
+            val current = decode(prefs[PinnedKeys.PINNED_ITEMS]).toMutableList()
 
             if (current.none { it.path == item.path }) {
                 current.add(item)
-                prefs[SettingsKeys.PINNED_ITEMS] = encode(current)
+                prefs[PinnedKeys.PINNED_ITEMS] = encode(current)
             }
         }
     }
 
     override suspend fun unpinItem(item: PinnedItem) {
         dataStore.edit { prefs ->
-            val current = decode(prefs[SettingsKeys.PINNED_ITEMS])
+            val current = decode(prefs[PinnedKeys.PINNED_ITEMS])
                 .filterNot { it.path == item.path }
 
-            prefs[SettingsKeys.PINNED_ITEMS] = encode(current)
+            prefs[PinnedKeys.PINNED_ITEMS] = encode(current)
         }
     }
 

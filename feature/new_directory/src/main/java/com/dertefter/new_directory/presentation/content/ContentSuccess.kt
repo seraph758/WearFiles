@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.dertefter.design.components.basic_screens.TextFieldDefaultScreen
-import com.dertefter.design.theme.TheTheme
+import com.dertefter.design.theme.WearFilesTheme
 import com.dertefter.new_directory.R
 import com.dertefter.new_directory.presentation.Event
 
@@ -36,7 +36,7 @@ fun ContentSuccess(
 @Composable
 @Preview(device = "id:wearos_small_round", showSystemUi = false, showBackground = true)
 fun ContentFailedPreview(){
-    TheTheme() {
+    WearFilesTheme() {
         ContentSuccess(
             "33333","22222",  true, {}
         )

@@ -2,11 +2,12 @@ package com.dertefter.home.presentation
 
 import com.dertefter.home.data.model.HomeItem
 import com.dertefter.menu.MenuMode
+import com.dertefter.navigation.Routes
 import java.io.File
 
 sealed class Event {
 
-    data class OnNavigateTo (val item: HomeItem) : Event()
+    data class OnNavigateTo (val routes: Routes) : Event()
 
     object OnNavigateToStorage : Event()
 

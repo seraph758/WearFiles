@@ -4,12 +4,14 @@ import com.dertefter.data.repository.ClipboardRepository
 import com.dertefter.data.repository.FileContentRepository
 import com.dertefter.data.repository.FileManagerRepository
 import com.dertefter.data.repository.PinnedRepository
-import com.dertefter.wearfiles.data.FileManagerRepositoryImpl
 import com.dertefter.data.repository.RemoteInteractionHandler
+import com.dertefter.design.theme.ThemeManager
 import com.dertefter.wearfiles.data.ClipboardRepositoryImpl
 import com.dertefter.wearfiles.data.FileContentRepositoryImpl
+import com.dertefter.wearfiles.data.FileManagerRepositoryImpl
 import com.dertefter.wearfiles.data.PinnedRepositoryImpl
 import com.dertefter.wearfiles.data.RemoteInteractionHandlerImpl
+import com.dertefter.wearfiles.data.ThemeManagerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -48,4 +50,10 @@ interface RepositoryModule {
     fun bindPinnedRepository(
         impl: PinnedRepositoryImpl
     ): PinnedRepository
+
+    @Binds
+    @Singleton
+    fun bindThemeManager(
+        impl: ThemeManagerImpl
+    ): ThemeManager
 }

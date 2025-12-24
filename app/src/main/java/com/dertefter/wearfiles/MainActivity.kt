@@ -1,17 +1,19 @@
 package com.dertefter.wearfiles
 
-import android.content.ContentUris
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
-import com.dertefter.design.theme.TheTheme
+import com.dertefter.design.theme.WearFilesTheme
 import com.dertefter.navigation.Navigator
 import com.dertefter.wearfiles.navigation.NavigationGraph
 import com.dertefter.wearfiles.navigation.NavigationHandler
+import com.dertefter.wearfiles.presentation.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,7 +29,11 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            TheTheme {
+            val viewModel: MainViewModel = hiltViewModel()
+            val selectedColor by viewModel.selectedColor.collectAsState(initial = Color.Black)
+            val seedColor = selectedColor
+
+            WearFilesTheme(seedColor = seedColor) {
 
                 AppScaffold {
                     val navController = rememberSwipeDismissableNavController()
@@ -45,4 +51,5 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }

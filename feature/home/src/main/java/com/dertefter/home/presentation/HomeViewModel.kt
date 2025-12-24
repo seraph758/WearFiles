@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
                         HomeItem(HomeItemType.IMAGES, Routes.Gallery),
                         HomeItem(HomeItemType.VIDEOS, Routes.Video),
                         HomeItem(HomeItemType.AUDIO, Routes.Music),
-                        HomeItem(HomeItemType.STORAGE, Routes.FilesList())
+                        HomeItem(HomeItemType.STORAGE, Routes.FilesList()),
                     ),
                     pinnedItems = pinned
                 )
@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor(
     fun onEvent(event: Event) {
         when (event) {
             is Event.OnNavigateTo -> {
-                navigateToUseCase(event.item.routes)
+                navigateToUseCase(event.routes)
             }
 
             is Event.OnNavigateToStorage -> {

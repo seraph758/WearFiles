@@ -1,0 +1,17 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600.000000" height="600.000000" fill="none">
+	<defs>
+		<linearGradient id="paint_linear_1" x1="-6.10351562e-05" x2="599.999939" y1="6.10351562e-05" y2="599.999939" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(235,220,255)" offset="0" stop-opacity="1" />
+			<stop stop-color="rgb(249,240,255)" offset="1" stop-opacity="1" />
+		</linearGradient>
+		<clipPath id="clipPath_1">
+			<rect width="475.000000" height="445.000000" x="63.000000" y="77.000000" fill="rgb(255,255,255)" />
+		</clipPath>
+	</defs>
+	<rect id="Размер1" width="600.000000" height="600.000000" x="0.000000" y="0.000000" fill="rgb(255,255,255)" fill-opacity="0" />
+	<rect id="Прямоугольник 1" width="600.000000" height="600.000000" x="0.000000" y="0.000000" rx="300.000000" fill="url(#paint_linear_1)" />
+	<g id="folder_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24 1" clip-path="url(#clipPath_1)" customFrame="url(#clipPath_1)">
+		<rect id="folder_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24 1" width="475.000000" height="445.000000" x="63.000000" y="77.000000" />
+		<path id="Форма 1" d="M142.167 447.833C131.281 447.833 121.963 444.202 114.211 436.94C106.459 429.678 102.583 420.948 102.583 410.75L102.583 188.25C102.583 178.052 106.459 169.322 114.211 162.06C121.963 154.798 131.281 151.167 142.167 151.167L244.589 151.167C249.866 151.167 254.897 152.094 259.68 153.948C264.463 155.802 268.668 158.429 272.297 161.828L300.5 188.25L458.833 188.25C469.719 188.25 479.037 191.881 486.789 199.143C494.541 206.405 498.417 215.135 498.417 225.333L498.417 410.75C498.417 420.948 494.541 429.678 486.789 436.94C479.037 444.202 469.719 447.833 458.833 447.833L142.167 447.833Z" fill="rgb(64,0,140)" fill-rule="nonzero" />
+	</g>
+</svg>

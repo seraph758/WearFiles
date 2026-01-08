@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: net.engawapg.lib:zoomable-android:2.9.0@aar" external-system-id="GRADLE">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/8.13/transforms/851b5c20c84ee0b25342a44e0831982a/transformed/zoomable-release/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/8.13/transforms/851b5c20c84ee0b25342a44e0831982a/transformed/zoomable-release/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.engawapg.lib/zoomable-android/2.9.0/5737d0273b4c9f8dbb4cd6a48c66b695c9992097/zoomable-android-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.android.horologist:horologist-compose-layout:0.7.15@aar" external-system-id="GRADLE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/8.13/transforms/d3db67432b29af568098e5ae1554dbfa/transformed/horologist-compose-layout-0.7.15/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/8.13/transforms/d3db67432b29af568098e5ae1554dbfa/transformed/horologist-compose-layout-0.7.15/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.horologist/horologist-compose-layout/0.7.15/67874f2ac59f9cb079b5ca425937701c4d6f6662/horologist-compose-layout-0.7.15-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

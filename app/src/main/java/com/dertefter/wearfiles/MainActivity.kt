@@ -3,10 +3,9 @@ package com.dertefter.wearfiles
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.dertefter.design.theme.WearFilesTheme
@@ -24,16 +23,21 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navigator: Navigator
 
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
 
+        splashScreen.setKeepOnScreenCondition {
+            viewModel.viewState.value.isLoading
+        }
 
         setContent {
-            val viewModel: MainViewModel = hiltViewModel()
-            val selectedColor by viewModel.selectedColor.collectAsState(initial = Color.Black)
-            val seedColor = selectedColor
+            val state = viewModel.viewState.collectAsState().value
 
-            WearFilesTheme(seedColor = seedColor) {
+            WearFilesTheme(seedColor = state.themeColor) {
 
                 AppScaffold {
                     val navController = rememberSwipeDismissableNavController()

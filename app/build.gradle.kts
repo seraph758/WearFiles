@@ -78,4 +78,5 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.gson)
+    implementation(libs.androidx.core.splashscreen)
 }

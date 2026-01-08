@@ -41,7 +41,7 @@ class ClipboardRepositoryImpl @Inject constructor() : ClipboardRepository {
                 if (!srcFile.exists()) return@withContext false
                 if (!destDir.exists() || !destDir.isDirectory) return@withContext false
 
-                val target = File(destDir, srcFile.name)
+                val target = findUniqueFile(destDir, srcFile.name, srcFile.isDirectory)
 
                 if (operation == ClipboardOperation.COPY) {
                     if (srcFile.isDirectory) {
@@ -67,6 +67,38 @@ class ClipboardRepositoryImpl @Inject constructor() : ClipboardRepository {
                 false
             }
         }
+    }
+
+    private fun findUniqueFile(destDir: File, name: String, isDirectory: Boolean): File {
+        var newFile = File(destDir, name)
+        if (!newFile.exists()) {
+            return newFile
+        }
+
+        val baseName: String
+        val extension: String
+
+        if (isDirectory) {
+            baseName = name
+            extension = ""
+        } else {
+            val dotIndex = name.lastIndexOf('.')
+            if (dotIndex > 0 && dotIndex < name.length - 1) { // file.ext
+                baseName = name.substring(0, dotIndex)
+                extension = name.substring(dotIndex) // .ext
+            } else { // no extension, or .file
+                baseName = name
+                extension = ""
+            }
+        }
+
+        var counter = 1
+        while (newFile.exists()) {
+            val newName = "$baseName ($counter)$extension"
+            newFile = File(destDir, newName)
+            counter++
+        }
+        return newFile
     }
 
     private fun copyFile(src: File, dest: File) {

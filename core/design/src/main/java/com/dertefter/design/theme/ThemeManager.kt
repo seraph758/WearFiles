@@ -12,5 +12,5 @@ interface ThemeManager {
     val dynamicColorsEnabled: Flow<Boolean>
 
     suspend fun setDynamicColorsEnabled(enabled: Boolean)
-
 }
+

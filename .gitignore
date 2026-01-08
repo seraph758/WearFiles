@@ -7,7 +7,6 @@ build/
 local.properties
 
 # IntelliJ IDEA / Android Studio
-.idea/
 *.iml
 *.ipr
 *.iws

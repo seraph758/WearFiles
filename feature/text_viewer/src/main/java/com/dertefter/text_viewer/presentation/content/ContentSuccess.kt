@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
@@ -15,6 +16,7 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import com.dertefter.text_viewer.R
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import com.yazantarifi.compose.library.MarkdownConfig
@@ -32,6 +34,12 @@ fun ContentSuccess(
     )
 
     val transformationSpec = rememberTransformationSpec()
+
+    val markdownContent: String = if (content.isNullOrEmpty()){
+        stringResource(R.string.empty)
+    }else {
+        content
+    }
 
     ScreenScaffold(
         scrollState = columnState,
@@ -52,12 +60,14 @@ fun ContentSuccess(
 
             }
 
+
+
             item {
                 MarkdownViewComposable(
                     modifier = Modifier
                         .padding(horizontal = 6.dp, vertical = 12.dp)
                         .fillMaxWidth(),
-                    content = content ?: "",
+                    content = markdownContent,
                     config = MarkdownConfig(
                         isLinksClickable = true,
                         isImagesClickable = false,

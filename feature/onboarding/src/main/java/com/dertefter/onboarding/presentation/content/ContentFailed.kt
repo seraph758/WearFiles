@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.FilledTonalButton
@@ -115,26 +116,34 @@ fun ContentFailed(onEvent: (Event) -> Unit){
                     }) {
                     Text(
                         text = stringResource(R.string.info),
-                        modifier = Modifier.padding(4.dp)
+                        modifier = Modifier.padding(4.dp),
+                        fontSize = 12.sp
                     )
                 }
             }
 
+
+            /*
             item {
                 FilledTonalButton(
                     onClick = {
-
-                        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
-                            context.startActivity(intent)
-                        } else {
-                            permissionsLauncher.launch(
-                                arrayOf(
-                                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        try{
+                            if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                                context.startActivity(intent)
+                            } else {
+                                permissionsLauncher.launch(
+                                    arrayOf(
+                                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                    )
                                 )
-                            )
+                            }
+                        } catch (e: Exception){
+                            //make toast
+                            // TODO
                         }
+
                     },
                     modifier = Modifier.transformedHeight(this, transformationSpec),
                     transformation = SurfaceTransformation(transformationSpec),
@@ -145,6 +154,8 @@ fun ContentFailed(onEvent: (Event) -> Unit){
                     )
                 }
             }
+
+             */
 
 
         }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">WearFiles</string>
-    <string name="launch_text_viewer">Read text file</string>
+    <string name="launch_text_viewer">Open text file</string>
+    <string name="launch_image_viewer">Open picture</string>
 </resources>

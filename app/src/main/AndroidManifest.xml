@@ -54,10 +54,11 @@
 
 
         <activity
+            android:icon="@drawable/ic_docs"
             android:name=".common.viewers.TextViewerActivity"
             android:exported="true"
             android:label="@string/launch_text_viewer"
-            android:taskAffinity="">
+            android:taskAffinity="wearfiles.tv">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -74,6 +75,8 @@
 
         <activity
             android:name=".common.viewers.ImageViewerActivity"
+            android:icon="@drawable/ic_wallpaper"
+            android:label="@string/launch_image_viewer"
             android:exported="true"
             android:taskAffinity="">
             <intent-filter>

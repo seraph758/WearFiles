@@ -46,15 +46,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81a729a8-704e-41b0-b1d8-0c5d4163ad84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/feature/text_viewer/src/main/res/values-ru/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/feature/text_viewer/src/main/res/values/strings.xml" afterDir="false" />
+    <list default="true" id="81a729a8-704e-41b0-b1d8-0c5d4163ad84" name="Changes" comment="handle empty files in text viewer and update manifest permissions &#10;&#10;- Add &quot;Empty file&quot; placeholder string for the text viewer&#10;- Implement check for null/empty content in `ContentSuccess.kt`&#10;- Update `AndroidManifest.xml` with task affinities and suppression for storage/install permissions&#10;- Add `launch_text_viewer` string for activity labeling&#10;- Bump version to 2.0.2 (versionCode 32)">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-ru/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-ru/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feature/text_viewer/src/main/java/com/dertefter/text_viewer/presentation/content/ContentSuccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/feature/text_viewer/src/main/java/com/dertefter/text_viewer/presentation/content/ContentSuccess.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feature/onboarding/src/main/java/com/dertefter/onboarding/presentation/content/ContentFailed.kt" beforeDir="false" afterPath="$PROJECT_DIR$/feature/onboarding/src/main/java/com/dertefter/onboarding/presentation/content/ContentFailed.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,10 +130,10 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "b495d7e3",
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;b495d7e3&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="37C2a4CdKLKSTEpUQaDnbaBuXft" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -437,7 +435,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767891401550</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="handle empty files in text viewer and update manifest permissions &#10;&#10;- Add &quot;Empty file&quot; placeholder string for the text viewer&#10;- Implement check for null/empty content in `ContentSuccess.kt`&#10;- Update `AndroidManifest.xml` with task affinities and suppression for storage/install permissions&#10;- Add `launch_text_viewer` string for activity labeling&#10;- Bump version to 2.0.2 (versionCode 32)">
+      <option name="closed" value="true" />
+      <created>1768137444713</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1768137444713</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -470,7 +476,8 @@
     <MESSAGE value="gitignore edited" />
     <MESSAGE value="add project icon" />
     <MESSAGE value="improve cold start and add loading indicators from MD3 Expressive" />
-    <option name="LAST_COMMIT_MESSAGE" value="improve cold start and add loading indicators from MD3 Expressive" />
+    <MESSAGE value="handle empty files in text viewer and update manifest permissions &#10;&#10;- Add &quot;Empty file&quot; placeholder string for the text viewer&#10;- Implement check for null/empty content in `ContentSuccess.kt`&#10;- Update `AndroidManifest.xml` with task affinities and suppression for storage/install permissions&#10;- Add `launch_text_viewer` string for activity labeling&#10;- Bump version to 2.0.2 (versionCode 32)" />
+    <option name="LAST_COMMIT_MESSAGE" value="handle empty files in text viewer and update manifest permissions &#10;&#10;- Add &quot;Empty file&quot; placeholder string for the text viewer&#10;- Implement check for null/empty content in `ContentSuccess.kt`&#10;- Update `AndroidManifest.xml` with task affinities and suppression for storage/install permissions&#10;- Add `launch_text_viewer` string for activity labeling&#10;- Bump version to 2.0.2 (versionCode 32)" />
     <option name="NON_MODAL_COMMIT_POSTPONE_SLOW_CHECKS" value="false" />
   </component>
   <component name="github-copilot-workspace">

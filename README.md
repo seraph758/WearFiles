@@ -31,3 +31,7 @@ Simple file manager for Wear OS smartwatches.
 
 ![Screenshot 1](screenshots/1.png) ![Screenshot 2](screenshots/2.png) ![Screenshot 3](screenshots/3.png)
 
+## 💎 Support
+If you find this project useful, you can support its development via TON:
+`UQBvmXutAO5dEIwf46dP-TMaA_DqsGkLFkxrDxThIfdTLSE3`
+

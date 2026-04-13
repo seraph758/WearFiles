@@ -9,10 +9,9 @@ kotlin {
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt.android)
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -52,6 +51,6 @@ dependencies {
     implementation(libs.androidx.wear.compose.material3)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 }

@@ -8,12 +8,11 @@ kotlin {
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -75,7 +74,7 @@ dependencies {
     implementation(libs.androidx.wear.remote.interactions)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.gson)
     implementation(libs.androidx.core.splashscreen)

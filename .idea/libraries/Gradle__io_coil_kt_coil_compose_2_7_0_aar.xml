@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: io.coil-kt:coil-compose:2.7.0@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/8.13/transforms/d95605938b445a9ffa6094a6dba407f7/transformed/coil-compose-2.7.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/8.13/transforms/d95605938b445a9ffa6094a6dba407f7/transformed/coil-compose-2.7.0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/9.3.1/transforms/7771de7b8dbfeddf0a8dc7d5018e4180/workspace/transformed/coil-compose-2.7.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/9.3.1/transforms/7771de7b8dbfeddf0a8dc7d5018e4180/workspace/transformed/coil-compose-2.7.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.coil-kt/coil-compose/2.7.0/d3f84d5da8528936d1ac33be37d8b5a2d36fd14e/coil-compose-2.7.0-javadoc.jar!/" />

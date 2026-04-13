@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="launch_text_viewer">打开文本</string>
+    <string name="launch_image_viewer">打开图片</string>
+</resources>

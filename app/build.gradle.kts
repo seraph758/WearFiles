@@ -23,8 +23,8 @@ android {
         applicationId = "com.dertefter.wearfiles"
         minSdk = 26
         targetSdk = 36
-        versionCode = 33
-        versionName = "2.0.3"
+        versionCode = 34
+        versionName = "2.0.5"
     }
 
     buildTypes {

@@ -46,9 +46,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81a729a8-704e-41b0-b1d8-0c5d4163ad84" name="Changes" comment="migrate from kapt to KSP and update dependencies">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feature/image_viewer/src/main/java/com/dertefter/image_viewer/presentation/content/ContentSuccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/feature/image_viewer/src/main/java/com/dertefter/image_viewer/presentation/content/ContentSuccess.kt" afterDir="false" />
+    <list default="true" id="81a729a8-704e-41b0-b1d8-0c5d4163ad84" name="Changes" comment="update image viewer layout/ do not clip image">
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -472,7 +471,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776095497548</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="update image viewer layout/ do not clip image">
+      <option name="closed" value="true" />
+      <created>1776096164792</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1776096164792</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -521,7 +528,8 @@
     <MESSAGE value="bump version to 2.0.3" />
     <MESSAGE value="some changes" />
     <MESSAGE value="migrate from kapt to KSP and update dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="migrate from kapt to KSP and update dependencies" />
+    <MESSAGE value="update image viewer layout/ do not clip image" />
+    <option name="LAST_COMMIT_MESSAGE" value="update image viewer layout/ do not clip image" />
     <option name="NON_MODAL_COMMIT_POSTPONE_SLOW_CHECKS" value="false" />
   </component>
   <component name="github-copilot-workspace">

@@ -46,13 +46,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81a729a8-704e-41b0-b1d8-0c5d4163ad84" name="Changes" comment="handle empty files in text viewer and update manifest permissions &#10;&#10;- Add &quot;Empty file&quot; placeholder string for the text viewer&#10;- Implement check for null/empty content in `ContentSuccess.kt`&#10;- Update `AndroidManifest.xml` with task affinities and suppression for storage/install permissions&#10;- Add `launch_text_viewer` string for activity labeling&#10;- Bump version to 2.0.2 (versionCode 32)">
+    <list default="true" id="81a729a8-704e-41b0-b1d8-0c5d4163ad84" name="Changes" comment="bump version to 2.0.3">
       <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-ru/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-ru/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feature/onboarding/src/main/java/com/dertefter/onboarding/presentation/content/ContentFailed.kt" beforeDir="false" afterPath="$PROJECT_DIR$/feature/onboarding/src/main/java/com/dertefter/onboarding/presentation/content/ContentFailed.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feature/menu/src/main/java/com/dertefter/menu/presentation/content/OperationWorking.kt" beforeDir="false" afterPath="$PROJECT_DIR$/feature/menu/src/main/java/com/dertefter/menu/presentation/content/OperationWorking.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +67,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\dertefter\.android\avd\Wear_OS_Small_Round.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[LocalEmulator::path=C:\Users\dertefter\.android\avd\Wear_OS_XL_Round.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -139,33 +138,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.mobile.executor&quot;: &quot;Run&quot;,
-    &quot;BundleExportedModule&quot;: &quot;WearFiles.app&quot;,
-    &quot;Compose Preview.OperationWorkingPreview.executor&quot;: &quot;Run&quot;,
-    &quot;ExportBundle.BundlePathForWearFiles.app&quot;: &quot;C:\\Users\\dertefter\\AndroidStudioProjects\\WearFiles\\app&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dertefter/AndroidStudioProjects/WearFiles/screenshots&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.app.executor": "Run",
+    "Android App.mobile.executor": "Run",
+    "BundleExportedModule": "WearFiles.app",
+    "Compose Preview.OperationWorkingPreview.executor": "Run",
+    "ExportBundle.BundlePathForWearFiles.app": "C:\\Users\\dertefter\\AndroidStudioProjects\\WearFiles\\app",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/dertefter/AndroidStudioProjects/WearFiles/screenshots",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ExportApk.BuildVariants&quot;: [
-      &quot;release&quot;
+  "keyToStringList": {
+    "ExportApk.BuildVariants": [
+      "release"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\dertefter\AndroidStudioProjects\WearFiles\screenshots" />
@@ -207,8 +206,6 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
       <Auto>
         <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -443,7 +440,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768137444713</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="update manifest and onboarding UI&#10;&#10;- Update `AndroidManifest.xml` to include icons, labels, and task affinities for `TextViewerActivity` and `ImageViewerActivity`.&#10;- Update string resources for text and image viewer launch labels.&#10;- Adjust text size and comment out permission request logic in `ContentFailed.kt` within the onboarding feature.&#10;- Update IDE workspace and device streaming cache configurations.">
+      <option name="closed" value="true" />
+      <created>1768296906894</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1768296906894</updated>
+    </task>
+    <task id="LOCAL-00024" summary="bump version to 2.0.3">
+      <option name="closed" value="true" />
+      <created>1768296949651</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1768296949651</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -451,7 +464,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -477,7 +502,9 @@
     <MESSAGE value="add project icon" />
     <MESSAGE value="improve cold start and add loading indicators from MD3 Expressive" />
     <MESSAGE value="handle empty files in text viewer and update manifest permissions &#10;&#10;- Add &quot;Empty file&quot; placeholder string for the text viewer&#10;- Implement check for null/empty content in `ContentSuccess.kt`&#10;- Update `AndroidManifest.xml` with task affinities and suppression for storage/install permissions&#10;- Add `launch_text_viewer` string for activity labeling&#10;- Bump version to 2.0.2 (versionCode 32)" />
-    <option name="LAST_COMMIT_MESSAGE" value="handle empty files in text viewer and update manifest permissions &#10;&#10;- Add &quot;Empty file&quot; placeholder string for the text viewer&#10;- Implement check for null/empty content in `ContentSuccess.kt`&#10;- Update `AndroidManifest.xml` with task affinities and suppression for storage/install permissions&#10;- Add `launch_text_viewer` string for activity labeling&#10;- Bump version to 2.0.2 (versionCode 32)" />
+    <MESSAGE value="update manifest and onboarding UI&#10;&#10;- Update `AndroidManifest.xml` to include icons, labels, and task affinities for `TextViewerActivity` and `ImageViewerActivity`.&#10;- Update string resources for text and image viewer launch labels.&#10;- Adjust text size and comment out permission request logic in `ContentFailed.kt` within the onboarding feature.&#10;- Update IDE workspace and device streaming cache configurations." />
+    <MESSAGE value="bump version to 2.0.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="bump version to 2.0.3" />
     <option name="NON_MODAL_COMMIT_POSTPONE_SLOW_CHECKS" value="false" />
   </component>
   <component name="github-copilot-workspace">

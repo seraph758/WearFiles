@@ -32,5 +32,6 @@
 
 ## 💎 Поддержка
 Если вам полезен этот проект, вы можете поддержать его разработку через TON:
+
 `UQBvmXutAO5dEIwf46dP-TMaA_DqsGkLFkxrDxThIfdTLSE3`
 

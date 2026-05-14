@@ -19,7 +19,7 @@ class RemoteInteractionHandlerImpl @Inject constructor(
                     .setData(url.toUri())
             ).await()
             Result.success(Unit)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Result.failure(e)
         }
     }

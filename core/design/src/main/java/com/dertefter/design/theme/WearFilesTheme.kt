@@ -13,13 +13,13 @@ import com.materialkolor.rememberDynamicColorScheme
 @Composable
 fun WearFilesTheme(
     seedColor: Color? = null,
-    dynamicColorsEnabled: Boolean = false,
+    dynamicColorsEnabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
 
     val context = LocalContext.current
 
-    val defaultColor = Color(0xFF832CFF)
+    val defaultColor = Color(0xFF2F45E5)
 
     val colorScheme = if (seedColor != null) {
         buildColorScheme(seedColor)

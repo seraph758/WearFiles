@@ -50,3 +50,4 @@ fabric.properties
 # Profiling
 *.hprof
 /app/release/
+/.idea/

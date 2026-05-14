@@ -2,6 +2,7 @@ package com.dertefter.onboarding.presentation.content
 
 import android.Manifest
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -34,6 +35,7 @@ import com.dertefter.onboarding.R
 import com.dertefter.onboarding.presentation.Event
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import androidx.core.net.toUri
 
 @Composable
 fun ContentFailed(onEvent: (Event) -> Unit){
@@ -45,12 +47,7 @@ fun ContentFailed(onEvent: (Event) -> Unit){
     )
 
     val transformationSpec = rememberTransformationSpec()
-
     val context = LocalContext.current
-    val permissionsLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { _ -> }
-
 
     ScreenScaffold(
         scrollState = columnState, contentPadding = contentPadding
@@ -105,6 +102,42 @@ fun ContentFailed(onEvent: (Event) -> Unit){
 
             item {
                 FilledTonalButton(
+                    onClick = {
+                        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                                data = "package:${context.packageName}".toUri()
+                            }
+                        } else {
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = "package:${context.packageName}".toUri()
+                            }
+                        }
+                        try {
+                            context.startActivity(intent)
+                        } catch (_: Exception) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                context.startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+                            }
+                        }
+                    },
+                    modifier = Modifier.transformedHeight(this, transformationSpec),
+                    transformation = SurfaceTransformation(transformationSpec),
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Settings,
+                            contentDescription = "",
+                        )
+                    }) {
+                    Text(
+                        text = stringResource(R.string.try_grant_permissions),
+                        modifier = Modifier.padding(4.dp),
+                        fontSize = 12.sp
+                    )
+                }
+            }
+
+            item {
+                FilledTonalButton(
                     onClick = { onEvent(Event.OnOpenLinkOnPhone) },
                     modifier = Modifier.transformedHeight(this, transformationSpec),
                     transformation = SurfaceTransformation(transformationSpec),
@@ -121,42 +154,6 @@ fun ContentFailed(onEvent: (Event) -> Unit){
                     )
                 }
             }
-
-
-            /*
-            item {
-                FilledTonalButton(
-                    onClick = {
-                        try{
-                            if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
-                                context.startActivity(intent)
-                            } else {
-                                permissionsLauncher.launch(
-                                    arrayOf(
-                                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                    )
-                                )
-                            }
-                        } catch (e: Exception){
-                            //make toast
-                            // TODO
-                        }
-
-                    },
-                    modifier = Modifier.transformedHeight(this, transformationSpec),
-                    transformation = SurfaceTransformation(transformationSpec),
-                    ) {
-                    Text(
-                        text = stringResource(R.string.try_grant_permissions),
-                        modifier = Modifier.padding(4.dp)
-                    )
-                }
-            }
-
-             */
-
 
         }
 

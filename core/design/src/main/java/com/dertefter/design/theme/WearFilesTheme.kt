@@ -1,12 +1,13 @@
 package com.dertefter.design.theme
 
+import android.os.Build
+import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Typography
-import androidx.wear.compose.material3.dynamicColorScheme
 import com.materialkolor.PaletteStyle
 import com.materialkolor.dynamiccolor.ColorSpec
 import com.materialkolor.rememberDynamicColorScheme
@@ -22,13 +23,17 @@ fun WearFilesTheme(
 
     val defaultColor = Color(0xFF2F45E5)
 
-    val colorScheme = if (seedColor != null) {
+    val colorScheme = if (seedColor != null){
         buildColorScheme(seedColor)
-    } else if (dynamicColorsEnabled) {
-        dynamicColorScheme(context) ?: buildColorScheme(defaultColor)
     } else {
-        buildColorScheme(defaultColor)
+        if (dynamicColorsEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val d = dynamicDarkColorScheme(context)
+            buildColorScheme(d.primary)
+        } else {
+            buildColorScheme(defaultColor)
+        }
     }
+
 
     MaterialTheme(
         colorScheme = colorScheme,
@@ -44,7 +49,7 @@ fun buildColorScheme(seedColor: Color): ColorScheme {
         seedColor = seedColor,
         isDark = true,
         specVersion = ColorSpec.SpecVersion.SPEC_2021,
-        style = PaletteStyle.TonalSpot,
+        style = PaletteStyle.Vibrant,
     )
 
     val wearColorScheme = ColorScheme(

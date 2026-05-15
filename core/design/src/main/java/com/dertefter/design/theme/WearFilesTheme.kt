@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.Typography
 import androidx.wear.compose.material3.dynamicColorScheme
 import com.materialkolor.PaletteStyle
 import com.materialkolor.dynamiccolor.ColorSpec
@@ -31,7 +32,7 @@ fun WearFilesTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = WearFilesTypography,
+        typography = Typography(),
         content = content,
     )
 }
@@ -43,7 +44,7 @@ fun buildColorScheme(seedColor: Color): ColorScheme {
         seedColor = seedColor,
         isDark = true,
         specVersion = ColorSpec.SpecVersion.SPEC_2021,
-        style = PaletteStyle.Vibrant,
+        style = PaletteStyle.TonalSpot,
     )
 
     val wearColorScheme = ColorScheme(

@@ -1,10 +1,8 @@
+<p align="center">
+  <img src="art/banner.png" alt="NETI Next Banner">
+</p>
+
 # WearFiles
-
-![Google Play Rating](https://playbadges.pavi2410.me/badge/ratings?id=com.dertefter.wearfiles&pretty) ![Google Play Rating](https://playbadges.pavi2410.me/badge/downloads?id=com.dertefter.wearfiles)
-
-[![Get it on Google Play](screenshots/gb_badge.png)](https://play.google.com/store/apps/details?id=com.dertefter.wearfiles)
-
-![WearFiles Banner](screenshots/banner_new.jpg)
 
 Simple file manager for Wear OS smartwatches.
 

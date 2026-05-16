@@ -26,9 +26,14 @@
 3. Перезапустите приложение
 
 ## Скриншоты
-![Скриншот1](./screenshots/1.png)  
-![Скриншот2](./screenshots/2.png)  
-![Скриншот3](./screenshots/3.png)
+
+<p align="center">
+  <img src="art/screenshot_1.png" width="160" alt="Screenshot 1">
+  <img src="art/screenshot_2.png" width="160" alt="Screenshot 2">
+  <img src="art/screenshot_3.png" width="160" alt="Screenshot 3">
+  <img src="art/screenshot_4.png" width="160" alt="Screenshot 4">
+  <img src="art/screenshot_5.png" width="160" alt="Screenshot 5">
+</p>
 
 ## 💎 Поддержка
 Если вам полезен этот проект, вы можете поддержать его разработку через TON:

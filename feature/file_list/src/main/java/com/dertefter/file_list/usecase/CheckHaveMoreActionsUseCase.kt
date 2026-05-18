@@ -7,7 +7,7 @@ class CheckHaveMoreActionsUseCase @Inject constructor(
 
     private val fileManagerRepository: FileManagerRepository
 ) {
-    operator fun invoke(path: String): Boolean {
+    suspend operator fun invoke(path: String): Boolean {
 
         val canRename = fileManagerRepository.canBeRenamed(path)
         val canBeDeleted = fileManagerRepository.canBeDeleted(path)

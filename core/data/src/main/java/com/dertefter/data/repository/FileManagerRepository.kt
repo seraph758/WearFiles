@@ -19,8 +19,8 @@ interface FileManagerRepository {
     fun getFileByPath(path: String): File?
 
 
-    fun delete(path: String): Result<Boolean>
-    fun createDirectory(path: String, name: String): Result<Boolean>
+    suspend fun delete(path: String): Result<Boolean>
+    suspend fun createDirectory(path: String, name: String): Result<Boolean>
 
     fun getBasePath(): String
 
@@ -28,13 +28,13 @@ interface FileManagerRepository {
 
     fun canNavigateUpFrom(path: String): Boolean
 
-    fun canBeRenamed(path: String): Boolean
+    suspend fun canBeRenamed(path: String): Boolean
 
-    fun canBeDeleted(path: String): Boolean
+    suspend fun canBeDeleted(path: String): Boolean
 
-    fun canCreateDirHere(path: String): Boolean
+    suspend fun canCreateDirHere(path: String): Boolean
 
-    fun isDirectory(path: String): Boolean
+    suspend fun isDirectory(path: String): Boolean
 
 
 }

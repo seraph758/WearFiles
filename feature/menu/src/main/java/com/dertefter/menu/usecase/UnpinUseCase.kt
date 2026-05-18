@@ -3,6 +3,8 @@ package com.dertefter.menu.usecase
 import com.dertefter.data.model.PinnedItem
 import com.dertefter.data.repository.FileManagerRepository
 import com.dertefter.data.repository.PinnedRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.Exception
 import javax.inject.Inject
@@ -11,11 +13,11 @@ class UnpinUseCase @Inject constructor(
     private val pinnedRepository: PinnedRepository,
     private val fileManagerRepository: FileManagerRepository
 ) {
-    suspend operator fun invoke(path: String) {
+    suspend operator fun invoke(path: String) = withContext(Dispatchers.IO) {
 
         try {
 
-            val file = fileManagerRepository.getFileByPath(path) ?: return
+            val file = fileManagerRepository.getFileByPath(path) ?: return@withContext
 
             val pinnedItem = PinnedItem(
                 path = file.absolutePath,

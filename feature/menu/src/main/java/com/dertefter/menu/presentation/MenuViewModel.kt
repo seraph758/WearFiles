@@ -61,21 +61,23 @@ class MenuViewModel @Inject constructor(
             }
 
             is Event.OnHeaderClick -> {
-                val isDirectory = isDirectoryUseCase(path = event.path)
-                if (isDirectory) {
-                    onEvent(
-                        OnDirectoryClick(
-                            path = event.path
+                viewModelScope.launch {
+                    val isDirectory = isDirectoryUseCase(path = event.path)
+                    if (isDirectory) {
+                        onEvent(
+                            OnDirectoryClick(
+                                path = event.path
+                            )
                         )
-                    )
-                } else {
-                    onEvent(
-                        OnFileClick(
-                            path = event.path
+                    } else {
+                        onEvent(
+                            OnFileClick(
+                                path = event.path
+                            )
                         )
-                    )
+                    }
+                    navigateBackUseCase()
                 }
-                navigateBackUseCase()
             }
 
             is Event.OnNavigateToRename -> {

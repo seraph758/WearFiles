@@ -9,7 +9,7 @@ import javax.inject.Inject
 class IsDirectoryUseCase @Inject constructor(
     private val fileManagerRepository: FileManagerRepository
 ) {
-    operator fun invoke(path: String): Boolean {
+    suspend operator fun invoke(path: String): Boolean {
         return fileManagerRepository.isDirectory(path)
     }
 }

@@ -6,6 +6,8 @@ import android.os.Build
 import android.os.Environment
 import androidx.core.content.ContextCompat
 import com.dertefter.data.repository.FileManagerRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -15,8 +17,8 @@ class FileManagerRepositoryImpl @Inject constructor(
     private val context: Context
 ) : FileManagerRepository {
 
-    override suspend fun getFiles(path: String): Result<List<File>> {
-        return runCatching {
+    override suspend fun getFiles(path: String): Result<List<File>> = withContext(Dispatchers.IO) {
+        runCatching {
             val file = File(path)
             if (!file.exists()) throw IllegalArgumentException("Path does not exist: $path")
             if (!file.isDirectory) throw IllegalArgumentException("Path is not a directory: $path")
@@ -33,8 +35,8 @@ class FileManagerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun rename(path: String, newName: String): Result<Boolean> {
-        return runCatching {
+    override suspend fun rename(path: String, newName: String): Result<Boolean> = withContext(Dispatchers.IO) {
+        runCatching {
             val file = File(path)
 
             if (!file.exists()) throw IllegalArgumentException("File does not exist: $path")
@@ -50,13 +52,12 @@ class FileManagerRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getParentFilePath(path: String): String? {
-
-        try{
+    override suspend fun getParentFilePath(path: String): String? = withContext(Dispatchers.IO) {
+        try {
             val file = File(path)
-            return file.parent
-        }catch (_: Exception){
-            return null
+            file.parent
+        } catch (_: Exception) {
+            null
         }
     }
 
@@ -167,8 +168,8 @@ class FileManagerRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun delete(path: String): Result<Boolean> {
-        return runCatching {
+    override suspend fun delete(path: String): Result<Boolean> = withContext(Dispatchers.IO) {
+        runCatching {
 
             val file = File(path)
 
@@ -182,8 +183,8 @@ class FileManagerRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun createDirectory(path: String, name: String): Result<Boolean> {
-        return runCatching {
+    override suspend fun createDirectory(path: String, name: String): Result<Boolean> = withContext(Dispatchers.IO) {
+        runCatching {
             val newDir = File(path, name)
 
             if (newDir.exists()) throw IllegalStateException("Directory already exists: ${newDir.path}")
@@ -204,33 +205,15 @@ class FileManagerRepositoryImpl @Inject constructor(
         return path.startsWith(homePath) && path != homePath
     }
 
-    override fun canBeRenamed(path: String): Boolean {
-
+    override suspend fun canBeRenamed(path: String): Boolean = withContext(Dispatchers.IO) {
         try {
             val file = File(path)
 
-            if (!file.exists()) return false
+            if (!file.exists()) return@withContext false
 
-            val parent = file.parentFile ?: return false
+            val parent = file.parentFile ?: return@withContext false
 
-            if (!parent.canWrite()) return false
-
-            return true
-        } catch (_: Exception){
-            return false
-        }
-
-
-    }
-
-    override fun canBeDeleted(path: String): Boolean {
-        return try {
-            val file = File(path)
-
-            if (!file.exists()) return false
-
-            val parent = file.parentFile ?: return false
-            if (!parent.canWrite()) return false
+            if (!parent.canWrite()) return@withContext false
 
             true
         } catch (_: Exception) {
@@ -238,13 +221,28 @@ class FileManagerRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun canCreateDirHere(path: String): Boolean {
-        return try {
+    override suspend fun canBeDeleted(path: String): Boolean = withContext(Dispatchers.IO) {
+        try {
+            val file = File(path)
+
+            if (!file.exists()) return@withContext false
+
+            val parent = file.parentFile ?: return@withContext false
+            if (!parent.canWrite()) return@withContext false
+
+            true
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    override suspend fun canCreateDirHere(path: String): Boolean = withContext(Dispatchers.IO) {
+        try {
             val dir = File(path)
 
-            if (!dir.exists()) return false
-            if (!dir.isDirectory) return false
-            if (!dir.canWrite()) return false
+            if (!dir.exists()) return@withContext false
+            if (!dir.isDirectory) return@withContext false
+            if (!dir.canWrite()) return@withContext false
 
             true
         } catch (_: Exception) {
@@ -252,12 +250,11 @@ class FileManagerRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun isDirectory(path: String): Boolean {
-        return try{
+    override suspend fun isDirectory(path: String): Boolean = withContext(Dispatchers.IO) {
+        try {
             val file = File(path)
             file.isDirectory
-        }
-        catch (_: Exception){
+        } catch (_: Exception) {
             false
         }
     }

@@ -10,4 +10,5 @@
     <string name="success">成功</string>
     <string name="failed">失败</string>
     <string name="try_grant_permissions">尝试授予权限</string>
+    <string name="error_opening_settings">您的设备不可用</string>
 </resources>

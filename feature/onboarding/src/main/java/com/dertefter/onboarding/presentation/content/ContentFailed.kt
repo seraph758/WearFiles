@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -48,6 +49,7 @@ fun ContentFailed(onEvent: (Event) -> Unit){
 
     val transformationSpec = rememberTransformationSpec()
     val context = LocalContext.current
+    val errorSettingsText = stringResource(R.string.error_opening_settings)
 
     ScreenScaffold(
         scrollState = columnState, contentPadding = contentPadding
@@ -116,7 +118,18 @@ fun ContentFailed(onEvent: (Event) -> Unit){
                             context.startActivity(intent)
                         } catch (_: Exception) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                context.startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+                                try {
+                                    context.startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+                                } catch (_: Exception) {
+                                    try {
+                                        val detailsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                            data = "package:${context.packageName}".toUri()
+                                        }
+                                        context.startActivity(detailsIntent)
+                                    } catch (_: Exception) {
+                                        Toast.makeText(context, errorSettingsText, Toast.LENGTH_SHORT).show()
+                                    }
+                                }
                             }
                         }
                     },

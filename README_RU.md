@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="art/banner.png" alt="NETI Next Banner">
+  <img src="https://github.com/dertefter/WearFiles/blob/master/art/banner.png?raw=true" alt="NETI Next Banner">
 </p>
 
 # WearFiles

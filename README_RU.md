@@ -35,7 +35,9 @@
 
 Вы можете передавать файлы со смартфона на часы. Для этого установите приложение на оба устройства и убедитесь в том, что связь с часами установлена.
 
-https://github.com/dertefter/WearFiles/blob/5883a73bdabc0a4f943500e808bcb5405e5572ac/art/video/example_file_transfer.mp4
+<p align="center">
+  <video src="https://github.com/dertefter/WearFiles/raw/master/art/video/example_file_transfer.mp4" width="200" controls></video>
+</p>
 
 
 ### ⚠️ Разрешение на доступ к файлам ⚠️

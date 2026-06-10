@@ -13,10 +13,32 @@ android {
         applicationId = "com.dertefter.wearfiles"
         minSdk = 28
         targetSdk = 37
-        versionCode = 40000
-        versionName = "3.0.0"
+        versionCode = 41000
+        versionName = "3.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        create("release") {
+            val envKeystoreFile = System.getenv("ANDROID_KEYSTORE_FILE")
+            val envKeystorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            val envKeyAlias = System.getenv("ANDROID_KEY_ALIAS")
+            val envKeyPassword = System.getenv("ANDROID_KEY_PASSWORD")
+
+            if (envKeystoreFile != null && envKeystorePassword != null && envKeyAlias != null && envKeyPassword != null) {
+                storeFile = file(envKeystoreFile)
+                storePassword = envKeystorePassword
+                keyAlias = envKeyAlias
+                keyPassword = envKeyPassword
+            } else {
+                val debugConfig = signingConfigs.getByName("debug")
+                storeFile = debugConfig.storeFile
+                storePassword = debugConfig.storePassword
+                keyAlias = debugConfig.keyAlias
+                keyPassword = debugConfig.keyPassword
+            }
+        }
     }
 
     buildTypes {
@@ -24,6 +46,7 @@ android {
             optimization {
                 enable = false
             }
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

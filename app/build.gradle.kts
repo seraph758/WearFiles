@@ -22,9 +22,9 @@ android {
     defaultConfig {
         applicationId = "com.dertefter.wearfiles"
         minSdk = 26
-        targetSdk = 37
-        versionCode = 40
-        versionName = "3.0.0"
+        targetSdk = 36
+        versionCode = 41
+        versionName = "3.0.1"
     }
 
     signingConfigs {

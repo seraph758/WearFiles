@@ -1,5 +1,5 @@
 <p align="center">  
-  <img src="https://github.com/dertefter/WearFiles/blob/master/art/banner.png?raw=true" alt="NETI Next Banner">  
+  <img src="art/banner.png" alt="Banner">
 </p>  
 
 <a href="https://play.google.com/store/apps/details?id=com.dertefter.wearfiles">  
@@ -7,6 +7,9 @@
 </a>  
 <a href="https://play.google.com/store/apps/details?id=com.dertefter.wearfiles">  
   <img src="https://github.com/dertefter/some_stuff_for_me/blob/master/com.dertefter.wearfiles_rating.svg" alt="Google Play" height="60">  
+</a>
+<a href="README.md">
+  <img src="https://img.shields.io/badge/English-blue?style=for-the-badge" alt="English language" height="60">
 </a>
 
 # WearFiles
@@ -17,7 +20,7 @@
 
 - Передача файлов с телефона на часы ⌚➡️📱
 - Просмотр, открытие, удаление файлов на устройстве Wear OS 📂
-- Буфер  обмена: вырезать / копировать / вставить 📋
+- Буфер обмена: вырезать / копировать / вставить 📋
 - Закрепление файлов и папок на главном экране 📌
 - Встроенный просмотрщик изображений 🖼️
 - Встроенный просмотрщик PDF 📄

@@ -2,14 +2,14 @@
   <img src="https://github.com/dertefter/WearFiles/blob/master/art/banner.png?raw=true" alt="NETI Next Banner">  
 </p>  
 
-# WearFiles
-
 <a href="https://play.google.com/store/apps/details?id=com.dertefter.wearfiles">  
   <img src="https://github.com/dertefter/some_stuff_for_me/blob/master/com.dertefter.wearfiles_downloads.svg" alt="Google Play" height="60">  
 </a>  
 <a href="https://play.google.com/store/apps/details?id=com.dertefter.wearfiles">  
   <img src="https://github.com/dertefter/some_stuff_for_me/blob/master/com.dertefter.wearfiles_rating.svg" alt="Google Play" height="60">  
-</a>  
+</a>
+
+# WearFiles
 
 Простой файловый менеджер с открытым исходным кодом. Разработан для Wear OS ⌚
 

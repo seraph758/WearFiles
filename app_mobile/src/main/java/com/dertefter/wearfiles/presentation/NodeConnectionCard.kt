@@ -8,26 +8,26 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,7 +38,6 @@ import com.dertefter.wearfiles.ConnectionStatus
 import com.dertefter.wearfiles.R
 import com.dertefter.wearfiles.ui.theme.WearFilesTheme
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun NodeConnectionCard(
     modifier: Modifier = Modifier,
@@ -70,7 +69,7 @@ fun NodeConnectionCard(
         label = "angle"
     )
 
-    val startAngle = if (status == ConnectionStatus.READY) angle.toInt() else 0
+    val startAngle = if (status == ConnectionStatus.READY) angle else 0f
 
     val iconRes = if (status == ConnectionStatus.READY){
         R.drawable.ic_watch_check
@@ -94,16 +93,28 @@ fun NodeConnectionCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Icon(
-                painter = painterResource(id = iconRes),
-                contentDescription = null,
-                tint = containerColor,
-                modifier = Modifier
-                    .clip(MaterialShapes.Cookie12Sided.toShape(startAngle = startAngle))
-                    .background(contentColor)
-                    .padding(8.dp)
-                    .size(32.dp)
-            )
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.size(54.dp)
+
+            ){
+                Icon(
+                    painter = painterResource(R.drawable.some_shape),
+                    contentDescription = null,
+                    tint = contentColor,
+                    modifier = Modifier.rotate(startAngle)
+                )
+
+                Icon(
+                    painter = painterResource(id = iconRes),
+                    contentDescription = null,
+                    tint = containerColor,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxSize()
+                )
+            }
+
             
             Spacer(modifier = Modifier.width(16.dp))
             

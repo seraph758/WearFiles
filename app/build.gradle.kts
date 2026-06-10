@@ -17,7 +17,7 @@ plugins {
 
 android {
     namespace = "com.dertefter.wearfiles"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.dertefter.wearfiles"

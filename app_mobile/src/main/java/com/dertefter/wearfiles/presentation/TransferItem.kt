@@ -61,7 +61,7 @@ fun TransferItem(
 
     val successColor = colorResource(R.color.success_container)
     val errorColor = MaterialTheme.colorScheme.errorContainer
-    val defaultColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    val defaultColor = MaterialTheme.colorScheme.surfaceContainer
 
     val onSuccessColor = colorResource(R.color.on_success_container)
     val onErrorColor = MaterialTheme.colorScheme.onErrorContainer
@@ -97,7 +97,7 @@ fun TransferItem(
 
     Column(modifier = modifier
         .clip(shape)
-        .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+        .background(MaterialTheme.colorScheme.surfaceContainer)
         .background(
             brush = Brush.linearGradient(
                 colors = listOf(

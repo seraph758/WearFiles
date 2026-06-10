@@ -44,10 +44,11 @@ class MainActivity : ComponentActivity() {
                 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     topBar = {
                         NodeConnectionCard(
                             modifier = Modifier
-                                .padding(top = 4.dp)
+                                .padding(vertical = 4.dp)
                                 .statusBarsPadding(),
                             status = TransferState.connectionStatus
                         )

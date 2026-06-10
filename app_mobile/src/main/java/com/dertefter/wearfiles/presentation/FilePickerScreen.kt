@@ -91,7 +91,7 @@ fun FilePickerContent(
                     topEnd = 32.dp
                 )
             )
-            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = 14.dp)
             .padding(top = 14.dp)
             .fillMaxWidth(),

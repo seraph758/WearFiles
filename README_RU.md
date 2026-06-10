@@ -57,7 +57,7 @@
 
 1. Подключите часы к компьютеру через ADB
 2. Выполните команду:  
-   ``sh  
+   ``  
   adb shell appops set --uid com.dertefter.wearfiles MANAGE_EXTERNAL_STORAGE allow 
   ``
 3. Перезапустите приложение

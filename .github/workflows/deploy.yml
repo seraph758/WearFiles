@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       manual_track:
-        description: 'Выберите трек для ручной публикации'
+        description: 'track'
         required: true
         default: 'internal'
         type: choice
@@ -26,10 +26,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -37,6 +37,7 @@ jobs:
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app_mobile/release.jks
 
       - name: Make gradlew executable
         run: chmod +x gradlew
@@ -45,43 +46,60 @@ jobs:
         id: determine_track
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            TRACK="wear:${{ inputs.manual_track }}"
+            MOBILE="${{ inputs.manual_track }}"
+            WEAR="wear:${{ inputs.manual_track }}"
           else
             TAG="${{ github.ref_name }}"
             if [[ "$TAG" == *"-alpha"* ]]; then
-              TRACK="wear:alpha"
+              MOBILE="alpha"
+              WEAR="wear:alpha"
             elif [[ "$TAG" == *"-beta"* ]]; then
-              TRACK="wear:beta"
+              MOBILE="beta"
+              WEAR="wear:beta"
             else
-              TRACK="wear:production"
+              MOBILE="production"
+              WEAR="wear:production"
             fi
           fi
           
-          echo "track=$TRACK" >> $GITHUB_OUTPUT
-          echo "Determined track: $TRACK"
+          echo "mobile_track=$MOBILE" >> $GITHUB_OUTPUT
+          echo "wear_track=$WEAR" >> $GITHUB_OUTPUT
+          
+          echo "Determined mobile track: $MOBILE"
+          echo "Determined wearable track: $WEAR"
 
       - name: Build & Sign Release AAB
-        run: ./gradlew :app:bundleRelease
+        run: ./gradlew bundleRelease
         env:
           ANDROID_KEYSTORE_FILE: release.jks
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload to Google Play
+      - name: Upload Mobile to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_KEY }}
+          packageName: com.dertefter.wearfiles
+          releaseFiles: app_mobile/build/outputs/bundle/release/app_mobile-release.aab
+          status: draft
+          tracks: ${{ steps.determine_track.outputs.mobile_track }}
+
+      - name: Upload Wearable to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_KEY }}
           packageName: com.dertefter.wearfiles
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           status: draft
-          tracks: ${{ steps.determine_track.outputs.track }}
+          tracks: ${{ steps.determine_track.outputs.wear_track }}
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
+            app_mobile/build/outputs/bundle/release/app_mobile-release.aab
             app/build/outputs/bundle/release/app-release.aab
           generate_release_notes: false
           prerelease: ${{ contains(github.ref_name, '-alpha') || contains(github.ref_name, '-beta') }}

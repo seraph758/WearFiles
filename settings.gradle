@@ -16,6 +16,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://jitpack.io"  }
     }
 }
 
@@ -42,3 +43,5 @@ include ':feature:video'
 include ':feature:image_viewer'
 include ':feature:theming'
 include ':feature:settings'
+include ':feature:pdf_viewer'
+include ':app_mobile'

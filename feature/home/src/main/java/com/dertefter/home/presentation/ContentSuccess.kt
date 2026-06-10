@@ -79,6 +79,8 @@ fun ContentSuccess(
                         HomeItemType.VIDEOS -> stringResource(R.string.video)
                         HomeItemType.STORAGE -> stringResource(R.string.storage)
                         HomeItemType.SETTINGS -> stringResource(R.string.settings)
+                        HomeItemType.RECEIVED -> stringResource(R.string.received)
+
                     }
 
                     val icon = when (item.type){
@@ -87,6 +89,7 @@ fun ContentSuccess(
                         HomeItemType.AUDIO -> Icons.Music
                         HomeItemType.STORAGE -> Icons.Watch
                         HomeItemType.SETTINGS -> Icons.Settings
+                        HomeItemType.RECEIVED -> Icons.DevicesWearables
                     }
 
                     val type = if (item.type == HomeItemType.STORAGE) {

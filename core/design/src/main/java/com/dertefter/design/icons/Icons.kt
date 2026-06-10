@@ -70,6 +70,9 @@ object Icons {
     val ContentPaste: ImageVector
         @Composable get() = ImageVector.vectorResource(id = R.drawable.ic_content_paste)
 
+    val DevicesWearables: ImageVector
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.ic_devices_wearables)
+
     val Apk: ImageVector
         @Composable get() = ImageVector.vectorResource(id = R.drawable.ic_apk)
 

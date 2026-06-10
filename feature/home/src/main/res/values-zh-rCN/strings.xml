@@ -8,4 +8,5 @@
     <string name="pinned">固定</string>
     <string name="photo">图片</string>
     <string name="video">视频</string>
+    <string name="received">已收到</string>
 </resources>

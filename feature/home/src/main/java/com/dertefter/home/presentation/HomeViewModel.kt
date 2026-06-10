@@ -1,5 +1,6 @@
 package com.dertefter.home.presentation
 
+import android.os.Environment
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +17,7 @@ import com.dertefter.home.usecase.OpenFileUseCase
 import com.dertefter.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +44,15 @@ class HomeViewModel @Inject constructor(
                         HomeItem(HomeItemType.IMAGES, Routes.Gallery),
                         HomeItem(HomeItemType.VIDEOS, Routes.Video),
                         HomeItem(HomeItemType.AUDIO, Routes.Music),
+                        HomeItem(
+                            HomeItemType.RECEIVED,
+                            Routes.FilesList(
+                                File(
+                                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                                    "Received"
+                                ).absolutePath
+                            )
+                        ),
                         HomeItem(HomeItemType.STORAGE, Routes.FilesList()),
                     ),
                     pinnedItems = pinned

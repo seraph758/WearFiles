@@ -17,14 +17,14 @@ plugins {
 
 android {
     namespace = "com.dertefter.wearfiles"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.dertefter.wearfiles"
         minSdk = 26
-        targetSdk = 36
-        versionCode = 39
-        versionName = "2.1.6"
+        targetSdk = 37
+        versionCode = 40
+        versionName = "3.0.0"
     }
 
     signingConfigs {
@@ -86,6 +86,7 @@ dependencies {
 
     implementation(project(":feature:text_viewer"))
     implementation(project(":feature:image_viewer"))
+    implementation(project(":feature:pdf_viewer"))
 
     implementation(libs.material.kolor)
     implementation(platform(libs.androidx.compose.bom))
@@ -95,6 +96,8 @@ dependencies {
     implementation(libs.androidx.wear.compose.navigation)
     implementation(libs.horologist.compose.layout)
     implementation(libs.androidx.wear.remote.interactions)
+    implementation(libs.play.services.wearable)
+    implementation(libs.kotlinx.coroutines.play)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

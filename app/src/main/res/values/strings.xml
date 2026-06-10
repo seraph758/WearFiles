@@ -3,4 +3,6 @@
     <string name="app_name" translatable="false">WearFiles</string>
     <string name="launch_text_viewer">Open text file</string>
     <string name="launch_image_viewer">Open picture</string>
+    <string name="launch_pdf_viewer">Open PDF file</string>
+    <string name="error_no_app">No app to open file</string>
 </resources>

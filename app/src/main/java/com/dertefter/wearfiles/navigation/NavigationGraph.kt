@@ -11,6 +11,7 @@ import com.dertefter.home.HomeRoute
 import com.dertefter.music.MusicRoute
 import com.dertefter.navigation.Routes
 import com.dertefter.new_directory.NewDirectoryRoute
+import com.dertefter.pdf_viewer.PdfViewerRoute
 import com.dertefter.rename.RenameRoute
 import com.dertefter.settings.SettingsRoute
 import com.dertefter.text_viewer.TextViewerRoute
@@ -68,6 +69,15 @@ fun NavigationGraph(
             val args = backStackEntry.toRoute<Routes.TextViewer>()
 
             TextViewerRoute(
+                uriString = args.uriString
+            )
+        }
+
+        composable<Routes.PdfViewer> { backStackEntry ->
+
+            val args = backStackEntry.toRoute<Routes.PdfViewer>()
+
+            PdfViewerRoute(
                 uriString = args.uriString
             )
         }

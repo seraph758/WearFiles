@@ -37,7 +37,7 @@ class FileInteractionHandlerImpl @Inject constructor(
         try {
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, "Нет приложения для открытия файла", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(com.dertefter.wearfiles.R.string.error_no_app), Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.ScreenScaffold
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.size.Size
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
@@ -28,6 +29,7 @@ fun ContentSuccess(
         AsyncImage(
             model = ImageRequest.Builder(context)
                 .data(uriString)
+                .size(Size.ORIGINAL)
                 .crossfade(true)
                 .build(),
             contentDescription = null,

@@ -43,4 +43,7 @@ sealed interface Routes {
 
     @Serializable
     data class TextViewer(val uriString: String) : Routes
+
+    @Serializable
+    data class PdfViewer(val uriString: String) : Routes
 }

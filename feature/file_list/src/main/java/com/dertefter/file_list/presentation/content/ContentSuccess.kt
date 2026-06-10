@@ -1,22 +1,13 @@
 package com.dertefter.file_list.presentation.content
 
-import androidx.compose.foundation.OverscrollEffect
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
@@ -27,10 +18,7 @@ import com.dertefter.design.components.items.PathItem
 import com.dertefter.design.icons.Icons
 import com.dertefter.file_list.presentation.Action
 import com.dertefter.file_list.presentation.Event
-import com.dertefter.file_list.utils.isImage
-import com.dertefter.file_list.utils.loadThumbnail
 import com.dertefter.menu.MenuMode
-import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
@@ -57,7 +45,7 @@ fun ContentSuccess(
             contentPadding = contentPadding,
         ) {
 
-            item {
+            item(key = "path") {
 
                 val fullPath = path.path
                 val homePath = path.homePath
@@ -72,38 +60,36 @@ fun ContentSuccess(
                 )
             }
 
-            for (file in files) {
+            items(files, key = { it.absolutePath }) { file ->
 
-                item {
-                    FileItem(
-                        transformationSpec,
-                        text = file.name,
-                        thumbnailUrl = file.absolutePath,
-                        file = file,
-                        onClick = {
-                            if (file.isFile) {
-                                onEvent(Event.OnFileClick(file))
-                            } else if (file.isDirectory) {
-                                onEvent(Event.OnDirectoryClick(file.absolutePath))
-                            } else {
+                FileItem(
+                    transformationSpec,
+                    text = file.name,
+                    thumbnailUrl = file.absolutePath,
+                    file = file,
+                    onClick = {
+                        if (file.isFile) {
+                            onEvent(Event.OnFileClick(file))
+                        } else if (file.isDirectory) {
+                            onEvent(Event.OnDirectoryClick(file.absolutePath))
+                        } else {
 
-                            }
-                        },
-
-                        onLongClick = {
-                            onEvent(
-                                Event.OnShowMenuFor(
-                                    file.absolutePath,
-                                    menuMode = MenuMode.OUTSIDE
-                                )
-                            )
                         }
+                    },
 
-                    )
-                }
+                    onLongClick = {
+                        onEvent(
+                            Event.OnShowMenuFor(
+                                file.absolutePath,
+                                menuMode = MenuMode.OUTSIDE
+                            )
+                        )
+                    }
+
+                )
             }
 
-            item {
+            item(key = "bottom_bar") {
                 BottomBarItem(
                     modifier = Modifier.padding(vertical = 8.dp, horizontal = 14.dp),
                     transformationSpec = transformationSpec,

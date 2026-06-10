@@ -1,0 +1,152 @@
+package com.dertefter.wearfiles
+
+import android.app.Service
+import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.net.Uri
+import android.os.Build
+import android.os.IBinder
+import android.util.Log
+import com.google.android.gms.wearable.Wearable
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
+import java.util.UUID
+import kotlin.time.Duration.Companion.milliseconds
+
+class FileTransferService : Service() {
+
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(Dispatchers.IO + job)
+    private lateinit var notificationHelper: NotificationHelper
+    private var isProcessing = false
+
+    override fun onBind(intent: Intent?): IBinder? = null
+
+    override fun onCreate() {
+        super.onCreate()
+        notificationHelper = NotificationHelper(this)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            "CANCEL_TRANSFER" -> {
+                val id = intent.getStringExtra("item_id")
+                if (id != null) {
+                    TransferState.removeItem(id)
+                }
+                return START_NOT_STICKY
+            }
+            "ADD_TRANSFER" -> {
+                @Suppress("DEPRECATION") val uri = intent.getParcelableExtra<Uri>("file_uri")
+                val fileName = intent.getStringExtra("file_name") ?: getString(R.string.file_default_name)
+                if (uri != null) {
+                    val newItem = TransferItem(
+                        id = UUID.randomUUID().toString(),
+                        uri = uri,
+                        fileName = fileName
+                    )
+                    TransferState.addItem(newItem)
+                    startProcessing()
+                }
+            }
+        }
+        return START_NOT_STICKY
+    }
+
+    private fun startProcessing() {
+        if (isProcessing) return
+        isProcessing = true
+        
+        val notification = notificationHelper.getNotification(getString(R.string.notification_file_queue), NotificationHelper.TransferStatus.SENDING)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else {
+            startForeground(1, notification)
+        }
+
+        scope.launch {
+            while (isActive) {
+                val nextItem = TransferState.queue.firstOrNull { it.status == TransferStatus.PENDING }
+                if (nextItem == null) {
+                    isProcessing = false
+                    stopForeground(STOP_FOREGROUND_DETACH)
+                    stopSelf()
+                    break
+                }
+
+                try {
+                    processItem(nextItem)
+                } catch (e: Exception) {
+                    Log.e("FileTransferService", "Error processing item ${nextItem.id}", e)
+                    TransferState.updateItem(nextItem.id) { it.copy(status = TransferStatus.ERROR) }
+                    notificationHelper.showTransferNotification(nextItem.fileName, NotificationHelper.TransferStatus.ERROR)
+                }
+            }
+        }
+    }
+
+    private suspend fun processItem(item: TransferItem) {
+        if (TransferState.queue.none { it.id == item.id }) return
+
+        TransferState.updateItem(item.id) { it.copy(status = TransferStatus.SENDING) }
+        
+        val nodes = Wearable.getNodeClient(this).connectedNodes.await()
+        if (nodes.isEmpty()) {
+            throw Exception(getString(R.string.error_no_nodes))
+        }
+
+        val nodeId = nodes.first().id
+        val channelClient = Wearable.getChannelClient(this)
+        val channelPath = "/file-transfer/${Uri.encode(item.fileName)}"
+        
+        val channel = channelClient.openChannel(nodeId, channelPath).await()
+        
+        try {
+            delay(500.milliseconds)
+            val outputStream = channelClient.getOutputStream(channel).await()
+            val inputStream = contentResolver.openInputStream(item.uri) ?: throw Exception(getString(R.string.error_input_stream))
+            
+            val totalSize = contentResolver.query(item.uri, null, null, null, null)?.use { cursor ->
+                val sizeIndex = cursor.getColumnIndex(android.provider.OpenableColumns.SIZE)
+                if (sizeIndex != -1 && cursor.moveToFirst()) cursor.getLong(sizeIndex) else -1L
+            } ?: -1L
+
+            val buffer = ByteArray(32768)
+            var bytesWritten = 0L
+            var lastUpdate = 0L
+
+            inputStream.use { input ->
+                outputStream.use { output ->
+                    var bytes = input.read(buffer)
+                    while (bytes != -1) {
+                        if (TransferState.queue.none { it.id == item.id }) {
+                            throw CancellationException(getString(R.string.error_canceled))
+                        }
+
+                        output.write(buffer, 0, bytes)
+                        bytesWritten += bytes
+                        
+                        val progress = if (totalSize > 0) (bytesWritten * 100 / totalSize).toInt() else 0
+                        val currentTime = System.currentTimeMillis()
+                        if (currentTime - lastUpdate > 300) { 
+                            TransferState.updateItem(item.id) { it.copy(progress = progress) }
+                            notificationHelper.showTransferNotification(item.fileName, NotificationHelper.TransferStatus.SENDING, progress)
+                            lastUpdate = currentTime
+                        }
+                        bytes = input.read(buffer)
+                    }
+                    output.flush()
+                }
+            }
+            TransferState.updateItem(item.id) { it.copy(progress = 100) }
+
+        } finally {
+            channelClient.close(channel).await()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+}

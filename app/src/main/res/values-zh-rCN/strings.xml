@@ -2,4 +2,6 @@
 <resources>
     <string name="launch_text_viewer">打开文本</string>
     <string name="launch_image_viewer">打开图片</string>
+    <string name="launch_pdf_viewer">打开PDF文件</string>
+    <string name="error_no_app">没有应用程序可以打开文件</string>
 </resources>

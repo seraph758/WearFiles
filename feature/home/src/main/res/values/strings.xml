@@ -9,4 +9,5 @@
     <string name="pinned">Pinned</string>
     <string name="photo">Photos</string>
     <string name="video">Videos</string>
+    <string name="received">Received</string>
 </resources>

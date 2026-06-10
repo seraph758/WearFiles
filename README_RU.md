@@ -35,7 +35,9 @@
 
 Вы можете передавать файлы со смартфона на часы. Для этого установите приложение на оба устройства и убедитесь в том, что связь с часами установлена.
 
-![example_file_transfer](art/example_file_transfer.gif)
+<p align="center">
+  <img src="art/example_file_transfer.gif" width="320" alt="example_file_transfer">
+</p>
 
 ### ⚠️ Разрешение на доступ к файлам ⚠️
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.tasks.await
@@ -42,6 +43,7 @@ class WearableFileSender(private val context: Context) {
             TransferState.connectionStatus = ConnectionStatus.READY
 
         } catch (e: Exception) {
+            Log.e("WearableFileSender", e.stackTraceToString())
             TransferState.connectionStatus = ConnectionStatus.NOT_CONNECTED
         }
     }
@@ -60,15 +62,13 @@ class WearableFileSender(private val context: Context) {
         var result: String? = null
         if (uri.scheme == "content") {
             val cursor = context.contentResolver.query(uri, null, null, null, null)
-            try {
+            cursor.use { cursor ->
                 if (cursor != null && cursor.moveToFirst()) {
                     val index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                     if (index != -1) {
                         result = cursor.getString(index)
                     }
                 }
-            } finally {
-                cursor?.close()
             }
         }
         if (result == null) {

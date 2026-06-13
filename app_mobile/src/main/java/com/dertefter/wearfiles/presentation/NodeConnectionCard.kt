@@ -147,14 +147,16 @@ fun NodeConnectionCard(
 @Composable
 fun NodeConnectionCardPreview_Connected() {
     WearFilesTheme {
-        NodeConnectionCard(status = ConnectionStatus.READY)
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun NodeConnectionCardPreview_Disconnected() {
-    WearFilesTheme {
-        NodeConnectionCard(status = ConnectionStatus.NOT_CONNECTED)
+        Column(
+            modifier = Modifier.padding(vertical = 8.dp)
+        ) {
+            NodeConnectionCard(status = ConnectionStatus.READY)
+            NodeConnectionCard(status = ConnectionStatus.APP_NOT_INSTALLED)
+            NodeConnectionCard(status = ConnectionStatus.NOT_CONNECTED)
+            NodeConnectionCard(status = ConnectionStatus.NOT_NEARBY)
+        }
+
+
     }
 }

@@ -25,14 +25,20 @@ class PdfViewerActivity : ComponentActivity() {
                 incomingFileUri = uri
             } else {
                 finish()
+                return
             }
+        } else {
+            finish()
+            return
         }
 
 
         setContent {
             WearFilesTheme {
                 AppScaffold {
-                    PdfViewerRoute(incomingFileUri.toString())
+                    incomingFileUri?.let {
+                        PdfViewerRoute(it.toString())
+                    }
                 }
 
             }

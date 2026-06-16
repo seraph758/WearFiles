@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.material3.FilledIconButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
@@ -22,6 +23,8 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import com.dertefter.data.model.PinnedItem
+import com.dertefter.design.components.common.RotaryUtils
+import com.dertefter.design.components.common.rememberSafeRotaryScrollableBehavior
 import com.dertefter.design.components.items.FileItem
 import com.dertefter.design.components.items.FileItemType
 import com.dertefter.design.icons.Icons
@@ -52,6 +55,7 @@ fun ContentSuccess(
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding,
+            rotaryScrollableBehavior = rememberSafeRotaryScrollableBehavior(columnState)
         ) {
 
 

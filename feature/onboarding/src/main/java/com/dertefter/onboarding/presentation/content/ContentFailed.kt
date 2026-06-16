@@ -28,6 +28,7 @@ import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
+import com.dertefter.design.components.common.rememberSafeRotaryScrollableBehavior
 import com.dertefter.design.components.items.BadgedTextItem
 import com.dertefter.design.components.items.CodeItem
 import com.dertefter.design.components.items.TextItem
@@ -61,10 +62,8 @@ fun ContentFailed(onEvent: (Event) -> Unit){
             contentPadding = contentPadding,
             modifier = Modifier
                 .padding(vertical = 16.dp, horizontal = 10.dp),
-
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-
-
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+            rotaryScrollableBehavior = rememberSafeRotaryScrollableBehavior(columnState)
         ) {
 
 

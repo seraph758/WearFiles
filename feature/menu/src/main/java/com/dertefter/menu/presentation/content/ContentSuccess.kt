@@ -10,6 +10,7 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import com.dertefter.design.components.common.rememberSafeRotaryScrollableBehavior
 import com.dertefter.design.components.items.FileItem
 import com.dertefter.design.components.items.FileItemType
 import com.dertefter.design.icons.Icons
@@ -41,6 +42,7 @@ fun ContentSuccess(
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding,
+            rotaryScrollableBehavior = rememberSafeRotaryScrollableBehavior(columnState)
         ) {
 
             items(actions) { action ->

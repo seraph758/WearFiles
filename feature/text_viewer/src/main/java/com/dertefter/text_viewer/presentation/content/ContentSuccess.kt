@@ -16,6 +16,7 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import com.dertefter.design.components.common.rememberSafeRotaryScrollableBehavior
 import com.dertefter.text_viewer.R
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
@@ -49,7 +50,8 @@ fun ContentSuccess(
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding,
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier.padding(4.dp),
+            rotaryScrollableBehavior = rememberSafeRotaryScrollableBehavior(columnState)
         ) {
             item {
 

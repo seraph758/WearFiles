@@ -16,6 +16,7 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import com.dertefter.design.components.common.rememberSafeRotaryScrollableBehavior
 import com.dertefter.design.components.items.TextItem
 import com.dertefter.design.icons.Icons
 import com.google.android.horologist.compose.layout.ColumnItemType
@@ -50,7 +51,8 @@ fun ContentFailedDefaultScreen(
                 state = columnState,
                 contentPadding = contentPadding,
                 modifier = Modifier.padding(top = 28.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                rotaryScrollableBehavior = rememberSafeRotaryScrollableBehavior(columnState)
             ) {
 
                 title?.let {

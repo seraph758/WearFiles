@@ -22,6 +22,7 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.Text
+import com.dertefter.design.components.common.rememberSafeRotaryScrollableBehavior
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 import dev.zt64.compose.pdf.component.PdfPage
@@ -95,7 +96,8 @@ fun PdfViewerRoute(
             state = columnState,
             contentPadding = contentPadding,
             modifier = Modifier.padding(12.dp),
-            userScrollEnabled = zoomedPageIndex == null
+            userScrollEnabled = zoomedPageIndex == null,
+            rotaryScrollableBehavior = rememberSafeRotaryScrollableBehavior(columnState)
         ) {
 
             items(pdfState.pageCount, key = { it }) { i ->

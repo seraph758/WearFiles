@@ -21,6 +21,7 @@ import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
+import com.dertefter.design.components.common.rememberSafeRotaryScrollableBehavior
 import com.dertefter.design.components.items.CircleThumb
 import com.dertefter.images.R
 import com.dertefter.images.data.MediaItem
@@ -53,6 +54,7 @@ fun ContentSuccess(
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding,
+            rotaryScrollableBehavior = rememberSafeRotaryScrollableBehavior(columnState)
         ) {
 
 

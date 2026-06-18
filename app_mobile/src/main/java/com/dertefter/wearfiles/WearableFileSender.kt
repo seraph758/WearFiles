@@ -16,44 +16,42 @@ class WearableFileSender(private val context: Context) {
             val nodeClient = Wearable.getNodeClient(context)
             val capabilityClient = Wearable.getCapabilityClient(context)
 
-            val nodes = nodeClient.connectedNodes.await()
-            if (nodes.isEmpty()) {
-                TransferState.connectionStatus = ConnectionStatus.NOT_CONNECTED
-                return
-            }
-
+            val allNodes = nodeClient.connectedNodes.await()
             val capabilityInfo = capabilityClient
                 .getCapability("wear_files_app", CapabilityClient.FILTER_ALL)
                 .await()
-
-            if (capabilityInfo.nodes.isEmpty()) {
-                TransferState.connectionStatus = ConnectionStatus.APP_NOT_INSTALLED
-                return
-            }
-
-            val reachableCapabilityInfo = capabilityClient
+            val reachableNodes = capabilityClient
                 .getCapability("wear_files_app", CapabilityClient.FILTER_REACHABLE)
-                .await()
+                .await().nodes
 
-            if (reachableCapabilityInfo.nodes.isEmpty()) {
-                TransferState.connectionStatus = ConnectionStatus.NOT_NEARBY
-                return
+            val newNodes = allNodes.map { node ->
+                val status = when {
+                    !capabilityInfo.nodes.any { it.id == node.id } -> ConnectionStatus.APP_NOT_INSTALLED
+                    !reachableNodes.any { it.id == node.id } -> ConnectionStatus.NOT_NEARBY
+                    else -> ConnectionStatus.READY
+                }
+                WearNode(node.id, node.displayName, status)
             }
 
-            TransferState.connectionStatus = ConnectionStatus.READY
+            TransferState.availableNodes = newNodes
+            if (!newNodes.any { it.id == TransferState.selectedNodeId }) {
+                TransferState.selectedNodeId = newNodes.firstOrNull { it.status == ConnectionStatus.READY }?.id ?: newNodes.firstOrNull()?.id
+            }
 
         } catch (e: Exception) {
             Log.e("WearableFileSender", e.stackTraceToString())
-            TransferState.connectionStatus = ConnectionStatus.NOT_CONNECTED
+            TransferState.availableNodes = emptyList()
         }
     }
 
     fun sendFileToWear(uri: Uri) {
+        val nodeId = TransferState.selectedNodeId ?: return
         val fileName = getFileName(uri) ?: context.getString(R.string.file_default_name)
         val intent = Intent(context, FileTransferService::class.java).apply {
             action = "ADD_TRANSFER"
             putExtra("file_uri", uri)
             putExtra("file_name", fileName)
+            putExtra("target_node_id", nodeId)
         }
         context.startForegroundService(intent)
     }

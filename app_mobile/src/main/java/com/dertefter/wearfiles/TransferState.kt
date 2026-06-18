@@ -14,6 +14,7 @@ enum class TransferStatus {
 
 data class TransferItem(
     val id: String,
+    val targetNodeId: String,
     val uri: Uri,
     val fileName: String,
     val progress: Int = 0,
@@ -29,9 +30,19 @@ enum class ConnectionStatus {
 }
 
 
+data class WearNode(
+    val id: String,
+    val name: String,
+    val status: ConnectionStatus
+)
+
 object TransferState {
     var queue by mutableStateOf<List<TransferItem>>(emptyList())
-    var connectionStatus by mutableStateOf(ConnectionStatus.NOT_CONNECTED)
+    var availableNodes by mutableStateOf<List<WearNode>>(emptyList())
+    var selectedNodeId by mutableStateOf<String?>(null)
+
+    val connectionStatus: ConnectionStatus
+        get() = availableNodes.find { it.id == selectedNodeId }?.status ?: ConnectionStatus.NOT_CONNECTED
 
     fun addItem(item: TransferItem) {
         queue = queue + item

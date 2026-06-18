@@ -38,9 +38,54 @@ import com.dertefter.wearfiles.ConnectionStatus
 import com.dertefter.wearfiles.R
 import com.dertefter.wearfiles.ui.theme.WearFilesTheme
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.runtime.LaunchedEffect
+import com.dertefter.wearfiles.WearNode
+
+@Composable
+fun NodeSelectionPager(
+    modifier: Modifier = Modifier,
+    nodes: List<WearNode>,
+    selectedNodeId: String?,
+    onNodeSelected: (String) -> Unit
+) {
+    if (nodes.isEmpty()) {
+        NodeConnectionCard(
+            modifier = modifier,
+            name = stringResource(R.string.watch_not_found),
+            status = ConnectionStatus.NOT_CONNECTED
+        )
+        return
+    }
+
+    val initialPage = nodes.indexOfFirst { it.id == selectedNodeId }.coerceAtLeast(0)
+    val pagerState = rememberPagerState(
+        initialPage = initialPage,
+        pageCount = { nodes.size }
+    )
+
+    LaunchedEffect(pagerState.currentPage) {
+        onNodeSelected(nodes[pagerState.currentPage].id)
+    }
+
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier.fillMaxWidth()
+    ) { page ->
+        val node = nodes[page]
+        NodeConnectionCard(
+            name = node.name,
+            status = node.status
+        )
+    }
+}
+
 @Composable
 fun NodeConnectionCard(
     modifier: Modifier = Modifier,
+    name: String,
     status: ConnectionStatus
 ) {
 
@@ -119,6 +164,13 @@ fun NodeConnectionCard(
             Spacer(modifier = Modifier.width(16.dp))
             
             Column {
+
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold
+                )
+
                 Text(
                     text = when(status) {
                         ConnectionStatus.READY -> stringResource(R.string.watch_connected)
@@ -151,10 +203,7 @@ fun NodeConnectionCardPreview_Connected() {
         Column(
             modifier = Modifier.padding(vertical = 8.dp)
         ) {
-            NodeConnectionCard(status = ConnectionStatus.READY)
-            NodeConnectionCard(status = ConnectionStatus.APP_NOT_INSTALLED)
-            NodeConnectionCard(status = ConnectionStatus.NOT_CONNECTED)
-            NodeConnectionCard(status = ConnectionStatus.NOT_NEARBY)
+            NodeConnectionCard(status = ConnectionStatus.READY, name = "TEST")
         }
 
 

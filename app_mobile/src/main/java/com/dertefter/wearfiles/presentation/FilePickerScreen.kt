@@ -41,7 +41,7 @@ fun FilePickerScreen(
     val context = LocalContext.current
     val fileSender = remember { WearableFileSender(context) }
     
-    val queue = TransferState.queue
+    val queue = TransferState.queue.filter { it.targetNodeId == TransferState.selectedNodeId }
 
     LaunchedEffect(initialUris) {
         if (initialUris.isNotEmpty()) {
@@ -161,12 +161,14 @@ fun PreviewFilePickerScreen() {
             queue = listOf(
                 TransferItem(
                     id = "1",
+                    targetNodeId = "node1",
                     uri = Uri.EMPTY,
                     fileName = "test_file.txt",
                     status = TransferStatus.PENDING
                 ),
                 TransferItem(
                     id = "2",
+                    targetNodeId = "node1",
                     uri = Uri.EMPTY,
                     fileName = "image.png",
                     progress = 50,
@@ -174,12 +176,14 @@ fun PreviewFilePickerScreen() {
                 ),
                 TransferItem(
                     id = "3",
+                    targetNodeId = "node1",
                     uri = Uri.EMPTY,
                     fileName = "video.mp4",
                     status = TransferStatus.SUCCESS
                 ),
                 TransferItem(
                     id = "4",
+                    targetNodeId = "node1",
                     uri = Uri.EMPTY,
                     fileName = "large_file.zip",
                     status = TransferStatus.ERROR

@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.dertefter.wearfiles.presentation.FilePickerScreen
-import com.dertefter.wearfiles.presentation.NodeConnectionCard
+import com.dertefter.wearfiles.presentation.NodeSelectionPager
 import com.dertefter.wearfiles.presentation.NotificationPermissionRequest
 import com.dertefter.wearfiles.ui.theme.WearFilesTheme
 import com.google.android.gms.wearable.Wearable
@@ -46,11 +46,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     topBar = {
-                        NodeConnectionCard(
+                        NodeSelectionPager(
                             modifier = Modifier
                                 .padding(vertical = 4.dp)
                                 .statusBarsPadding(),
-                            status = TransferState.connectionStatus
+                            nodes = TransferState.availableNodes,
+                            selectedNodeId = TransferState.selectedNodeId,
+                            onNodeSelected = { TransferState.selectedNodeId = it }
                         )
                     }
                 ) { contentPadding ->

@@ -39,9 +39,11 @@ class FileTransferService : Service() {
             "ADD_TRANSFER" -> {
                 @Suppress("DEPRECATION") val uri = intent.getParcelableExtra<Uri>("file_uri")
                 val fileName = intent.getStringExtra("file_name") ?: getString(R.string.file_default_name)
-                if (uri != null) {
+                val nodeId = intent.getStringExtra("target_node_id")
+                if (uri != null && nodeId != null) {
                     val newItem = TransferItem(
                         id = UUID.randomUUID().toString(),
+                        targetNodeId = nodeId,
                         uri = uri,
                         fileName = fileName
                     )
@@ -90,12 +92,7 @@ class FileTransferService : Service() {
 
         TransferState.updateItem(item.id) { it.copy(status = TransferStatus.SENDING) }
         
-        val nodes = Wearable.getNodeClient(this).connectedNodes.await()
-        if (nodes.isEmpty()) {
-            throw Exception(getString(R.string.error_no_nodes))
-        }
-
-        val nodeId = nodes.first().id
+        val nodeId = item.targetNodeId
         val channelClient = Wearable.getChannelClient(this)
 
         val totalSize = try {

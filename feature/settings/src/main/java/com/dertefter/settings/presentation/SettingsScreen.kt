@@ -3,6 +3,7 @@ package com.dertefter.settings.presentation
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +25,7 @@ import com.dertefter.design.icons.Icons
 import com.dertefter.settings.R
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import com.github.droibit.oss_licenses.ui.wear.compose.material3.WearableOssLicensesActivity
 
 @Composable
 fun SettingsScreen(
@@ -87,6 +89,9 @@ fun SettingsScreen(
         contentPadding = contentPadding,
     ) { contentPadding ->
 
+
+        val context = LocalContext.current
+
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding,
@@ -126,6 +131,17 @@ fun SettingsScreen(
                     icon = Icons.Github,
                     onClick = {
                         onEvent(Event.OnNavigateToGitRepo)
+                    },
+                )
+            }
+
+            item {
+                FileItem(
+                    transformationSpec = transformationSpec,
+                    text = stringResource(R.string.licences),
+                    icon = Icons.Docs,
+                    onClick = {
+                        context.startActivity(WearableOssLicensesActivity.createIntent(context))
                     },
                 )
             }

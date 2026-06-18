@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:design"))
 
+    implementation(libs.oss.licenses.droibit.wear)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.wear.compose.material3)

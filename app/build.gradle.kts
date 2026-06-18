@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.oss.licenses)
 }
 
 android {
@@ -104,4 +105,5 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.gson)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.oss.licenses.droibit)
 }

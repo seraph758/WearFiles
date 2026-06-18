@@ -1,9 +1,10 @@
 package com.dertefter.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface FileManagerRepository {
-    suspend fun getFiles(path: String): Result<List<File>>
+    fun getFiles(path: String): Flow<Result<List<File>>>
 
     suspend fun rename(path: String, newName: String): Result<Boolean>
 

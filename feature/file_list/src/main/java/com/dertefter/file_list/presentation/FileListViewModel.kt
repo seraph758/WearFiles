@@ -1,9 +1,6 @@
 package com.dertefter.file_list.presentation
 
 import android.os.Environment
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.data.model.PrettyPath
@@ -18,6 +15,10 @@ import com.dertefter.file_list.usecase.NavigateBackUseCase
 import com.dertefter.file_list.usecase.NavigateToPathUseCase
 import com.dertefter.file_list.usecase.OpenFileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -34,11 +35,13 @@ class FileListViewModel @Inject constructor(
     private val checkFileAccessUseCase: CheckFileAccessUseCase
 ) : ViewModel() {
 
-    var state by mutableStateOf<UiState>(UiState.Loading)
-        private set
+    private val _state = MutableStateFlow<UiState>(UiState.Loading)
+    val state: StateFlow<UiState> = _state.asStateFlow()
 
-    var menuState by mutableStateOf<MenuState>(MenuState.Hide)
-        private set
+    private val _menuState = MutableStateFlow<MenuState>(MenuState.Hide)
+    val menuState: StateFlow<MenuState> = _menuState.asStateFlow()
+
+    private var fileListJob: Job? = null
 
     fun onEvent(event: Event) {
         when (event) {
@@ -49,7 +52,7 @@ class FileListViewModel @Inject constructor(
                 val isReceivedFolder = path.contains("Download/Received", ignoreCase = true)
 
                 if (!hasFileAccess && !isReceivedFolder) {
-                    state = UiState.NoPermissions
+                    _state.value = UiState.NoPermissions
                 } else {
                     getFileListAtPath(path)
                 }
@@ -72,11 +75,11 @@ class FileListViewModel @Inject constructor(
             }
 
             is Event.OnHideMenu -> {
-                menuState = MenuState.Hide
+                _menuState.value = MenuState.Hide
             }
 
             is Event.OnShowMenuFor -> {
-                menuState = MenuState.Show(event.path, event.menuMode)
+                _menuState.value = MenuState.Show(event.path, event.menuMode)
             }
 
         }
@@ -93,15 +96,17 @@ class FileListViewModel @Inject constructor(
     }
 
     private fun getFileListAtPath(path: String) {
-        viewModelScope.launch {
-            val currentState = state
+        fileListJob?.cancel()
+        fileListJob = viewModelScope.launch {
+            val currentState = _state.value
             if (currentState is UiState.Success && currentState.path.path == path) {
                 // Keep the current state to avoid UI flicker and scroll reset
             } else {
-                state = UiState.Loading
+                _state.value = UiState.Loading
             }
 
-            getFileListUseCase(path).onSuccess { fileList ->
+            getFileListUseCase(path).collect { result ->
+                result.onSuccess { fileList ->
 
                     val actions = getActionsUseCase(path)
 
@@ -115,17 +120,16 @@ class FileListViewModel @Inject constructor(
                         homePath = receivedPath
                     }
 
-                    state = UiState.Success(
+                    _state.value = UiState.Success(
                         path = PrettyPath(
                             homePath, path
                         ), files = fileList, actions = actions
                     )
 
                 }.onFailure { e ->
-                    state = UiState.Failed(e)
+                    _state.value = UiState.Failed(e)
                 }
-
-
+            }
         }
     }
 

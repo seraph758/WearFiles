@@ -6,18 +6,38 @@ import android.os.Build
 import android.os.Environment
 import androidx.core.content.ContextCompat
 import com.dertefter.data.repository.FileManagerRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlin.time.Duration.Companion.milliseconds
 
 class FileManagerRepositoryImpl @Inject constructor(
     @param:ApplicationContext
     private val context: Context
 ) : FileManagerRepository {
 
-    override suspend fun getFiles(path: String): Result<List<File>> = withContext(Dispatchers.IO) {
+    private val refreshTrigger = MutableSharedFlow<Unit>(replay = 1).apply { tryEmit(Unit) }
+
+    private val tickerFlow = flow {
+        while (true) {
+            emit(Unit)
+            delay(2000.milliseconds)
+        }
+    }
+
+    override fun getFiles(path: String): Flow<Result<List<File>>> = combine(
+        refreshTrigger.onStart { emit(Unit) },
+        tickerFlow
+    ) { _, _ ->
         runCatching {
             val file = File(path)
             if (!file.exists()) throw IllegalArgumentException("Path does not exist: $path")
@@ -26,7 +46,7 @@ class FileManagerRepositoryImpl @Inject constructor(
             file.listFiles()?.toList()
                 ?: throw IllegalStateException("Cannot list files for: $path")
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getFileName(path: String): Result<String> {
         return runCatching {
@@ -45,8 +65,7 @@ class FileManagerRepositoryImpl @Inject constructor(
             val newFile = File(file.parent, newName)
 
             val success = file.renameTo(newFile)
-            if (!success) throw IllegalStateException("Failed to rename $path to $newName")
-
+            if (success) refreshTrigger.emit(Unit)
             success
         }
     }
@@ -175,11 +194,13 @@ class FileManagerRepositoryImpl @Inject constructor(
 
             if (!file.exists()) throw IllegalArgumentException("File does not exist: ${file.path}")
 
-            if (file.isDirectory) {
+            val success = if (file.isDirectory) {
                 file.deleteRecursively()
             } else {
                 file.delete()
             }
+            if (success) refreshTrigger.emit(Unit)
+            success
         }
     }
 
@@ -189,7 +210,9 @@ class FileManagerRepositoryImpl @Inject constructor(
 
             if (newDir.exists()) throw IllegalStateException("Directory already exists: ${newDir.path}")
 
-            newDir.mkdirs()
+            val success = newDir.mkdirs()
+            if (success) refreshTrigger.emit(Unit)
+            success
         }
     }
 

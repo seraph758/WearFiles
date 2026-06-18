@@ -21,10 +21,21 @@ class FileReceiverService : WearableListenerService() {
     override fun onChannelOpened(channel: com.google.android.gms.wearable.ChannelClient.Channel) {
         Log.d("FileReceiverService", "Channel opened: ${channel.path}")
         if (channel.path.startsWith("/file-transfer/")) {
-            val fileName = Uri.decode(channel.path.substringAfter("/file-transfer/"))
+            val pathData = channel.path.substringAfter("/file-transfer/")
+            val expectedSize: Long
+            val fileName: String
+
+            if (pathData.contains("/")) {
+                expectedSize = pathData.substringBefore("/").toLongOrNull() ?: -1L
+                fileName = Uri.decode(pathData.substringAfter("/"))
+            } else {
+                expectedSize = -1L
+                fileName = Uri.decode(pathData)
+            }
+
             val nodeId = channel.nodeId
             scope.launch {
-                receiveFileFromChannel(channel, fileName, nodeId)
+                receiveFileFromChannel(channel, fileName, nodeId, expectedSize)
             }
         }
     }
@@ -32,7 +43,8 @@ class FileReceiverService : WearableListenerService() {
     private suspend fun receiveFileFromChannel(
         channel: com.google.android.gms.wearable.ChannelClient.Channel,
         fileName: String,
-        nodeId: String
+        nodeId: String,
+        expectedSize: Long
     ) {
         val channelClient = Wearable.getChannelClient(this)
         val receivedDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Received")
@@ -45,6 +57,7 @@ class FileReceiverService : WearableListenerService() {
             Log.d("FileReceiverService", "Receiving file: $fileName to ${file.absolutePath}")
             
             val inputStream = channelClient.getInputStream(channel).await()
+            var bytesReceived = 0L
             
             withContext(Dispatchers.IO) {
                 FileOutputStream(file).use { outputStream ->
@@ -53,11 +66,16 @@ class FileReceiverService : WearableListenerService() {
                         var bytes = input.read(buffer)
                         while (bytes != -1) {
                             outputStream.write(buffer, 0, bytes)
+                            bytesReceived += bytes
                             bytes = input.read(buffer)
                         }
                         outputStream.flush()
                     }
                 }
+            }
+
+            if (expectedSize != -1L && bytesReceived != expectedSize) {
+                throw Exception("Incomplete file: received $bytesReceived of $expectedSize")
             }
             
             Log.d("FileReceiverService", "File saved successfully!")

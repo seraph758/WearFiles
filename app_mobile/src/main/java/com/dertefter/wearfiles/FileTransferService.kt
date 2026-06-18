@@ -97,7 +97,17 @@ class FileTransferService : Service() {
 
         val nodeId = nodes.first().id
         val channelClient = Wearable.getChannelClient(this)
-        val channelPath = "/file-transfer/${Uri.encode(item.fileName)}"
+
+        val totalSize = try {
+            contentResolver.query(item.uri, null, null, null, null)?.use { cursor ->
+                val sizeIndex = cursor.getColumnIndex(android.provider.OpenableColumns.SIZE)
+                if (sizeIndex != -1 && cursor.moveToFirst()) cursor.getLong(sizeIndex) else -1L
+            } ?: -1L
+        } catch (_: Exception) {
+            -1L
+        }
+
+        val channelPath = "/file-transfer/$totalSize/${Uri.encode(item.fileName)}"
         
         val channel = channelClient.openChannel(nodeId, channelPath).await()
         
@@ -105,11 +115,6 @@ class FileTransferService : Service() {
             delay(500.milliseconds)
             val outputStream = channelClient.getOutputStream(channel).await()
             val inputStream = contentResolver.openInputStream(item.uri) ?: throw Exception(getString(R.string.error_input_stream))
-            
-            val totalSize = contentResolver.query(item.uri, null, null, null, null)?.use { cursor ->
-                val sizeIndex = cursor.getColumnIndex(android.provider.OpenableColumns.SIZE)
-                if (sizeIndex != -1 && cursor.moveToFirst()) cursor.getLong(sizeIndex) else -1L
-            } ?: -1L
 
             val buffer = ByteArray(32768)
             var bytesWritten = 0L

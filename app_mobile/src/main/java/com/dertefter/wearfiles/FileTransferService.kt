@@ -7,6 +7,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import com.dertefter.wearfiles.data.TransferItem
+import com.dertefter.wearfiles.data.TransferRepository
+import com.dertefter.wearfiles.data.TransferStatus
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
@@ -32,7 +35,7 @@ class FileTransferService : Service() {
             "CANCEL_TRANSFER" -> {
                 val id = intent.getStringExtra("item_id")
                 if (id != null) {
-                    TransferState.removeItem(id)
+                    TransferRepository.removeItem(id)
                 }
                 return START_NOT_STICKY
             }
@@ -47,7 +50,7 @@ class FileTransferService : Service() {
                         uri = uri,
                         fileName = fileName
                     )
-                    TransferState.addItem(newItem)
+                    TransferRepository.addItem(newItem)
                     startProcessing()
                 }
             }
@@ -59,7 +62,7 @@ class FileTransferService : Service() {
         if (isProcessing) return
         isProcessing = true
         
-        val notification = notificationHelper.getNotification(getString(R.string.notification_file_queue), NotificationHelper.TransferStatus.SENDING)
+        val notification = notificationHelper.getNotification(getString(R.string.notification_file_queue), TransferStatus.SENDING)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
         } else {
@@ -68,7 +71,7 @@ class FileTransferService : Service() {
 
         scope.launch {
             while (isActive) {
-                val nextItem = TransferState.queue.firstOrNull { it.status == TransferStatus.PENDING }
+                val nextItem = TransferRepository.queue.firstOrNull { it.status == TransferStatus.PENDING }
                 if (nextItem == null) {
                     isProcessing = false
                     stopForeground(STOP_FOREGROUND_DETACH)
@@ -80,17 +83,17 @@ class FileTransferService : Service() {
                     processItem(nextItem)
                 } catch (e: Exception) {
                     Log.e("FileTransferService", "Error processing item ${nextItem.id}", e)
-                    TransferState.updateItem(nextItem.id) { it.copy(status = TransferStatus.ERROR) }
-                    notificationHelper.showTransferNotification(nextItem.fileName, NotificationHelper.TransferStatus.ERROR)
+                    TransferRepository.updateItem(nextItem.id) { it.copy(status = TransferStatus.ERROR) }
+                    notificationHelper.showTransferNotification(nextItem.fileName, TransferStatus.ERROR)
                 }
             }
         }
     }
 
     private suspend fun processItem(item: TransferItem) {
-        if (TransferState.queue.none { it.id == item.id }) return
+        if (TransferRepository.queue.none { it.id == item.id }) return
 
-        TransferState.updateItem(item.id) { it.copy(status = TransferStatus.SENDING) }
+        TransferRepository.updateItem(item.id) { it.copy(status = TransferStatus.SENDING) }
         
         val nodeId = item.targetNodeId
         val channelClient = Wearable.getChannelClient(this)
@@ -121,7 +124,7 @@ class FileTransferService : Service() {
                 outputStream.use { output ->
                     var bytes = input.read(buffer)
                     while (bytes != -1) {
-                        if (TransferState.queue.none { it.id == item.id }) {
+                        if (TransferRepository.queue.none { it.id == item.id }) {
                             throw CancellationException(getString(R.string.error_canceled))
                         }
 
@@ -131,8 +134,8 @@ class FileTransferService : Service() {
                         val progress = if (totalSize > 0) (bytesWritten * 100 / totalSize).toInt() else 0
                         val currentTime = System.currentTimeMillis()
                         if (currentTime - lastUpdate > 300) { 
-                            TransferState.updateItem(item.id) { it.copy(progress = progress) }
-                            notificationHelper.showTransferNotification(item.fileName, NotificationHelper.TransferStatus.SENDING, progress)
+                            TransferRepository.updateItem(item.id) { it.copy(progress = progress) }
+                            notificationHelper.showTransferNotification(item.fileName, TransferStatus.SENDING, progress)
                             lastUpdate = currentTime
                         }
                         bytes = input.read(buffer)
@@ -140,7 +143,7 @@ class FileTransferService : Service() {
                     output.flush()
                 }
             }
-            TransferState.updateItem(item.id) { it.copy(progress = 100) }
+            TransferRepository.updateItem(item.id) { it.copy(progress = 100) }
 
         } finally {
             channelClient.close(channel).await()

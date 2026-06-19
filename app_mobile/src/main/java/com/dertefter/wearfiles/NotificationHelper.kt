@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import com.dertefter.wearfiles.data.TransferStatus
 
 class NotificationHelper(private val context: Context) {
 
@@ -39,11 +40,13 @@ class NotificationHelper(private val context: Context) {
             TransferStatus.SENDING -> context.getString(R.string.notification_sending_title)
             TransferStatus.SUCCESS -> context.getString(R.string.notification_success_title)
             TransferStatus.ERROR -> context.getString(R.string.notification_error_title)
+            else -> return
         }
         val text = when (status) {
             TransferStatus.SENDING -> context.getString(R.string.notification_sending_desc, fileName, progress)
             TransferStatus.SUCCESS -> context.getString(R.string.notification_success_desc, fileName)
             TransferStatus.ERROR -> context.getString(R.string.notification_error_desc, fileName)
+            else -> return
         }
 
         val openAppIntent = Intent(context, MainActivity::class.java).apply {
@@ -71,6 +74,13 @@ class NotificationHelper(private val context: Context) {
     }
 
     fun getNotification(fileName: String, status: TransferStatus, progress: Int = 0): android.app.Notification {
+        val title = when (status) {
+            TransferStatus.SENDING -> context.getString(R.string.notification_sending_title)
+            TransferStatus.SUCCESS -> context.getString(R.string.notification_success_title)
+            TransferStatus.ERROR -> context.getString(R.string.notification_error_title)
+            else -> context.getString(R.string.notification_preparing)
+        }
+
         val openAppIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
@@ -80,17 +90,13 @@ class NotificationHelper(private val context: Context) {
 
         return NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.stat_sys_upload)
-            .setContentTitle(context.getString(R.string.notification_preparing))
+            .setContentTitle(title)
             .setContentText(fileName)
             .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setProgress(100, progress, true)
+            .setProgress(100, progress, status == TransferStatus.PENDING)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setContentIntent(openAppPendingIntent)
             .build()
-    }
-
-    enum class TransferStatus {
-        SENDING, SUCCESS, ERROR
     }
 }

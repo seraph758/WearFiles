@@ -5,6 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import com.dertefter.wearfiles.data.ConnectionStatus
+import com.dertefter.wearfiles.data.TransferRepository
+import com.dertefter.wearfiles.data.WearNode
 import com.google.android.gms.wearable.CapabilityClient
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.tasks.await
@@ -33,19 +36,16 @@ class WearableFileSender(private val context: Context) {
                 WearNode(node.id, node.displayName, status)
             }
 
-            TransferState.availableNodes = newNodes
-            if (!newNodes.any { it.id == TransferState.selectedNodeId }) {
-                TransferState.selectedNodeId = newNodes.firstOrNull { it.status == ConnectionStatus.READY }?.id ?: newNodes.firstOrNull()?.id
-            }
+            TransferRepository.updateNodes(newNodes)
 
         } catch (e: Exception) {
             Log.e("WearableFileSender", e.stackTraceToString())
-            TransferState.availableNodes = emptyList()
+            TransferRepository.updateNodes(emptyList())
         }
     }
 
     fun sendFileToWear(uri: Uri) {
-        val nodeId = TransferState.selectedNodeId ?: return
+        val nodeId = TransferRepository.selectedNodeId ?: return
         val fileName = getFileName(uri) ?: context.getString(R.string.file_default_name)
         val intent = Intent(context, FileTransferService::class.java).apply {
             action = "ADD_TRANSFER"

@@ -1,6 +1,5 @@
 package com.dertefter.wearfiles.presentation
 
-import android.net.Uri
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,13 +27,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dertefter.wearfiles.R
-import com.dertefter.wearfiles.TransferItem
-import com.dertefter.wearfiles.TransferState
-import com.dertefter.wearfiles.TransferStatus
-import com.dertefter.wearfiles.ui.theme.WearFilesTheme
+import com.dertefter.wearfiles.data.TransferItem
+import com.dertefter.wearfiles.data.TransferRepository
+import com.dertefter.wearfiles.data.TransferStatus
 
 @Composable
 fun TransferItem(
@@ -52,7 +49,7 @@ fun TransferItem(
     val bottomRounding = if (isLast) largeRounding else smallRounding
 
     val shape = RoundedCornerShape(
-        topEnd =topRounding,
+        topEnd = topRounding,
         topStart = topRounding,
         bottomEnd = bottomRounding,
         bottomStart = bottomRounding
@@ -67,7 +64,7 @@ fun TransferItem(
     val onDefaultColor = MaterialTheme.colorScheme.onSurface
 
     val bgColor by animateColorAsState(
-        when (item.status){
+        when (item.status) {
             TransferStatus.PENDING -> defaultColor
             TransferStatus.SENDING -> defaultColor
             TransferStatus.SUCCESS -> successColor
@@ -76,7 +73,7 @@ fun TransferItem(
     )
 
     val contentColor by animateColorAsState(
-        when (item.status){
+        when (item.status) {
             TransferStatus.PENDING -> onDefaultColor
             TransferStatus.SENDING -> onDefaultColor
             TransferStatus.SUCCESS -> onSuccessColor
@@ -90,22 +87,24 @@ fun TransferItem(
         if (item.status == TransferStatus.PENDING || item.status == TransferStatus.SENDING) {
             onCancel()
         } else {
-            TransferState.removeItem(item.id)
+            TransferRepository.removeItem(item.id)
         }
     }
 
-    Column(modifier = modifier
-        .clip(shape)
-        .background(MaterialTheme.colorScheme.surfaceContainer)
-        .background(
-            brush = Brush.linearGradient(
-                colors = listOf(
-                    bgColor.copy(alpha = 0.02f),
-                    bgColor.copy(alpha = 0.3f)
+    Column(
+        modifier = modifier
+            .clip(shape)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        bgColor.copy(alpha = 0.02f),
+                        bgColor.copy(alpha = 0.3f)
+                    )
                 )
             )
-        )
-        .fillMaxWidth()) {
+            .fillMaxWidth()
+    ) {
         Row(
             modifier = Modifier
                 .padding(12.dp)
@@ -135,9 +134,6 @@ fun TransferItem(
                 )
             }
 
-
-
-
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
@@ -146,10 +142,10 @@ fun TransferItem(
                     .padding(4.dp)
                     .size(44.dp),
                 contentAlignment = Alignment.Center
-            ){
-                if (item.status == TransferStatus.SENDING){
+            ) {
+                if (item.status == TransferStatus.SENDING) {
                     CircularProgressIndicator(
-                        progress = {item.progress / 100f },
+                        progress = { item.progress / 100f },
                         modifier = Modifier
                             .size(40.dp),
                         color = bgColor,
@@ -163,10 +159,6 @@ fun TransferItem(
                     contentDescription = stringResource(R.string.action_remove)
                 )
             }
-
-
         }
-
     }
-
 }

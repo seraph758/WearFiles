@@ -3,13 +3,17 @@ package com.dertefter.wearfiles.presentation
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,32 +21,39 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dertefter.wearfiles.ConnectionStatus
 import com.dertefter.wearfiles.R
+import com.dertefter.wearfiles.data.ConnectionStatus
+import com.dertefter.wearfiles.data.WearNode
 import com.dertefter.wearfiles.ui.theme.WearFilesTheme
-
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.runtime.LaunchedEffect
-import com.dertefter.wearfiles.WearNode
 
 @Composable
 fun NodeSelectionPager(
@@ -55,7 +66,8 @@ fun NodeSelectionPager(
         NodeConnectionCard(
             modifier = modifier,
             name = stringResource(R.string.watch_not_found),
-            status = ConnectionStatus.NOT_CONNECTED
+            status = ConnectionStatus.NOT_CONNECTED,
+            isSelected = false
         )
         return
     }
@@ -72,12 +84,18 @@ fun NodeSelectionPager(
 
     HorizontalPager(
         state = pagerState,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(
+            horizontal = 24.dp,
+            vertical = 4.dp
+        ),
+        pageSpacing = 8.dp
     ) { page ->
         val node = nodes[page]
         NodeConnectionCard(
             name = node.name,
-            status = node.status
+            status = node.status,
+            isSelected = node.id == selectedNodeId
         )
     }
 }
@@ -86,14 +104,17 @@ fun NodeSelectionPager(
 fun NodeConnectionCard(
     modifier: Modifier = Modifier,
     name: String,
+    isSelected: Boolean,
     status: ConnectionStatus
 ) {
+    val density = LocalDensity.current
+    var cardHeight by remember { mutableStateOf(0.dp) }
 
-    val successColor = colorResource(R.color.success_container)
-    val onSuccessColor = colorResource(R.color.on_success_container)
+    val onSuccessColor = colorResource(R.color.success_container)
+    val successColor = colorResource(R.color.on_success_container)
 
-    val warnColor = colorResource(R.color.warn_container)
-    val onWarnColor = colorResource(R.color.on_warn_container)
+    val onWarnColor = colorResource(R.color.warn_container)
+    val warnColor = colorResource(R.color.on_warn_container)
 
     val containerColor by animateColorAsState(
         if (status == ConnectionStatus.READY) successColor else warnColor
@@ -101,6 +122,22 @@ fun NodeConnectionCard(
 
     val contentColor by animateColorAsState(
         if (status == ConnectionStatus.READY) onSuccessColor else onWarnColor
+    )
+
+    val iconBgColor by animateColorAsState(
+        if (!isSelected) Color.Transparent
+        else if (status == ConnectionStatus.READY) onSuccessColor else onWarnColor
+    )
+
+    val iconScale by animateFloatAsState(
+        if (isSelected) 1f else 1.3f
+    )
+
+    val iconTintColor by animateColorAsState(
+        if (!isSelected) {
+            if (status == ConnectionStatus.READY) onSuccessColor else onWarnColor
+        }
+        else if (status == ConnectionStatus.READY) successColor else warnColor
     )
 
     val infiniteTransition = rememberInfiniteTransition(label = "rotation")
@@ -122,14 +159,24 @@ fun NodeConnectionCard(
         R.drawable.ic_watch_off
     }
 
+    val radius by animateDpAsState(
+        if (isSelected) {
+            if (cardHeight > 0.dp) cardHeight / 2 else 100.dp
+        } else 22.dp,
+        label = "radius"
+    )
 
-    Surface(
+    Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        shape = RoundedCornerShape(24.dp),
-        color = containerColor,
-        contentColor = contentColor
+            .onSizeChanged {
+                cardHeight = with(density) { it.height.toDp() }
+            },
+        shape = RoundedCornerShape(radius),
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = containerColor,
+            contentColor = contentColor,
+        ),
     ) {
         Row(
             modifier = Modifier
@@ -146,23 +193,24 @@ fun NodeConnectionCard(
                 Icon(
                     painter = painterResource(R.drawable.some_shape),
                     contentDescription = null,
-                    tint = contentColor,
+                    tint = iconBgColor,
                     modifier = Modifier.rotate(startAngle)
                 )
 
                 Icon(
                     painter = painterResource(id = iconRes),
                     contentDescription = null,
-                    tint = containerColor,
+                    tint = iconTintColor,
                     modifier = Modifier
+                        .scale(iconScale)
                         .padding(8.dp)
                         .fillMaxSize()
                 )
             }
 
-            
+
             Spacer(modifier = Modifier.width(16.dp))
-            
+
             Column {
 
                 Text(
@@ -201,9 +249,11 @@ fun NodeConnectionCardPreview_Connected() {
     WearFilesTheme {
 
         Column(
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            NodeConnectionCard(status = ConnectionStatus.READY, name = "TEST")
+            NodeConnectionCard(status = ConnectionStatus.READY, name = "TEST", isSelected = false)
+            NodeConnectionCard(status = ConnectionStatus.READY, name = "TEST", isSelected = true)
         }
 
 

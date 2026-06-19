@@ -1,5 +1,7 @@
 package com.dertefter.wearfiles
 
+import com.dertefter.wearfiles.data.TransferRepository
+import com.dertefter.wearfiles.data.TransferStatus
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 
@@ -16,15 +18,15 @@ class TransferStatusListener : WearableListenerService() {
                 
                 val notificationHelper = NotificationHelper(this)
                 if (status == "success") {
-                    TransferState.queue.find { it.fileName == fileName && it.targetNodeId == sourceNodeId && it.status == TransferStatus.SENDING }?.let { item ->
-                        TransferState.updateItem(item.id) { it.copy(status = TransferStatus.SUCCESS, progress = 100) }
+                    TransferRepository.queue.find { it.fileName == fileName && it.targetNodeId == sourceNodeId && it.status == TransferStatus.SENDING }?.let { item ->
+                        TransferRepository.updateItem(item.id) { it.copy(status = TransferStatus.SUCCESS, progress = 100) }
                     }
-                    notificationHelper.showTransferNotification(fileName, NotificationHelper.TransferStatus.SUCCESS)
+                    notificationHelper.showTransferNotification(fileName, TransferStatus.SUCCESS)
                 } else {
-                    TransferState.queue.find { it.fileName == fileName && it.targetNodeId == sourceNodeId && it.status == TransferStatus.SENDING }?.let { item ->
-                        TransferState.updateItem(item.id) { it.copy(status = TransferStatus.ERROR) }
+                    TransferRepository.queue.find { it.fileName == fileName && it.targetNodeId == sourceNodeId && it.status == TransferStatus.SENDING }?.let { item ->
+                        TransferRepository.updateItem(item.id) { it.copy(status = TransferStatus.ERROR) }
                     }
-                    notificationHelper.showTransferNotification(fileName, NotificationHelper.TransferStatus.ERROR)
+                    notificationHelper.showTransferNotification(fileName, TransferStatus.ERROR)
                 }
             }
         }

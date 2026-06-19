@@ -1,44 +1,16 @@
-package com.dertefter.wearfiles
+package com.dertefter.wearfiles.data
 
-import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
-enum class TransferStatus {
-    PENDING,
-    SENDING,
-    SUCCESS,
-    ERROR
-}
-
-data class TransferItem(
-    val id: String,
-    val targetNodeId: String,
-    val uri: Uri,
-    val fileName: String,
-    val progress: Int = 0,
-    val status: TransferStatus = TransferStatus.PENDING
-)
-
-
-enum class ConnectionStatus {
-    NOT_CONNECTED,
-    NOT_NEARBY,
-    APP_NOT_INSTALLED,
-    READY,
-}
-
-
-data class WearNode(
-    val id: String,
-    val name: String,
-    val status: ConnectionStatus
-)
-
-object TransferState {
+object TransferRepository {
     var queue by mutableStateOf<List<TransferItem>>(emptyList())
+        private set
+
     var availableNodes by mutableStateOf<List<WearNode>>(emptyList())
+        private set
+
     var selectedNodeId by mutableStateOf<String?>(null)
 
     val connectionStatus: ConnectionStatus
@@ -54,5 +26,12 @@ object TransferState {
 
     fun updateItem(id: String, update: (TransferItem) -> TransferItem) {
         queue = queue.map { if (it.id == id) update(it) else it }
+    }
+
+    fun updateNodes(nodes: List<WearNode>) {
+        availableNodes = nodes
+        if (!nodes.any { it.id == selectedNodeId }) {
+            selectedNodeId = nodes.firstOrNull { it.status == ConnectionStatus.READY }?.id ?: nodes.firstOrNull()?.id
+        }
     }
 }

@@ -23,13 +23,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dertefter.wearfiles.ConnectionStatus
 import com.dertefter.wearfiles.FileTransferService
 import com.dertefter.wearfiles.R
-import com.dertefter.wearfiles.TransferItem
-import com.dertefter.wearfiles.TransferState
-import com.dertefter.wearfiles.TransferStatus
 import com.dertefter.wearfiles.WearableFileSender
+import com.dertefter.wearfiles.data.ConnectionStatus
+import com.dertefter.wearfiles.data.TransferItem
+import com.dertefter.wearfiles.data.TransferRepository
+import com.dertefter.wearfiles.data.TransferStatus
 import com.dertefter.wearfiles.ui.theme.WearFilesTheme
 
 @Composable
@@ -41,7 +41,7 @@ fun FilePickerScreen(
     val context = LocalContext.current
     val fileSender = remember { WearableFileSender(context) }
     
-    val queue = TransferState.queue.filter { it.targetNodeId == TransferState.selectedNodeId }
+    val queue = TransferRepository.queue.filter { it.targetNodeId == TransferRepository.selectedNodeId }
 
     LaunchedEffect(initialUris) {
         if (initialUris.isNotEmpty()) {
@@ -101,7 +101,7 @@ fun FilePickerContent(
         Button(
             onClick = onSelectFiles,
             modifier = Modifier.fillMaxWidth(),
-            enabled = TransferState.connectionStatus == ConnectionStatus.READY
+            enabled = TransferRepository.connectionStatus == ConnectionStatus.READY
         ) {
             Text(stringResource(R.string.select_files))
         }

@@ -3,13 +3,11 @@ package com.dertefter.wearfiles.presentation
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,22 +26,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -107,41 +98,39 @@ fun NodeConnectionCard(
     isSelected: Boolean,
     status: ConnectionStatus
 ) {
-    val density = LocalDensity.current
-    var cardHeight by remember { mutableStateOf(0.dp) }
+    val isReady = status == ConnectionStatus.READY
 
-    val onSuccessColor = colorResource(R.color.success_container)
-    val successColor = colorResource(R.color.on_success_container)
+    val targetContainerColor = if (isReady) {
+        if (isSelected) colorResource(R.color.on_success_container) else colorResource(R.color.success_container)
+    } else {
+        if (isSelected) colorResource(R.color.on_warn_container) else colorResource(R.color.warn_container)
+    }
 
-    val onWarnColor = colorResource(R.color.warn_container)
-    val warnColor = colorResource(R.color.on_warn_container)
+    val targetContentColor = if (isReady) {
+        if (isSelected) colorResource(R.color.success_container) else colorResource(R.color.on_success_container)
+    } else {
+        if (isSelected) colorResource(R.color.warn_container) else colorResource(R.color.on_warn_container)
+    }
 
-    val containerColor by animateColorAsState(
-        if (status == ConnectionStatus.READY) successColor else warnColor
-    )
-
-    val contentColor by animateColorAsState(
-        if (status == ConnectionStatus.READY) onSuccessColor else onWarnColor
-    )
+    val containerColor by animateColorAsState(targetContainerColor, label = "containerColor")
+    val contentColor by animateColorAsState(targetContentColor, label = "contentColor")
 
     val iconBgColor by animateColorAsState(
-        if (!isSelected) Color.Transparent
-        else if (status == ConnectionStatus.READY) onSuccessColor else onWarnColor
-    )
-
-    val iconScale by animateFloatAsState(
-        if (isSelected) 1f else 1.3f
+        if (!isSelected) Color.Transparent else contentColor,
+        label = "iconBgColor"
     )
 
     val iconTintColor by animateColorAsState(
-        if (!isSelected) {
-            if (status == ConnectionStatus.READY) onSuccessColor else onWarnColor
-        }
-        else if (status == ConnectionStatus.READY) successColor else warnColor
+        if (isReady) colorResource(R.color.on_success_container) else colorResource(R.color.on_warn_container),
+        label = "iconTintColor"
+    )
+
+    val iconScaleState = animateFloatAsState(
+        if (isSelected) 1f else 1.3f
     )
 
     val infiniteTransition = rememberInfiniteTransition(label = "rotation")
-    val angle by infiniteTransition.animateFloat(
+    val angleState = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
@@ -151,28 +140,16 @@ fun NodeConnectionCard(
         label = "angle"
     )
 
-    val startAngle = if (status == ConnectionStatus.READY) angle else 0f
-
-    val iconRes = if (status == ConnectionStatus.READY){
+    val iconRes = if (status == ConnectionStatus.READY) {
         R.drawable.ic_watch_check
     } else {
         R.drawable.ic_watch_off
     }
 
-    val radius by animateDpAsState(
-        if (isSelected) {
-            if (cardHeight > 0.dp) cardHeight / 2 else 100.dp
-        } else 22.dp,
-        label = "radius"
-    )
-
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .onSizeChanged {
-                cardHeight = with(density) { it.height.toDp() }
-            },
-        shape = RoundedCornerShape(radius),
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.outlinedCardColors(
             containerColor = containerColor,
             contentColor = contentColor,
@@ -189,12 +166,14 @@ fun NodeConnectionCard(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.size(54.dp)
 
-            ){
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.some_shape),
                     contentDescription = null,
                     tint = iconBgColor,
-                    modifier = Modifier.rotate(startAngle)
+                    modifier = Modifier.graphicsLayer {
+                        rotationZ = if (status == ConnectionStatus.READY) angleState.value else 0f
+                    }
                 )
 
                 Icon(
@@ -202,7 +181,11 @@ fun NodeConnectionCard(
                     contentDescription = null,
                     tint = iconTintColor,
                     modifier = Modifier
-                        .scale(iconScale)
+                        .graphicsLayer {
+                            val s = iconScaleState.value
+                            scaleX = s
+                            scaleY = s
+                        }
                         .padding(8.dp)
                         .fillMaxSize()
                 )
@@ -220,7 +203,7 @@ fun NodeConnectionCard(
                 )
 
                 Text(
-                    text = when(status) {
+                    text = when (status) {
                         ConnectionStatus.READY -> stringResource(R.string.watch_connected)
                         ConnectionStatus.NOT_CONNECTED -> stringResource(R.string.watch_not_found)
                         ConnectionStatus.NOT_NEARBY -> stringResource(R.string.watch_not_nearby)
@@ -230,7 +213,7 @@ fun NodeConnectionCard(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = when(status) {
+                    text = when (status) {
                         ConnectionStatus.READY -> stringResource(R.string.ready_to_send)
                         ConnectionStatus.NOT_CONNECTED -> stringResource(R.string.check_connection)
                         ConnectionStatus.NOT_NEARBY -> stringResource(R.string.bring_watch_closer)

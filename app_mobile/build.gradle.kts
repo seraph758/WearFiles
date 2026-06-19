@@ -13,8 +13,8 @@ android {
         applicationId = "com.dertefter.wearfiles"
         minSdk = 28
         targetSdk = 37
-        versionCode = 51000
-        versionName = "3.1.0"
+        versionCode = 60001
+        versionName = "3.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,10 +43,11 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("release")
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
         }
     }
     compileOptions {

@@ -24,8 +24,8 @@ android {
         applicationId = "com.dertefter.wearfiles"
         minSdk = 26
         targetSdk = 36
-        versionCode = 51
-        versionName = "3.1.0"
+        versionCode = 60000
+        versionName = "3.1.1"
     }
 
     signingConfigs {
@@ -54,6 +54,9 @@ android {
         release {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("release")
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
         }
     }
     compileOptions {

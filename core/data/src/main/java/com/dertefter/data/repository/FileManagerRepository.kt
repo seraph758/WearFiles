@@ -21,6 +21,9 @@ interface FileManagerRepository {
 
 
     suspend fun delete(path: String): Result<Boolean>
+
+    suspend fun delete(paths: List<String>): Result<Boolean>
+
     suspend fun createDirectory(path: String, name: String): Result<Boolean>
 
     fun getBasePath(): String

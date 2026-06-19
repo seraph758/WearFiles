@@ -94,7 +94,7 @@ class FileManagerRepositoryImpl @Inject constructor(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == android.content.pm.PackageManager.PERMISSION_GRANTED
 
-            return readStorage && writeStorage
+            readStorage && writeStorage
         }
     }
 
@@ -182,7 +182,7 @@ class FileManagerRepositoryImpl @Inject constructor(
     override fun getFileByPath(path: String): File? {
         return try{
             File(path)
-        }catch (e: Exception){
+        }catch (_: Exception){
             null
         }
     }
@@ -201,6 +201,22 @@ class FileManagerRepositoryImpl @Inject constructor(
             }
             if (success) refreshTrigger.emit(Unit)
             success
+        }
+    }
+
+    override suspend fun delete(paths: List<String>): Result<Boolean> = withContext(Dispatchers.IO) {
+        runCatching {
+            var anyDeleted = false
+            var allSucceeded = true
+            for (path in paths) {
+                delete(path).onSuccess {
+                    anyDeleted = true
+                }.onFailure {
+                    allSucceeded = false
+                }
+            }
+            if (anyDeleted) refreshTrigger.emit(Unit)
+            allSucceeded
         }
     }
 

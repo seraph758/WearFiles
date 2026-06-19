@@ -9,23 +9,23 @@ sealed class Event {
 
     data class OnNavigateToRename(val path: String) : Event()
 
-    data class OnNavigateToDelete(val path: String) : Event()
+    data class OnNavigateToDelete(val paths: List<String>) : Event()
 
     data class OnHeaderClick(val path: String) : Event()
     data class OnNavigateToNewDirectory(val path: String) : Event()
 
-    data class OnGetMenuActions(val path: String, val mode: MenuMode) : Event()
+    data class OnGetMenuActions(val paths: List<String>, val mode: MenuMode) : Event()
 
     data class OnFileClick(val path: String) : Event()
 
-    data class OnPin(val path: String) : Event()
+    data class OnPin(val paths: List<String>) : Event()
 
-    data class OnUnpin(val path: String) : Event()
+    data class OnUnpin(val paths: List<String>) : Event()
     data class OnDirectoryClick(val path: String) : Event()
 
-    data class OnCut(val path: String) : Event()
+    data class OnCut(val paths: List<String>) : Event()
 
-    data class OnCopy(val path: String) : Event()
+    data class OnCopy(val paths: List<String>) : Event()
 
     data class OnPaste(val path: String) : Event()
 

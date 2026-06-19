@@ -74,16 +74,16 @@ fun ContentSuccess(
                 }
 
                 val event: Event = when (action.type) {
-                    MenuActionType.DELETE -> OnNavigateToDelete(action.path)
-                    MenuActionType.RENAME -> OnNavigateToRename(action.path)
-                    MenuActionType.NEW_DIR -> OnNavigateToNewDirectory(action.path)
-                    MenuActionType.OPEN -> OnHeaderClick(action.path)
-                    MenuActionType.PIN -> OnPin(action.path)
-                    MenuActionType.UNPIN -> OnUnpin(action.path)
-                    MenuActionType.PASTE -> OnPaste(action.path)
-                    MenuActionType.CUT -> OnCut(action.path)
-                    MenuActionType.COPY -> OnCopy(action.path)
-                    MenuActionType.CANCEL_PASTE -> OnCancelPaste(action.path)
+                    MenuActionType.DELETE -> OnNavigateToDelete(action.paths)
+                    MenuActionType.RENAME -> OnNavigateToRename(action.paths.first())
+                    MenuActionType.NEW_DIR -> OnNavigateToNewDirectory(action.paths.first())
+                    MenuActionType.OPEN -> OnHeaderClick(action.paths.first())
+                    MenuActionType.PIN -> OnPin(action.paths)
+                    MenuActionType.UNPIN -> OnUnpin(action.paths)
+                    MenuActionType.PASTE -> OnPaste(action.paths.first())
+                    MenuActionType.CUT -> OnCut(action.paths)
+                    MenuActionType.COPY -> OnCopy(action.paths)
+                    MenuActionType.CANCEL_PASTE -> OnCancelPaste(action.paths.first())
                 }
 
                 val type = when (action.type) {

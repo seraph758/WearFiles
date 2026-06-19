@@ -7,7 +7,7 @@ import javax.inject.Inject
 class NavigateToDeleteUseCase @Inject constructor(
     private val navigator: Navigator
 ) {
-    operator fun invoke(path: String) {
-        navigator.navigate(Routes.Delete(path))
+    operator fun invoke(paths: List<String>) {
+        navigator.navigate(Routes.Delete(paths))
     }
 }

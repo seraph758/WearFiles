@@ -10,27 +10,25 @@ import com.dertefter.menu.presentation.MenuViewModel
 @Composable
 fun MenuRoute(
     viewModel: MenuViewModel = hiltViewModel(),
-    path: String,
+    paths: List<String>,
     onDismissRequest: () -> Unit = {},
     mode: MenuMode = MenuMode.OUTSIDE
 ) {
 
     val uiState = viewModel.state
 
-    LaunchedEffect(path) {
-       viewModel.onEvent(Event.OnGetMenuActions(path,mode))
+    LaunchedEffect(paths) {
+        viewModel.onEvent(Event.OnGetMenuActions(paths, mode))
         viewModel.setOnDismiss(onDismissRequest)
     }
 
     MenuScreen(
-        uiState = uiState,
-        onEvent = { event ->
+        uiState = uiState, onEvent = { event ->
             viewModel.onEvent(event)
-        }
-    )
+        })
 
 }
 
-enum class MenuMode{
+enum class MenuMode {
     INSIDE, OUTSIDE, PINNED
 }

@@ -10,21 +10,26 @@ import javax.inject.Inject
 class GetMenuActionsUseCase @Inject constructor(
     private val fileManagerRepository: FileManagerRepository,
     private val clipboardRepository: ClipboardRepository,
-    private val checkPinnedUseCase: CheckPinnedUseCase,
+    private val checkAllPinnedUseCase: CheckAllPinnedUseCase,
+    private val checkAllUnpinnedUseCase: CheckAllUnpinnedUseCase,
 ) {
-    suspend operator fun invoke(path: String, mode: MenuMode): List<MenuAction> {
+    suspend operator fun invoke(paths: List<String>, mode: MenuMode): List<MenuAction> {
 
-        val isPinned = checkPinnedUseCase(path)
+        val isAllPinned = checkAllPinnedUseCase(paths)
+        val isAllUnpinned = checkAllUnpinnedUseCase(paths)
 
         val menuList = when (mode) {
             MenuMode.INSIDE -> {
                 buildList {
-                    if (fileManagerRepository.canCreateDirHere(path)) {
-                        add(MenuAction(MenuActionType.NEW_DIR, path))
+
+                    if (paths.size == 1){
+                        if (fileManagerRepository.canCreateDirHere(paths.first())) {
+                            add(MenuAction(MenuActionType.NEW_DIR, paths))
+                        }
                     }
 
                     if (clipboardRepository.operation != null) {
-                        add(MenuAction(MenuActionType.PASTE, path))
+                        add(MenuAction(MenuActionType.PASTE, paths))
                     }
 
                 }
@@ -32,39 +37,45 @@ class GetMenuActionsUseCase @Inject constructor(
 
             MenuMode.OUTSIDE -> {
                 buildList {
-                    add(MenuAction(MenuActionType.OPEN, path))
+                    if (paths.size == 1){
+                        add(MenuAction(MenuActionType.OPEN, paths))
 
-                    if (fileManagerRepository.canBeRenamed(path)) {
-                        add(MenuAction(MenuActionType.RENAME, path))
+                        if (fileManagerRepository.canBeRenamed(paths)) {
+                            add(MenuAction(MenuActionType.RENAME, paths))
+                        }
                     }
 
                     if (clipboardRepository.operation == null) {
-                        add(MenuAction(MenuActionType.CUT, path))
-                        add(MenuAction(MenuActionType.COPY, path))
+                        add(MenuAction(MenuActionType.CUT, paths))
+                        add(MenuAction(MenuActionType.COPY, paths))
                     } else {
-                        add(MenuAction(MenuActionType.CANCEL_PASTE, path))
+                        add(MenuAction(MenuActionType.CANCEL_PASTE, paths))
                     }
 
-                    if (isPinned){
-                        add(MenuAction(MenuActionType.UNPIN, path))
-                    }else{
-                        add(MenuAction(MenuActionType.PIN, path))
+                    if (isAllPinned){
+                        add(MenuAction(MenuActionType.UNPIN, paths))
                     }
 
-                    if (fileManagerRepository.canBeDeleted(path)) {
-                        add(MenuAction(MenuActionType.DELETE, path))
+                    if (isAllUnpinned){
+                        add(MenuAction(MenuActionType.PIN, paths))
+                    }
+
+                    if (fileManagerRepository.canBeDeleted(paths)) {
+                        add(MenuAction(MenuActionType.DELETE, paths))
                     }
                 }
             }
 
             MenuMode.PINNED -> {
                 buildList {
-                    add(MenuAction(MenuActionType.OPEN, path))
+                    if (paths.size == 1){
+                        add(MenuAction(MenuActionType.OPEN, paths))
+                    }
 
-                    if (isPinned){
-                        add(MenuAction(MenuActionType.UNPIN, path))
+                    if (isAllPinned){
+                        add(MenuAction(MenuActionType.UNPIN, paths))
                     }else{
-                        add(MenuAction(MenuActionType.PIN, path))
+                        add(MenuAction(MenuActionType.PIN, paths))
                     }
 
                 }

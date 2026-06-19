@@ -13,7 +13,6 @@ import com.dertefter.menu.usecase.CopyUseCase
 import com.dertefter.menu.usecase.CutUseCase
 import com.dertefter.menu.usecase.GetMenuActionsUseCase
 import com.dertefter.menu.usecase.IsDirectoryUseCase
-import com.dertefter.menu.usecase.NavigateBackUseCase
 import com.dertefter.menu.usecase.NavigateToDeleteUseCase
 import com.dertefter.menu.usecase.NavigateToNewDirectoryUseCase
 import com.dertefter.menu.usecase.NavigateToPathUseCase
@@ -86,7 +85,7 @@ class MenuViewModel @Inject constructor(
             }
 
             is Event.OnNavigateToDelete -> {
-                navigateToDeleteUseCase(event.path)
+                navigateToDeleteUseCase(event.paths)
                 navigateBackUseCase()
             }
 
@@ -108,23 +107,23 @@ class MenuViewModel @Inject constructor(
             is Event.OnGetMenuActions -> {
                 viewModelScope.launch {
                     val mode = event.mode
-                    val actions = getMenuActionsUseCase(event.path, mode)
+                    val actions = getMenuActionsUseCase(event.paths, mode)
                     state = Success(
-                        name = event.path.split("/").last(), actions = actions
+                        name = if (event.paths.size == 1) event.paths.first().split("/").last() else "", actions = actions
                     )
                 }
             }
 
             is Event.OnPin -> {
                 viewModelScope.launch {
-                    pinUseCase(event.path)
+                    pinUseCase(event.paths)
                     navigateBackUseCase()
                 }
             }
 
             is Event.OnUnpin -> {
                 viewModelScope.launch {
-                    unpinUseCase(event.path)
+                    unpinUseCase(event.paths)
                     navigateBackUseCase()
                 }
             }
@@ -135,11 +134,11 @@ class MenuViewModel @Inject constructor(
             }
 
             is Event.OnCopy -> {
-                copyUseCase(event.path)
+                copyUseCase(event.paths)
                 navigateBackUseCase()
             }
             is Event.OnCut -> {
-                cutUseCase(event.path)
+                cutUseCase(event.paths)
                 navigateBackUseCase()
             }
             is Event.OnPaste -> {

@@ -2,6 +2,7 @@ package com.dertefter.design.components.items
 
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,11 +40,16 @@ fun CircleThumb(
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     icon: ImageVector? = null,
-    shape: RoundedCornerShape = CircleShape
+    shape: RoundedCornerShape = CircleShape,
+    isSelected: Boolean = false
 ) {
     val context = LocalContext.current
 
     var previewLoaded by remember { mutableStateOf(false) }
+
+    val animatedSelectedAlpha  by animateFloatAsState(
+        if (isSelected) 1f else 0f
+    )
 
     Box(
         modifier = modifier
@@ -102,6 +109,17 @@ fun CircleThumb(
                 previewLoaded = state is AsyncImagePainter.State.Success
             }
         )
+
+        Icon(
+            imageVector = Icons.Check,
+            modifier = Modifier
+                .alpha(animatedSelectedAlpha)
+                .background(MaterialTheme.colorScheme.primary)
+                .fillMaxSize(),
+            tint = MaterialTheme.colorScheme.onPrimary,
+            contentDescription = null
+        )
+
     }
 }
 

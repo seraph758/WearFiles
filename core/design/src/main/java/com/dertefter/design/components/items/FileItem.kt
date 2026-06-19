@@ -1,6 +1,13 @@
 package com.dertefter.design.components.items
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,7 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScope
-import androidx.wear.compose.material3.*
+import androidx.wear.compose.material3.Card
+import androidx.wear.compose.material3.CardDefaults
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.SurfaceTransformation
+import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.TransformationSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
@@ -33,7 +44,8 @@ fun TransformingLazyColumnItemScope.FileItem(
     onLongClick: () -> Unit = {},
     file: File? = null,
     type: FileItemType = FileItemType.DEFAULT,
-    icon: ImageVector? = null
+    icon: ImageVector? = null,
+    isSelected: Boolean = false
 ) {
 
 
@@ -102,12 +114,13 @@ fun TransformingLazyColumnItemScope.FileItem(
                 uri = thumbnailUrl?.toUri(),
                 file = file,
                 modifier = Modifier
-                    .size(height - contentPadding*2)
-                ,
+                    .size(height - contentPadding*2),
                 icon = icon,
                 iconColor = iconTint,
                 backgroundColor = iconBackgroundColor,
-                shape = RoundedCornerShape(insideRadius)
+                shape = RoundedCornerShape(insideRadius),
+                isSelected = isSelected
+
             )
 
             Text(

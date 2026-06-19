@@ -79,7 +79,7 @@ class FileListViewModel @Inject constructor(
             }
 
             is Event.OnShowMenuFor -> {
-                _menuState.value = MenuState.Show(event.path, event.menuMode)
+                _menuState.value = MenuState.Show(event.paths, event.menuMode)
             }
 
         }

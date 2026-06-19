@@ -34,7 +34,11 @@ interface FileManagerRepository {
 
     suspend fun canBeRenamed(path: String): Boolean
 
+    suspend fun canBeRenamed(paths: List<String>): Boolean
+
     suspend fun canBeDeleted(path: String): Boolean
+
+    suspend fun canBeDeleted(paths: List<String>): Boolean
 
     suspend fun canCreateDirHere(path: String): Boolean
 

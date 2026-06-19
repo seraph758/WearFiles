@@ -38,7 +38,7 @@ sealed interface Routes {
 
     @Serializable
     data class Delete(
-        val path: String
+        val paths: List<String>
     ) : Routes
 
     @Serializable

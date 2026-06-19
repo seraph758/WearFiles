@@ -11,7 +11,7 @@ sealed class Event {
 
     object OnHideMenu : Event()
 
-    data class OnShowMenuFor(val path: String, val menuMode: MenuMode = MenuMode.PINNED) : Event()
+    data class OnShowMenuFor(val paths: List<String>, val menuMode: MenuMode = MenuMode.PINNED) : Event()
 
 
     data class OnFileClick(val path: String) : Event()

@@ -21,7 +21,7 @@ fun FileListScreen(onEvent: (Event) -> Unit, uiState: UiState, menuState: MenuSt
     ) {
         if (menuState is MenuState.Show){
             MenuRoute(
-                path = menuState.path,
+                paths = menuState.paths,
                 onDismissRequest = {
                 onEvent(Event.OnHideMenu)
                 },

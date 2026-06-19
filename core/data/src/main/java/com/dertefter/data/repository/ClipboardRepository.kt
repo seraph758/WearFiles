@@ -2,9 +2,9 @@ package com.dertefter.data.repository
 
 interface ClipboardRepository {
 
-    fun cut(path: String)
+    fun cut(paths: List<String>)
 
-    fun copy(path: String)
+    fun copy(paths: List<String>)
 
     fun cancel()
 

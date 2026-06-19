@@ -21,8 +21,8 @@ class DeleteViewModel @Inject constructor(
     var state by mutableStateOf<UiState>(UiState.Loading)
         private set
 
-    fun setPath(path: String){
-        state = UiState.Success(path)
+    fun setPaths(paths: List<String>){
+        state = UiState.Success(paths)
     }
 
     fun onEvent(event: Event) {
@@ -30,7 +30,7 @@ class DeleteViewModel @Inject constructor(
 
             is Event.OnDelete -> {
                 viewModelScope.launch {
-                    deleteUseCase(event.path)
+                    deleteUseCase(event.paths)
                         .onSuccess { navigateBackUseCase() }
                         .onFailure { state = UiState.Failed(it) }
                 }

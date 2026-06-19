@@ -16,7 +16,7 @@ fun HomeScreen(onEvent: (Event) -> Unit, uiState: UiState, menuState: MenuState)
     ) {
         if (menuState is MenuState.Show){
             MenuRoute(
-                path = menuState.path,
+                paths = menuState.paths,
                 onDismissRequest = {
                     onEvent(Event.OnHideMenu)
                 },

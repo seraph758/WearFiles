@@ -8,14 +8,14 @@ import com.dertefter.delete.presentation.DeleteViewModel
 
 @Composable
 fun DeleteRoute(
-    path: String,
+    paths: List<String>,
     viewModel: DeleteViewModel = hiltViewModel()
 ) {
 
     val uiState = viewModel.state
 
     LaunchedEffect(Unit) {
-        viewModel.setPath(path)
+        viewModel.setPaths(paths)
     }
 
 

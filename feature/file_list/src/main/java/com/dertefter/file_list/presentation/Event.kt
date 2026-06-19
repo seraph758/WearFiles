@@ -14,7 +14,7 @@ sealed class Event {
 
     data class OnNavigateToParent(val path: String) : Event()
 
-    data class OnShowMenuFor(val path: String, val menuMode: MenuMode) : Event()
+    data class OnShowMenuFor(val paths: List<String>, val menuMode: MenuMode) : Event()
 
     object OnHideMenu : Event()
 

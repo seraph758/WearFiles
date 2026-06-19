@@ -5,24 +5,22 @@ import com.dertefter.data.repository.ClipboardRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.StandardCopyOption
 import javax.inject.Inject
 
 class ClipboardRepositoryImpl @Inject constructor() : ClipboardRepository {
 
-    private var clipboard: String? = null
+    private var clipboard: List<String>? = null
 
     override var operation: ClipboardOperation? = null
 
-    override fun cut(path: String) {
+    override fun cut(paths: List<String>) {
         operation = ClipboardOperation.CUT
-        clipboard = path
+        clipboard = paths
     }
 
-    override fun copy(path: String) {
+    override fun copy(paths: List<String>) {
         operation = ClipboardOperation.COPY
-        clipboard = path
+        clipboard = paths
     }
 
     override fun cancel() {
@@ -33,36 +31,50 @@ class ClipboardRepositoryImpl @Inject constructor() : ClipboardRepository {
     override suspend fun insertTo(path: String): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                val srcPath = clipboard ?: return@withContext false
-
-                val srcFile = File(srcPath)
+                val srcPaths = clipboard ?: return@withContext false
                 val destDir = File(path)
 
-                if (!srcFile.exists()) return@withContext false
                 if (!destDir.exists() || !destDir.isDirectory) return@withContext false
 
-                val target = findUniqueFile(destDir, srcFile.name, srcFile.isDirectory)
+                var allSucceeded = true
 
-                if (operation == ClipboardOperation.COPY) {
-                    if (srcFile.isDirectory) {
-                        copyDirectoryRecursively(srcFile, target)
-                    } else {
-                        copyFile(srcFile, target)
+                for (srcPath in srcPaths) {
+                    val srcFile = File(srcPath)
+                    if (!srcFile.exists()) {
+                        allSucceeded = false
+                        continue
                     }
-                } else if (operation == ClipboardOperation.CUT) {
-                    try {
-                        srcFile.renameTo(target)
-                    } catch (e: Exception) {
-                        return@withContext false
+
+                    val target = findUniqueFile(destDir, srcFile.name, srcFile.isDirectory)
+
+                    when (operation) {
+                        ClipboardOperation.COPY -> {
+                            if (!srcFile.copyRecursively(target, overwrite = false)) {
+                                allSucceeded = false
+                            }
+                        }
+                        ClipboardOperation.CUT -> {
+                            val moved = if (srcFile.renameTo(target)) {
+                                true
+                            } else {
+                                if (srcFile.copyRecursively(target, overwrite = false)) {
+                                    srcFile.deleteRecursively()
+                                } else {
+                                    false
+                                }
+                            }
+                            if (!moved) allSucceeded = false
+                        }
+                        else -> {
+                            allSucceeded = false
+                        }
                     }
-                } else {
-                    return@withContext false
                 }
 
                 clipboard = null
                 operation = null
 
-                true
+                allSucceeded
             } catch (e: Exception) {
                 false
             }
@@ -100,24 +112,4 @@ class ClipboardRepositoryImpl @Inject constructor() : ClipboardRepository {
         }
         return newFile
     }
-
-    private fun copyFile(src: File, dest: File) {
-        dest.parentFile?.mkdirs()
-        Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING)
-    }
-
-    private fun copyDirectoryRecursively(src: File, dest: File) {
-        if (!dest.exists()) dest.mkdirs()
-
-        val children = src.listFiles() ?: return
-        for (child in children) {
-            val targetChild = File(dest, child.name)
-            if (child.isDirectory) {
-                copyDirectoryRecursively(child, targetChild)
-            } else {
-                copyFile(child, targetChild)
-            }
-        }
-    }
-
 }

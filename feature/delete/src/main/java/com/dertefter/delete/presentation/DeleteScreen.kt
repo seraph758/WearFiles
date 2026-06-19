@@ -21,7 +21,7 @@ fun DeleteScreen(
         }
         is UiState.Success -> {
             ContentSuccess(
-                path = uiState.path,
+                paths = uiState.paths,
                 onEvent = onEvent,
             )
         }

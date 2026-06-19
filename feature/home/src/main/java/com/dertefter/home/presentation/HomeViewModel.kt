@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is Event.OnShowMenuFor -> {
-                menuState = Show(event.path, event.menuMode)
+                menuState = Show(event.paths, event.menuMode)
             }
 
             is Event.OnDirectoryClick -> {

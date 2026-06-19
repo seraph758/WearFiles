@@ -42,6 +42,7 @@ fun TransformingLazyColumnItemScope.FileItem(
     thumbnailUrl: String? = null,
     onClick: () -> Unit,
     onLongClick: () -> Unit = {},
+    onIconClick: () -> Unit = {},
     file: File? = null,
     type: FileItemType = FileItemType.DEFAULT,
     icon: ImageVector? = null,
@@ -117,6 +118,7 @@ fun TransformingLazyColumnItemScope.FileItem(
                     .size(height - contentPadding*2),
                 icon = icon,
                 iconColor = iconTint,
+                onClick = onIconClick,
                 backgroundColor = iconBackgroundColor,
                 shape = RoundedCornerShape(insideRadius),
                 isSelected = isSelected

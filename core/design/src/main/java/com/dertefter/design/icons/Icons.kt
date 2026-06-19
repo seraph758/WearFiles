@@ -7,6 +7,8 @@ import com.dertefter.design.R
 
 object Icons {
 
+    val Close: ImageVector
+        @Composable get() = ImageVector.vectorResource(id = R.drawable.ic_close)
     val Watch: ImageVector
         @Composable get() = ImageVector.vectorResource(id = R.drawable.ic_watch)
 

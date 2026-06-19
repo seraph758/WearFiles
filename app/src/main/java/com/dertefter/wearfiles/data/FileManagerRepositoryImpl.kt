@@ -260,6 +260,10 @@ class FileManagerRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun canBeRenamed(paths: List<String>): Boolean {
+        return paths.all { canBeRenamed(it) }
+    }
+
     override suspend fun canBeDeleted(path: String): Boolean = withContext(Dispatchers.IO) {
         try {
             val file = File(path)
@@ -273,6 +277,10 @@ class FileManagerRepositoryImpl @Inject constructor(
         } catch (_: Exception) {
             false
         }
+    }
+
+    override suspend fun canBeDeleted(paths: List<String>): Boolean {
+        return paths.all { canBeDeleted(it) }
     }
 
     override suspend fun canCreateDirHere(path: String): Boolean = withContext(Dispatchers.IO) {

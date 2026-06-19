@@ -11,7 +11,7 @@ import com.dertefter.design.theme.WearFilesTheme
 
 @Composable
 fun ContentSuccess(
-    path: String,
+    paths: List<String>,
     onEvent: (Event) -> Unit,
 ) {
 
@@ -21,7 +21,7 @@ fun ContentSuccess(
             onEvent(Event.OnNavigateBack)
         },
         onOk = {
-            onEvent(Event.OnDelete(path))
+            onEvent(Event.OnDelete(paths))
         },
         okIcon = Icons.Delete,
         cancelIcon = Icons.ArrowBack
@@ -34,7 +34,7 @@ fun ContentSuccess(
 fun ContentFailedPreview(){
     WearFilesTheme() {
         ContentSuccess(
-            "33333",{}
+            emptyList(),{}
         )
     }
 }

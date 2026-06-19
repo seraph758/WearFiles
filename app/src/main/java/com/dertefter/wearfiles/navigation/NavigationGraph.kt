@@ -102,11 +102,9 @@ fun NavigationGraph(
         }
 
         composable<Routes.Delete> { backStackEntry ->
-
             val args = backStackEntry.toRoute<Routes.Delete>()
-
             DeleteRoute(
-                path = args.path
+                paths = args.paths
             )
         }
 

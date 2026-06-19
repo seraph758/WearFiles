@@ -1,9 +1,0 @@
-package com.dertefter.music.data
-
-import android.net.Uri
-
-data class MusicItem(
-    val id: Long,
-    val uri: Uri,
-    val displayName: String,
-)

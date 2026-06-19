@@ -24,8 +24,8 @@ android {
         applicationId = "com.dertefter.wearfiles"
         minSdk = 26
         targetSdk = 36
-        versionCode = 50
-        versionName = "3.0.6"
+        versionCode = 51
+        versionName = "3.1.0"
     }
 
     signingConfigs {

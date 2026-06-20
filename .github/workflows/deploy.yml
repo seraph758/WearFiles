@@ -36,8 +36,8 @@ jobs:
 
       - name: Decode Keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app_mobile/release.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > wearable/release.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > mobile/release.jks
 
       - name: Make gradlew executable
         run: chmod +x gradlew
@@ -81,7 +81,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_KEY }}
           packageName: com.dertefter.wearfiles
-          releaseFiles: app_mobile/build/outputs/bundle/release/app_mobile-release.aab
+          releaseFiles: mobile/build/outputs/bundle/release/mobile-release.aab
           status: draft
           tracks: ${{ steps.determine_track.outputs.mobile_track }}
 
@@ -90,7 +90,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_KEY }}
           packageName: com.dertefter.wearfiles
-          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          releaseFiles: wearable/build/outputs/bundle/release/wearable-release.aab
           status: draft
           tracks: ${{ steps.determine_track.outputs.wear_track }}
 
@@ -99,8 +99,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            app_mobile/build/outputs/apk/release/app_mobile-release.apk
-            app/build/outputs/apk/release/app-release.apk
+            mobile/build/outputs/apk/release/mobile-release.apk
+            wearable/build/outputs/apk/release/wearable-release.apk
           generate_release_notes: false
           prerelease: ${{ contains(github.ref_name, '-alpha') || contains(github.ref_name, '-beta') }}
         env:

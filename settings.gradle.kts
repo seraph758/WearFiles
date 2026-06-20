@@ -48,4 +48,4 @@ include(":wearable:feature:theming")
 include(":wearable:feature:settings")
 include(":wearable:feature:pdf_viewer")
 
-include(":app_mobile")
+include(":mobile")

@@ -1,0 +1,105 @@
+name: Build My Private APKs
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_mobile:
+        description: '是否编译手机端 (Mobile APK)?'
+        required: true
+        type: boolean
+        default: true
+      build_wearable:
+        description: '是否编译手表端 (Wear OS APK)?'
+        required: true
+        type: boolean
+        default: true
+      push_to_release:
+        description: '是否发布到 GitHub Release?'
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 1. 解密生成你自己的签名文件
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > wearable/release.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > mobile/release.jks
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # 2. 根据手动勾选的条件，执行不同的编译命令（只打包最终的 Release APK）
+      - name: Build Mobile APK
+        if: ${{ inputs.build_mobile == true }}
+        run: ./gradlew :mobile:assembleRelease
+        env:
+          ANDROID_KEYSTORE_FILE: release.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Build Wearable APK
+        if: ${{ inputs.build_wearable == true }}
+        run: ./gradlew :wearable:assembleRelease
+        env:
+          ANDROID_KEYSTORE_FILE: release.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      # 3. 提取单层 APK 文件，并加上带构建次数的版本号（例如 WearFiles-Mobile-v1.0.1.apk）
+      - name: Prepare APK Artifacts
+        run: |
+          mkdir -p output_apks
+          VERSION="v1.0.${{ github.run_number }}"
+          if [ -f "mobile/build/outputs/apk/release/mobile-release.apk" ]; then
+            cp mobile/build/outputs/apk/release/mobile-release.apk output_apks/WearFiles-Mobile-$VERSION.apk
+          fi
+          if [ -f "wearable/build/outputs/apk/release/wearable-release.apk" ]; then
+            cp wearable/build/outputs/apk/release/wearable-release.apk output_apks/WearFiles-WearOS-$VERSION.apk
+          fi
+
+      # 4. 无论发不发 Release，都先把带版本号的单层 APK 暂存到 GitHub Actions 页面
+      - name: Upload APKs to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: WearFiles-v1.0.${{ github.run_number }}-APKs
+          path: output_apks/*
+          if-no-files-found: warn
+
+      # 5. 如果勾选了“发布到 Release”，则创建发布并将单层 APK 塞进去
+      - name: Create GitHub Release
+        if: ${{ inputs.push_to_release == true }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v1.0.${{ github.run_number }}"
+          name: "自定义签名版本 v1.0.${{ github.run_number }}"
+          body: |
+            这是使用个人签名编译的 WearFiles 专属版本。
+            本包为第 ${{ github.run_number }} 次自动构建。
+            包含的组件：${{ inputs.build_mobile && '手机端 ' || '' }}${{ inputs.build_wearable && '手表端' || '' }}
+          files: |
+            output_apks/WearFiles-Mobile-v1.0.${{ github.run_number }}.apk
+            output_apks/WearFiles-WearOS-v1.0.${{ github.run_number }}.apk
+          generate_release_notes: false
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

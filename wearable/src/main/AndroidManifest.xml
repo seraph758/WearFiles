@@ -137,14 +137,20 @@
             android:name=".FileReceiverService"
             android:exported="true">
             <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+
+            <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
                 <action android:name="com.google.android.gms.wearable.CHANNEL_EVENT" />
+                <action android:name="com.google.android.gms.wearable.CHANNEL_OPENED" /> 
                 <data
                     android:host="*"
                     android:pathPrefix="/file-transfer"
                     android:scheme="wear" />
             </intent-filter>
+            
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
                 <data

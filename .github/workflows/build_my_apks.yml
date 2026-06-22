@@ -1,4 +1,4 @@
-Name: Build My Private APKs
+name: Build My Private APKs
 
 on:
   workflow_dispatch:

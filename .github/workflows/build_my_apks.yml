@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       build_mobile:
-        description: '是否编译手机端 (Mobile APK)?'
+        description: '是否编译手机端'
         required: true
         type: boolean
         default: true
       build_wearable:
-        description: '是否编译手表端 (Wear OS APK)?'
+        description: '是否编译手表端'
         required: true
         type: boolean
         default: true

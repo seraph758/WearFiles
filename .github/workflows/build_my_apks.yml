@@ -45,7 +45,21 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      # 2. 根据手动勾选的条件，执行不同的编译命令（只打包最终的 Release APK）
+      # 🌟 2. 核心补丁：在编译前，把代码内部的版本号也强制改成 1.0.X
+      - name: Inject Custom Version to build.gradle
+        run: |
+          MY_VERSION="1.0.${{ github.run_number }}"
+          MY_CODE="${{ github.run_number }}"
+          
+          echo "正在强行注入内部版本号: $MY_VERSION (VersionCode: $MY_CODE)"
+          
+          find mobile/ -name "build.gradle*" -exec sed -i "s/versionName .*/versionName \"$MY_VERSION\"/g" {} +
+          find mobile/ -name "build.gradle*" -exec sed -i "s/versionCode .*/versionCode $MY_CODE/g" {} +
+          
+          find wearable/ -name "build.gradle*" -exec sed -i "s/versionName .*/versionName \"$MY_VERSION\"/g" {} +
+          find wearable/ -name "build.gradle*" -exec sed -i "s/versionCode .*/versionCode $MY_CODE/g" {} +
+
+      # 3. 根据手动勾选的条件，执行不同的编译命令
       - name: Build Mobile APK
         if: ${{ inputs.build_mobile == true }}
         run: ./gradlew :mobile:assembleRelease
@@ -64,7 +78,7 @@ jobs:
           ANDROID_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      # 3. 提取单层 APK 文件，并加上带构建次数的版本号（例如 WearFiles-Mobile-v1.0.1.apk）
+      # 4. 提取单层 APK 文件，并加上带构建次数的版本号
       - name: Prepare APK Artifacts
         run: |
           mkdir -p output_apks
@@ -76,7 +90,7 @@ jobs:
             cp wearable/build/outputs/apk/release/wearable-release.apk output_apks/WearFiles-WearOS-$VERSION.apk
           fi
 
-      # 4. 无论发不发 Release，都先把带版本号的单层 APK 暂存到 GitHub Actions 页面
+      # 5. 暂存到 GitHub Actions 页面
       - name: Upload APKs to Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -84,7 +98,7 @@ jobs:
           path: output_apks/*
           if-no-files-found: warn
 
-      # 5. 如果勾选了“发布到 Release”，则创建发布并将单层 APK 塞进去
+      # 6. 如果勾选了“发布到 Release”，则创建发布
       - name: Create GitHub Release
         if: ${{ inputs.push_to_release == true }}
         uses: softprops/action-gh-release@v2

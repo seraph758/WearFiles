@@ -1,4 +1,4 @@
-name: Build My Private APKs
+Name: Build My Private APKs
 
 on:
   workflow_dispatch:
@@ -45,22 +45,19 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      # 🌟 2. 核心补丁：在编译前，把代码内部的版本号也强制改成 1.0.X
-            # 🌟 2. 核心补丁：修正为适合 Kotlin DSL (.kts) 的等号语法
+      # 🌟 2. 核心补丁：不仅改成 Kotlin DSL 语法，且将主版本号强行变更为 4.0.X
       - name: Inject Custom Version to build.gradle
         run: |
-          MY_VERSION="1.0.${{ github.run_number }}"
+          MY_VERSION="4.0.${{ github.run_number }}"
           MY_CODE="${{ github.run_number }}"
           
-          echo "正在强行注入 Kotlin DSL 内部版本号: $MY_VERSION (VersionCode: $MY_CODE)"
+          echo "正在强行注入 4.0 伪代版本号: $MY_VERSION (VersionCode: $MY_CODE)"
           
-          # 兼容 Kotlin DSL 的替换规则 (带等号)
           find mobile/ -name "build.gradle*" -exec sed -i "s/versionName\s*=\s*.*/versionName = \"$MY_VERSION\"/g" {} +
           find mobile/ -name "build.gradle*" -exec sed -i "s/versionCode\s*=\s*.*/versionCode = $MY_CODE/g" {} +
           
           find wearable/ -name "build.gradle*" -exec sed -i "s/versionName\s*=\s*.*/versionName = \"$MY_VERSION\"/g" {} +
           find wearable/ -name "build.gradle*" -exec sed -i "s/versionCode\s*=\s*.*/versionCode = $MY_CODE/g" {} +
-
 
       # 3. 根据手动勾选的条件，执行不同的编译命令
       - name: Build Mobile APK
@@ -81,40 +78,41 @@ jobs:
           ANDROID_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      # 4. 提取单层 APK 文件，并加上带构建次数的版本号
+      # 🌟 4. 提取单层 APK 文件，全面修正并对齐为 Mobile-v4.0.x.apk 和 Wear-v4.0.x.apk
       - name: Prepare APK Artifacts
         run: |
           mkdir -p output_apks
-          VERSION="v1.0.${{ github.run_number }}"
+          VERSION="v4.0.${{ github.run_number }}"
           if [ -f "mobile/build/outputs/apk/release/mobile-release.apk" ]; then
-            cp mobile/build/outputs/apk/release/mobile-release.apk output_apks/WearFiles-Mobile-$VERSION.apk
+            cp mobile/build/outputs/apk/release/mobile-release.apk output_apks/Mobile-$VERSION.apk
           fi
           if [ -f "wearable/build/outputs/apk/release/wearable-release.apk" ]; then
-            cp wearable/build/outputs/apk/release/wearable-release.apk output_apks/WearFiles-WearOS-$VERSION.apk
+            cp wearable/build/outputs/apk/release/wearable-release.apk output_apks/Wear-$VERSION.apk
           fi
 
-      # 5. 暂存到 GitHub Actions 页面
+      # 🌟 5. 暂存到 GitHub Actions 页面（同步修改外壳标签名）
       - name: Upload APKs to Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: WearFiles-v1.0.${{ github.run_number }}-APKs
+          name: WearFiles-v4.0.${{ github.run_number }}-APKs
           path: output_apks/*
           if-no-files-found: warn
 
-      # 6. 如果勾选了“发布到 Release”，则创建发布
+      # 🌟 6. 如果勾选了“发布到 Release”，全面将 Release 标签、标题和关联文件名修正为 v4.0.x
       - name: Create GitHub Release
         if: ${{ inputs.push_to_release == true }}
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: "v1.0.${{ github.run_number }}"
-          name: "自定义签名版本 v1.0.${{ github.run_number }}"
+          tag_name: "v4.0.${{ github.run_number }}"
+          name: "自定义签名版本 v4.0.${{ github.run_number }}"
           body: |
-            这是使用个人签名编译的 WearFiles 专属版本。
+            这是使用个人签名编译的 WearFiles 专属欺骗版本（阻断谷歌商店更新提示）。
             本包为第 ${{ github.run_number }} 次自动构建。
+            内含版本号：4.0.${{ github.run_number }}
             包含的组件：${{ inputs.build_mobile && '手机端 ' || '' }}${{ inputs.build_wearable && '手表端' || '' }}
           files: |
-            output_apks/WearFiles-Mobile-v1.0.${{ github.run_number }}.apk
-            output_apks/WearFiles-WearOS-v1.0.${{ github.run_number }}.apk
+            output_apks/Mobile-v4.0.${{ github.run_number }}.apk
+            output_apks/Wear-v4.0.${{ github.run_number }}.apk
           generate_release_notes: false
           draft: false
           prerelease: false
